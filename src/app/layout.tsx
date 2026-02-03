@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -83,6 +84,11 @@ export const metadata: Metadata = {
     canonical: 'https://gvgglobal.com',
   },
   category: 'business',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'GVG Portal',
+  },
 }
 
 export default function RootLayout({
@@ -97,10 +103,11 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1e40af" />
       </head>
       <body className={inter.className}>
+        <ServiceWorkerRegister />
         {children}
       </body>
     </html>
