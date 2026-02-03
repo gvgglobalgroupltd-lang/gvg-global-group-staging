@@ -28,11 +28,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     }
 
     const navItems = [
-        { icon: 'LayoutDashboard', label: 'Dashboard', href: '/admin' },
-        { icon: 'Package', label: 'Deals', href: '/admin/deals' },
-        { icon: 'Warehouse', label: 'Inventory', href: '/admin/inventory' },
-        { icon: 'Users', label: 'Partners', href: '/admin/partners' },
-        { icon: 'DollarSign', label: 'Finance', href: '/admin/finance' },
+        { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
+        { icon: Package, label: 'Deals', href: '/admin/deals' },
+        { icon: Warehouse, label: 'Inventory', href: '/admin/inventory' },
+        { icon: Users, label: 'Partners', href: '/admin/partners' },
+        { icon: DollarSign, label: 'Finance', href: '/admin/finance' },
         { icon: Cpu, label: 'IT Services', href: '/tech' },
     ]
 
@@ -61,9 +61,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {/* Navigation */}
                 <nav className="flex-1 p-4 space-y-2">
                     {navItems.map((item) => {
-                        const IconComponent = typeof item.icon === 'string'
-                            ? { LayoutDashboard, Package, Warehouse, Users, DollarSign, Cpu }[item.icon as keyof typeof item]
-                            : item.icon
+                        const Icon = item.icon
 
                         return (
                             <a
@@ -71,7 +69,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                                 href={item.href}
                                 className="flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-tech/20 text-industrial-foreground transition-colors group"
                             >
-                                {IconComponent && <IconComponent className="w-5 h-5 group-hover:text-tech transition-colors" />}
+                                <Icon className="w-5 h-5 group-hover:text-tech transition-colors" />
                                 {sidebarOpen && (
                                     <span className="text-sm font-medium">{item.label}</span>
                                 )}
