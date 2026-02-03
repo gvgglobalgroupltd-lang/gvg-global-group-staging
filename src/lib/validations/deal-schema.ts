@@ -36,14 +36,12 @@ export const step1Schema = step1Base.refine(
 
 // Step 2: Pricing & Logistics
 const step2Base = z.object({
-    incoterm: z.enum(['FOB', 'CIF'], {
-        required_error: 'Please select shipping terms'
-    }),
+    incoterm: z.enum(['FOB', 'CIF'] as const),
     buyPriceUSD: z
-        .number({ required_error: 'Buy price is required' })
+        .number()
         .positive('Buy price must be greater than 0'),
     weightMT: z
-        .number({ required_error: 'Weight is required' })
+        .number()
         .positive('Weight must be greater than 0'),
 
     // FOB-specific fields (conditional)
@@ -55,9 +53,7 @@ const step2Base = z.object({
     shippingLineName: z.string().optional(),
 
     // Destination type
-    destinationType: z.enum(['Warehouse', 'Direct_Customer'], {
-        required_error: 'Please select destination type'
-    }),
+    destinationType: z.enum(['Warehouse', 'Direct_Customer'] as const),
 
     // Warehouse fields (conditional)
     warehouseDestination: z.string().optional(),
@@ -68,7 +64,7 @@ const step2Base = z.object({
 
     // Exchange rate
     customsExchangeRateINR: z
-        .number({ required_error: 'Exchange rate is required' })
+        .number()
         .positive('Exchange rate must be greater than 0'),
 
     // Local costs
@@ -128,7 +124,7 @@ export const step2Schema = step2Base.refine(
 // Step 3: Profit Guard
 const step3Base = z.object({
     targetSellPriceINR: z
-        .number({ required_error: 'Target sell price is required' })
+        .number()
         .positive('Target sell price must be greater than 0'),
     requestAdminOverride: z.boolean().default(false),
     overrideReason: z.string().optional()

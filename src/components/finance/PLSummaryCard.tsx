@@ -37,7 +37,7 @@ export function PLSummaryCard({ dealId, refreshTrigger = 0 }: PLSummaryCardProps
                 // Call the P&L summary function
                 const { data, error: fetchError } = await supabase
                     .rpc('get_deal_pl_summary', { p_deal_id: dealId })
-                    .single()
+                    .single() as any
 
                 if (fetchError) {
                     throw fetchError

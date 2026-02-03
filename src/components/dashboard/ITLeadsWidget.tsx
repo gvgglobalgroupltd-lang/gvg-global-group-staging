@@ -34,7 +34,7 @@ export function ITLeadsWidget() {
             const supabase = createClient()
 
             const { data, error } = await supabase
-                .rpc('get_recent_it_leads', { p_days: 30 })
+                .rpc('get_recent_it_leads', { p_days: 30 }) as any
 
             if (error) throw error
 

@@ -33,7 +33,7 @@ export function ActionCenter() {
             const supabase = createClient()
 
             const { data, error } = await supabase
-                .rpc('get_action_center_items')
+                .rpc('get_action_center_items') as any
 
             if (error) throw error
 

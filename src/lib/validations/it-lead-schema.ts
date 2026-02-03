@@ -4,28 +4,6 @@ import { z } from 'zod'
  * Validation schema for IT consultation lead form
  */
 
-export const itLeadSchema = z.object({
-    company_name: z.string().min(2, 'Company name is required'),
-    contact_person: z.string().min(2, 'Contact person name is required'),
-    email: z.string().email('Invalid email address'),
-    phone: z.string().optional(),
-    service_interest: z.enum([
-        'Custom ERP Development',
-        'Mobile App Development',
-        'QA & Testing Services',
-        'Cloud Solutions',
-        'IT Consulting',
-        'Other'
-    ], {
-        required_error: 'Please select a service'
-    }),
-    project_description: z.string().min(20, 'Please provide at least 20 characters'),
-    budget_range: z.string().optional(),
-    timeline: z.string().optional()
-})
-
-export type ITLeadFormData = z.infer<typeof itLeadSchema>
-
 // Service options for dropdown
 export const IT_SERVICES = [
     'Custom ERP Development',
@@ -71,3 +49,16 @@ export const LEAD_PRIORITIES = [
     'High',
     'Urgent'
 ] as const
+
+export const itLeadSchema = z.object({
+    company_name: z.string().min(2, 'Company name is required'),
+    contact_person: z.string().min(2, 'Contact person name is required'),
+    email: z.string().email('Invalid email address'),
+    phone: z.string().optional(),
+    service_interest: z.enum(IT_SERVICES as unknown as [string, ...string[]]),
+    project_description: z.string().min(20, 'Please provide at least 20 characters'),
+    budget_range: z.string().optional(),
+    timeline: z.string().optional()
+})
+
+export type ITLeadFormData = z.infer<typeof itLeadSchema>

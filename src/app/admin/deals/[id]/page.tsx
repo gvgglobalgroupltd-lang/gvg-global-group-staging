@@ -62,11 +62,12 @@ export default function DealDetailsPage() {
 
             if (error) throw error
 
+            const dealData = data as Record<string, any>
             setDeal({
-                ...data,
-                supplier_name: data.supplier?.company_name || 'N/A',
-                customer_name: data.customer?.company_name || 'N/A'
-            })
+                ...dealData,
+                supplier_name: dealData.supplier?.company_name || 'N/A',
+                customer_name: dealData.customer?.company_name || 'N/A'
+            } as DealDetails)
         } catch (error) {
             console.error('Failed to load deal:', error)
         } finally {

@@ -4,11 +4,48 @@ import { z } from 'zod'
  * Validation schemas for payment and expense management
  */
 
+// Common expense types for dropdown
+export const EXPENSE_TYPES = [
+    'Freight',
+    'Insurance',
+    'Customs',
+    'Transport',
+    'Warehousing',
+    'Banking',
+    'Legal',
+    'Inspection',
+    'Other'
+] as const
+
+// Payment types for dropdown
+export const PAYMENT_TYPES = [
+    'Advance',
+    'Balance',
+    'LC',
+    'Final',
+    'Other'
+] as const
+
+// Payment methods for dropdown
+export const PAYMENT_METHODS = [
+    'Wire Transfer',
+    'Letter of Credit',
+    'Cash',
+    'Check',
+    'Other'
+] as const
+
+// Payment statuses
+export const PAYMENT_STATUSES = [
+    'Pending',
+    'Paid',
+    'Overdue',
+    'Cancelled'
+] as const
+
 // Payment Schedule Schema
 export const paymentSchema = z.object({
-    payment_type: z.enum(['Advance', 'Balance', 'LC', 'Final', 'Other'], {
-        required_error: 'Payment type is required'
-    }),
+    payment_type: z.enum(PAYMENT_TYPES as unknown as [string, ...string[]]),
     percentage: z
         .number()
         .min(0, 'Percentage must be at least 0')
@@ -17,9 +54,7 @@ export const paymentSchema = z.object({
     amount_usd: z.number().nonnegative('Amount must be positive').optional(),
     amount_inr: z.number().nonnegative('Amount must be positive').optional(),
     due_date: z.string().min(1, 'Due date is required'),
-    payment_method: z.enum(['Wire Transfer', 'Letter of Credit', 'Cash', 'Check', 'Other'], {
-        required_error: 'Payment method is required'
-    }),
+    payment_method: z.enum(PAYMENT_METHODS as unknown as [string, ...string[]]),
     lc_number: z.string().optional(),
     lc_latest_shipment_date: z.string().optional(),
     lc_issuing_bank: z.string().optional(),
@@ -65,7 +100,7 @@ export const expenseSchema = z.object({
     expense_type: z.string().min(1, 'Expense type is required'),
     description: z.string().min(1, 'Description is required'),
     amount_inr: z
-        .number({ required_error: 'Amount in INR is required' })
+        .number()
         .positive('Amount must be greater than 0'),
     amount_usd: z.number().nonnegative('Amount must be positive').optional(),
     paid_date: z.string().min(1, 'Paid date is required'),
@@ -76,42 +111,3 @@ export const expenseSchema = z.object({
 })
 
 export type ExpenseFormData = z.infer<typeof expenseSchema>
-
-// Common expense types for dropdown
-export const EXPENSE_TYPES = [
-    'Freight',
-    'Insurance',
-    'Customs',
-    'Transport',
-    'Warehousing',
-    'Banking',
-    'Legal',
-    'Inspection',
-    'Other'
-] as const
-
-// Payment types for dropdown
-export const PAYMENT_TYPES = [
-    'Advance',
-    'Balance',
-    'LC',
-    'Final',
-    'Other'
-] as const
-
-// Payment methods for dropdown
-export const PAYMENT_METHODS = [
-    'Wire Transfer',
-    'Letter of Credit',
-    'Cash',
-    'Check',
-    'Other'
-] as const
-
-// Payment statuses
-export const PAYMENT_STATUSES = [
-    'Pending',
-    'Paid',
-    'Overdue',
-    'Cancelled'
-] as const

@@ -71,7 +71,7 @@ export default function InventoryPage() {
           storage_date,
           notes
         `)
-                .order('storage_date', { ascending: false })
+                .order('storage_date', { ascending: false }) as any
 
             if (error) throw error
 

@@ -77,7 +77,7 @@ export default function DealsPage() {
           eta_date,
           created_at
         `)
-                .order('created_at', { ascending: false })
+                .order('created_at', { ascending: false }) as any
 
             if (error) throw error
 

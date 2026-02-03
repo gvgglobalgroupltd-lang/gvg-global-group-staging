@@ -41,7 +41,7 @@ export default function FinancePage({ params }: FinancePageProps) {
                 .from('deals')
                 .select('*')
                 .eq('id', params.id)
-                .single()
+                .single() as any
 
             if (dealError) throw dealError
             setDeal(dealData)
@@ -51,20 +51,20 @@ export default function FinancePage({ params }: FinancePageProps) {
                 .from('deal_payments')
                 .select('*')
                 .eq('deal_id', params.id)
-                .order('due_date', { ascending: true })
+                .order('due_date', { ascending: true }) as any
 
             if (paymentsError) throw paymentsError
-            setPayments(paymentsData || [])
+            setPayments((paymentsData as any) || [])
 
             // Load expenses
             const { data: expensesData, error: expensesError } = await supabase
                 .from('deal_expenses_actual')
                 .select('*')
                 .eq('deal_id', params.id)
-                .order('paid_date', { ascending: false })
+                .order('paid_date', { ascending: false }) as any
 
             if (expensesError) throw expensesError
-            setExpenses(expensesData || [])
+            setExpenses((expensesData as any) || [])
 
             // Load LC alerts
             const { data: alertsData, error: alertsError } = await supabase

@@ -37,12 +37,12 @@ export function LogisticsTracker() {
                 .select('id, deal_ref, container_number, origin_port, destination_port, eta_date, status')
                 .in('status', ['Shipped', 'In Transit', 'Customs'])
                 .order('eta_date', { ascending: true })
-                .limit(10)
+                .limit(10) as any
 
             if (error) throw error
 
             // Calculate days until arrival
-            const shipmentsWithDays = (data || []).map((deal) => {
+            const shipmentsWithDays = (data || []).map((deal: any) => {
                 let days_until_arrival = null
                 if (deal.eta_date) {
                     const today = new Date()

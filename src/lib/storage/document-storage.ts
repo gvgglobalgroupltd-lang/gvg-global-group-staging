@@ -4,7 +4,7 @@
  */
 
 import { createClient } from '@/lib/supabase/client'
-import { supabaseAdmin } from '@/lib/supabase/admin'
+
 
 export const STORAGE_BUCKET = 'deal-docs-private'
 
@@ -136,7 +136,7 @@ export async function uploadDocument(
                 notes: notes || null
             })
             .select()
-            .single()
+            .single() as any
 
         if (metadataError) {
             // Rollback: delete uploaded file
@@ -194,7 +194,7 @@ export async function deleteDocument(
             .from('deal_documents')
             .select('file_path')
             .eq('id', documentId)
-            .single()
+            .single() as any
 
         if (fetchError || !doc) {
             return { success: false, error: 'Document not found' }
