@@ -7,6 +7,10 @@ import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useDealCalculations } from '@/hooks/useDealCalculations'
+import { getCurrencyRates } from '@/app/actions/market'
+import { Button } from '@/components/ui/button'
+import { RefreshCw } from 'lucide-react'
+import { useState } from 'react'
 
 interface Step4DocumentsProps {
     form: UseFormReturn<DealWizardFormData>
@@ -56,6 +60,23 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
         }
     }
 
+    const [isFetchingRate, setIsFetchingRate] = useState(false)
+
+    const handleFetchRate = async () => {
+        setIsFetchingRate(true)
+        try {
+            const rates = await getCurrencyRates('USD')
+            const inrRate = rates.find(r => r.code === 'INR')
+            if (inrRate) {
+                form.setValue('customsExchangeRate', inrRate.rate, { shouldValidate: true })
+            }
+        } catch (error) {
+            console.error("Failed to fetch rate")
+        } finally {
+            setIsFetchingRate(false)
+        }
+    }
+
     return (
         <div className="space-y-6">
             <div>
@@ -100,11 +121,23 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
                 <div className="grid grid-cols-3 gap-4 mb-4">
                     <div className="space-y-2">
                         <Label>Customs Exch. Rate (INR)</Label>
-                        <Input
-                            type="number"
-                            {...form.register('customsExchangeRate', { valueAsNumber: true })}
-                            step="0.01"
-                        />
+                        <div className="flex gap-2">
+                            <Input
+                                type="number"
+                                {...form.register('customsExchangeRate', { valueAsNumber: true })}
+                                step="0.01"
+                            />
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="icon"
+                                onClick={handleFetchRate}
+                                disabled={isFetchingRate}
+                                title="Fetch Live Rate"
+                            >
+                                <RefreshCw className={`h-4 w-4 ${isFetchingRate ? 'animate-spin' : ''}`} />
+                            </Button>
+                        </div>
                     </div>
                     <div className="space-y-2">
                         <Label>BCD %</Label>

@@ -15,12 +15,17 @@ import {
     MapPin
 } from 'lucide-react'
 
+import { MarketTicker } from '@/components/dashboard/MarketTicker'
+
 export function SiteHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [servicesOpen, setServicesOpen] = useState(false)
 
     return (
         <header className="sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+            {/* Live Market Ticker */}
+            <MarketTicker />
+
             {/* Top Bar - Contact Info */}
             <div className="bg-slate-900 dark:bg-slate-950 text-white py-2 hidden md:block">
                 <div className="container mx-auto px-4">
