@@ -25,6 +25,8 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
 
+export const dynamic = 'force-dynamic'
+
 interface Deal {
     id: string
     deal_ref: string

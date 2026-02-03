@@ -4,6 +4,8 @@ import { ITLeadsWidget } from '@/components/dashboard/ITLeadsWidget'
 import { Card } from '@/components/ui/card'
 import { TrendingUp, Package, DollarSign, Users } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export default function AdminDashboardPage() {
     // TODO: Fetch real stats from database
     const stats = [
