@@ -22,7 +22,7 @@ export const step1Schema = z.object({
 export const step2Schema = z.object({
     incoterm: z.enum(['FOB', 'CIF', 'EXW', 'DDP', 'DAP']),
     buyPrice: z.number().positive(),
-    currency: z.enum(['USD', 'CAD', 'AED', 'INR', 'EUR']),
+    currency: z.enum(['USD', 'INR', 'EUR', 'CAD', 'AED']),
     weightMT: z.number().positive(),
 
     // Cost Components (Restored)
@@ -75,22 +75,35 @@ export const step3Schema = z.object({
 
 // Step 4: Documents & Profit
 export const step4Schema = z.object({
-    requiredDocuments: z.array(z.string()),
+    requiredDocuments: z.array(z.string()).min(0),
     notes: z.string().optional(),
 
     // Profit / Local Costs
     localClearanceCost: z.number().nonnegative().default(0),
     transportCost: z.number().nonnegative().default(0),
     targetSellPrice: z.number().positive().optional(),
-})
+}).transform((data) => ({
+    ...data,
+    localClearanceCost: data.localClearanceCost ?? 0,
+    transportCost: data.transportCost ?? 0,
+    requiredDocuments: data.requiredDocuments ?? [],
+}))
 
 // Combined
 export const dealWizardSchema = z.object({
     ...step1Schema.shape,
     ...step2Schema.shape,
     ...step3Schema.shape,
-    ...step4Schema.shape
-})
+    ...step4Schema.shape, // Use schema for transform? No, shape loses transform. Need explicit transform below.
+}).transform((data) => ({
+    ...data,
+    // Ensure these fields are never undefined
+    localClearanceCost: data.localClearanceCost ?? 0,
+    transportCost: data.transportCost ?? 0,
+    requiredDocuments: data.requiredDocuments ?? [],
+    partialShipment: data.partialShipment ?? false,
+    transshipment: data.transshipment ?? false,
+}))
 
 export type Step1FormData = z.infer<typeof step1Schema>
 export type Step2FormData = z.infer<typeof step2Schema>
@@ -98,18 +111,37 @@ export type Step3FormData = z.infer<typeof step3Schema>
 export type Step4FormData = z.infer<typeof step4Schema>
 export type DealWizardFormData = z.infer<typeof dealWizardSchema>
 
-export const defaultFormValues: Partial<DealWizardFormData> = {
-    currency: 'USD',
+export const defaultFormValues: DealWizardFormData = {
+    partnerId: '',
+    commodityId: '',
+    originCountry: '',
+    packagingType: undefined,
+    quantityTolerance: undefined,
+    qualitySpecs: undefined,
     incoterm: 'FOB',
+    buyPrice: 0,
+    currency: 'USD',
+    weightMT: 0,
+    oceanFreight: undefined,
+    insurance: undefined,
+    customsExchangeRate: 84.5,
+    paymentMethod: 'TT',
     advancePercent: 0,
     balancePercent: 100,
+    paymentTermsDesc: undefined,
+    lcNumber: undefined,
+    issuingBank: undefined,
+    portOfLoading: '',
+    portOfDischarge: '',
+    shipmentPeriodStart: undefined,
+    shipmentPeriodEnd: undefined,
     partialShipment: false,
     transshipment: false,
-    paymentMethod: 'TT',
+    requiredDocuments: [],
+    notes: undefined,
     localClearanceCost: 0,
     transportCost: 0,
-    customsExchangeRate: 84.5, // Default fallback
-    requiredDocuments: []
+    targetSellPrice: undefined,
 }
 
 // Helpers
