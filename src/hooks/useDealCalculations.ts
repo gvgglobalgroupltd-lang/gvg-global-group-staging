@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { calculateDealPricing, type DealCalculationInputs, type DealCalculationResults } from '@/lib/calculations/deal-calculator'
 import { getExchangeRates } from '@/lib/api/exchange-rates'
+import { createClient } from '@/lib/supabase/client'
 
 /**
  * Custom hook for real-time deal calculations
@@ -133,32 +134,40 @@ export function useDealMasterData() {
 
     useEffect(() => {
         let mounted = true
+        const supabase = createClient() // Ensure createClient is imported from '@/lib/supabase/client' at top of file
 
         async function loadData() {
             try {
                 setIsLoading(true)
 
-                // Fetch from Supabase (we'll implement the actual fetch)
-                // For now, using mock data
-                const mockSuppliers = [
-                    { id: '1', company_name: 'Global Metals Inc', country: 'USA' },
-                    { id: '2', company_name: 'Asian Steel Trading', country: 'China' },
-                    { id: '3', company_name: 'European Copper Co', country: 'Germany' }
-                ]
+                const [suppliersResult, commoditiesResult] = await Promise.all([
+                    supabase.from('suppliers').select('id, company_name, country').order('company_name'),
+                    supabase.from('commodities').select('id, name, hscode').order('name')
+                ])
 
-                const mockCommodities = [
-                    { id: '1', name: 'Copper Millberry', hscode: '740311' },
-                    { id: '2', name: 'Aluminum Ingots', hscode: '760110' },
-                    { id: '3', name: 'Lithium Carbonate', hscode: '283691' }
-                ]
+                if (suppliersResult.error) throw suppliersResult.error
+                if (commoditiesResult.error) throw commoditiesResult.error
 
                 if (mounted) {
-                    setSuppliers(mockSuppliers)
-                    setCommodities(mockCommodities)
+                    setSuppliers(suppliersResult.data || [])
+                    setCommodities(commoditiesResult.data || [])
                 }
             } catch (err) {
                 if (mounted) {
+                    console.error('Failed to load master data:', err)
                     setError(err instanceof Error ? err.message : 'Failed to load data')
+
+                    // Fallback mock data if DB tables don't exist yet/fail
+                    const mockSuppliers = [
+                        { id: '1', company_name: 'Global Metals Inc', country: 'USA' },
+                        { id: '2', company_name: 'Asian Steel Trading', country: 'China' }
+                    ]
+                    const mockCommodities = [
+                        { id: '1', name: 'Copper Millberry', hscode: '740311' },
+                        { id: '2', name: 'Aluminum Ingots', hscode: '760110' }
+                    ]
+                    setSuppliers(prev => prev.length ? prev : mockSuppliers)
+                    setCommodities(prev => prev.length ? prev : mockCommodities)
                 }
             } finally {
                 if (mounted) {

@@ -165,11 +165,21 @@ export function ITLeadsWidget() {
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <Button size="sm" variant="outline">
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => alert(`View details for ${lead.company_name}`)}
+                                        >
                                             View Details
                                         </Button>
                                         {lead.status === 'New' && (
-                                            <Button size="sm">
+                                            <Button
+                                                size="sm"
+                                                onClick={() => {
+                                                    alert(`Assigned ${lead.company_name} to you`)
+                                                    // In a real app, calling an API to update status
+                                                }}
+                                            >
                                                 Assign
                                             </Button>
                                         )}

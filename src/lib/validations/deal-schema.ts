@@ -149,16 +149,38 @@ export const step3Schema = step3Base.refine(
 export const dealWizardSchema = z.object({
     // Step 1 fields
     ...step1Base.shape,
-
     // Step 2 fields
     ...step2Base.shape,
-
     // Step 3 fields
     ...step3Base.shape,
-
     // Additional metadata
     notes: z.string().optional()
 })
+    .superRefine((data, ctx) => {
+        // Apply Step 1 refinements
+        const step1Result = step1Schema.safeParse(data);
+        if (!step1Result.success) {
+            step1Result.error.issues.forEach((issue) => {
+                ctx.addIssue(issue as any);
+            });
+        }
+
+        // Apply Step 2 refinements
+        const step2Result = step2Schema.safeParse(data);
+        if (!step2Result.success) {
+            step2Result.error.issues.forEach((issue) => {
+                ctx.addIssue(issue as any);
+            });
+        }
+
+        // Apply Step 3 refinements
+        const step3Result = step3Schema.safeParse(data);
+        if (!step3Result.success) {
+            step3Result.error.issues.forEach((issue) => {
+                ctx.addIssue(issue as any);
+            });
+        }
+    });
 
 // Type exports
 export type Step1FormData = z.infer<typeof step1Schema>

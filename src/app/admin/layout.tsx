@@ -33,6 +33,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { icon: Warehouse, label: 'Inventory', href: '/admin/inventory' },
         { icon: Users, label: 'Partners', href: '/admin/partners' },
         { icon: DollarSign, label: 'Finance', href: '/admin/finance' },
+        { icon: Package, label: 'Commodities', href: '/admin/commodities' },
+        { icon: LayoutDashboard, label: 'Reports', href: '/admin/reports' },
         { icon: Cpu, label: 'IT Services', href: '/tech' },
     ]
 

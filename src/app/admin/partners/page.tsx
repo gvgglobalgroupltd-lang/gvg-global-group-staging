@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Plus, Search, Users, Building2 } from 'lucide-react'
+import { AddPartnerModal } from '@/components/admin/AddPartnerModal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -188,16 +189,17 @@ export default function PartnersPage() {
         <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
+
+
+
+
                 <div>
                     <h1 className="text-3xl font-bold">Partners</h1>
                     <p className="text-muted-foreground mt-1">
                         Manage suppliers and customers
                     </p>
                 </div>
-                <Button>
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Partner
-                </Button>
+                <AddPartnerModal onSuccess={loadPartners} />
             </div>
 
             {/* Stats */}
