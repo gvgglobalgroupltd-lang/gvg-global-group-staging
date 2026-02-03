@@ -5,7 +5,7 @@ import { z } from 'zod'
  */
 
 // Step 1: Sourcing & Compliance
-export const step1Schema = z.object({
+const step1Base = z.object({
     partnerId: z.string().uuid('Please select a supplier'),
     originCountry: z.string().min(1, 'Origin country is required'),
     commodityId: z.string().uuid('Please select a commodity'),
@@ -20,7 +20,9 @@ export const step1Schema = z.object({
             (file) => !file || file.type === 'application/pdf',
             'Only PDF files are allowed'
         )
-}).refine(
+})
+
+export const step1Schema = step1Base.refine(
     (data) => {
         // If origin is Dubai or South Africa, PSIC file is required
         const requiresPSIC = ['Dubai', 'South Africa'].includes(data.originCountry)
@@ -33,7 +35,7 @@ export const step1Schema = z.object({
 )
 
 // Step 2: Pricing & Logistics
-export const step2Schema = z.object({
+const step2Base = z.object({
     incoterm: z.enum(['FOB', 'CIF'], {
         required_error: 'Please select shipping terms'
     }),
@@ -78,7 +80,9 @@ export const step2Schema = z.object({
         .number()
         .nonnegative('Transport cost must be 0 or greater')
         .default(0)
-}).refine(
+})
+
+export const step2Schema = step2Base.refine(
     (data) => {
         // If FOB, ocean freight and insurance are required
         if (data.incoterm === 'FOB') {
@@ -122,13 +126,15 @@ export const step2Schema = z.object({
 )
 
 // Step 3: Profit Guard
-export const step3Schema = z.object({
+const step3Base = z.object({
     targetSellPriceINR: z
         .number({ required_error: 'Target sell price is required' })
         .positive('Target sell price must be greater than 0'),
     requestAdminOverride: z.boolean().default(false),
     overrideReason: z.string().optional()
-}).refine(
+})
+
+export const step3Schema = step3Base.refine(
     (data) => {
         // If requesting admin override, reason is required
         return !data.requestAdminOverride || (data.overrideReason && data.overrideReason.length > 0)
@@ -142,13 +148,13 @@ export const step3Schema = z.object({
 // Combined schema for the entire wizard
 export const dealWizardSchema = z.object({
     // Step 1 fields
-    ...step1Schema.shape,
+    ...step1Base.shape,
 
     // Step 2 fields
-    ...step2Schema.shape,
+    ...step2Base.shape,
 
     // Step 3 fields
-    ...step3Schema.shape,
+    ...step3Base.shape,
 
     // Additional metadata
     notes: z.string().optional()
