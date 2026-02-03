@@ -125,14 +125,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                 </Card>
             )}
 
-            <div className="space-y-2">
-                <Label>Customs Exchange Rate (to INR)</Label>
-                <Input
-                    type="number"
-                    {...form.register('customsExchangeRate', { valueAsNumber: true })}
-                    step="0.01"
-                />
-            </div>
+
 
             {/* Payment Terms */}
             <Card className="p-4 bg-muted/30">
@@ -180,10 +173,14 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                 {/* LC Specific Fields */}
                 {paymentMethod === 'LC' && (
                     <div className="mt-4 pt-4 border-t space-y-4 animate-in fade-in slide-in-from-top-2">
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-3 gap-4">
                             <div className="space-y-2">
                                 <Label>LC Number</Label>
                                 <Input {...form.register('lcNumber')} placeholder="LC-2024-..." />
+                            </div>
+                            <div className="space-y-2">
+                                <Label>LC Expiry Date</Label>
+                                <Input type="date" {...form.register('lcExpiryDate')} />
                             </div>
                             <div className="space-y-2">
                                 <Label>Issuing Bank</Label>
@@ -196,7 +193,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                 <div className="mt-4 space-y-2">
                     <Label>Payment Terms Notes</Label>
                     <Input
-                        {...form.register('paymentTermsDesc')}
+                        {...form.register('paymentTerms')}
                         placeholder="e.g. 20% Advance, 80% upon copy of BL"
                     />
                 </div>

@@ -94,18 +94,61 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
                 />
             </div>
 
-            {/* Profit Summary Section */}
-            <Card className="p-4 bg-muted/50 rounded-lg border-t-4 border-t-green-500">
-                <h3 className="font-semibold mb-4">Deal Profitability Check</h3>
-
-                <div className="grid grid-cols-2 gap-6 mb-4">
+            {/* Landed Cost Estimates */}
+            <Card className="p-4 bg-muted/50 rounded-lg">
+                <h3 className="font-semibold mb-4">Landed Costing (Estimates)</h3>
+                <div className="grid grid-cols-3 gap-4 mb-4">
                     <div className="space-y-2">
-                        <Label>Local Clearance Cost (INR)</Label>
+                        <Label>Customs Exch. Rate (INR)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('customsExchangeRate', { valueAsNumber: true })}
+                            step="0.01"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>BCD %</Label>
+                        <Input
+                            type="number"
+                            {...form.register('bcdPercent', { valueAsNumber: true })}
+                            step="0.01"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>SWS % (of BCD)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('swsPercent', { valueAsNumber: true })}
+                            defaultValue={10}
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="space-y-2">
+                        <Label>Finance Cost (INR)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('financeCost', { valueAsNumber: true })}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Local Clearance (INR)</Label>
                         <Input
                             type="number"
                             {...form.register('localClearanceCost', { valueAsNumber: true })}
                         />
                     </div>
+                    <div className="space-y-2">
+                        <Label>Inland Transport (INR)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('transportCost', { valueAsNumber: true })}
+                        />
+                    </div>
+                </div>
+
+                <div className="border-t pt-4">
                     <div className="space-y-2">
                         <Label>Target Sell Price (INR/kg)</Label>
                         <Input
@@ -114,6 +157,11 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
                         />
                     </div>
                 </div>
+            </Card>
+
+            {/* Profit Summary Section */}
+            <Card className="p-4 border-t-4 border-t-green-500">
+                <h3 className="font-semibold mb-4">Deal Profitability Check</h3>
 
                 <div className="pt-4 border-t flex flex-col gap-2">
                     <div className="flex justify-between items-center text-sm">

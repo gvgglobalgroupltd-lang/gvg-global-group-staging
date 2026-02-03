@@ -7,6 +7,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Card } from '@/components/ui/card'
 import {
     Select,
     SelectContent,
@@ -53,6 +54,17 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                 <p className="text-muted-foreground">
                     Select your supplier, origin, and commodity details
                 </p>
+            </div>
+
+            {/* Agreement Basics */}
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="validityDate">Agreement Validity Date</Label>
+                    <Input
+                        type="date"
+                        {...form.register('validityDate')}
+                    />
+                </div>
             </div>
 
             {/* Supplier Selection */}
@@ -130,6 +142,25 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                 )}
             </div>
 
+            {/* Material Specs */}
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="isriCode">ISRI Code</Label>
+                    <Input
+                        {...form.register('isriCode')}
+                        placeholder="e.g. BARLEY"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="radioactivityLimit">Radioactivity Limit</Label>
+                    <Input
+                        {...form.register('radioactivityLimit')}
+                        placeholder="Free from Radiation"
+                        defaultValue="Free from Radiation"
+                    />
+                </div>
+            </div>
+
             {/* Packaging & Quality */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -151,15 +182,49 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                         </SelectContent>
                     </Select>
                 </div>
-                <div className="space-y-2">
-                    <Label htmlFor="quantityTolerance">Tolerance (+/- %)</Label>
-                    <Input
-                        type="number"
-                        {...form.register('quantityTolerance', { valueAsNumber: true })}
-                        placeholder="e.g. 5"
-                    />
-                </div>
             </div>
+
+            {/* Quality Check */}
+            <Card className="p-4 bg-muted/40">
+                <h3 className="text-sm font-semibold mb-3">Quality Tolerances</h3>
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                        <Label>Guaranteed Recovery %</Label>
+                        <Input
+                            type="number"
+                            {...form.register('guaranteedRecovery', { valueAsNumber: true })}
+                            step="0.01"
+                            placeholder="99.9"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Moisture Max %</Label>
+                        <Input
+                            type="number"
+                            {...form.register('moistureTolerance', { valueAsNumber: true })}
+                            step="0.01"
+                            placeholder="1.0"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Dust/Attachment Max %</Label>
+                        <Input
+                            type="number"
+                            {...form.register('dustTolerance', { valueAsNumber: true })}
+                            step="0.01"
+                            placeholder="1.0"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Qty Tolerance (+/- %)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('quantityTolerance', { valueAsNumber: true })}
+                            placeholder="5"
+                        />
+                    </div>
+                </div>
+            </Card>
 
             <div className="space-y-2">
                 <Label htmlFor="qualitySpecs">Quality Specifications</Label>

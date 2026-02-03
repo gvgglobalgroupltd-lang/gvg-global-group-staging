@@ -73,6 +73,50 @@ export function Step3Logistics({ form }: Step3LogisticsProps) {
                     </div>
                 </div>
             </div>
+
+            {/* Service Providers */}
+            <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-2">
+                    <Label>Shipping Line</Label>
+                    <Input {...form.register('shippingLine')} placeholder="e.g. Maersk" />
+                </div>
+                <div className="space-y-2">
+                    <Label>Freight Forwarder</Label>
+                    <Input {...form.register('freightForwarder')} placeholder="Contact Person / Company" />
+                </div>
+            </div>
+
+            {/* Terms & Conditions */}
+            <Card className="p-4 bg-muted/40">
+                <h3 className="text-sm font-semibold mb-3">Agreement Terms</h3>
+                <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                        <Label>Free Days at Dest.</Label>
+                        <Input
+                            type="number"
+                            {...form.register('freeDays', { valueAsNumber: true })}
+                            placeholder="14"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Claims Period (Days)</Label>
+                        <Input
+                            type="number"
+                            {...form.register('claimsDays', { valueAsNumber: true })}
+                            placeholder="7"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label>Weight Franchise %</Label>
+                        <Input
+                            type="number"
+                            {...form.register('weightFranchise', { valueAsNumber: true })}
+                            step="0.01"
+                            placeholder="1.0"
+                        />
+                    </div>
+                </div>
+            </Card>
         </div>
     )
 }

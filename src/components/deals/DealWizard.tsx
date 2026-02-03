@@ -84,6 +84,7 @@ export function DealWizard() {
                 partner_id: data.partnerId,
                 commodity_id: data.commodityId,
                 origin_country: data.originCountry,
+                validity_date: data.validityDate || null,
                 incoterm: data.incoterm,
 
                 // Pricing
@@ -93,32 +94,54 @@ export function DealWizard() {
                 exchange_rate_locked: data.customsExchangeRate,
 
                 // Logistics
-                logistics_type: 'Self_Managed', // Default for now
-                destination_type: 'Warehouse', // Default for now
+                logistics_type: 'Self_Managed',
+                destination_type: 'Warehouse',
                 port_of_loading: data.portOfLoading,
                 port_of_discharge: data.portOfDischarge,
                 shipment_period_start: data.shipmentPeriodStart || null,
                 shipment_period_end: data.shipmentPeriodEnd || null,
                 partial_shipment_allowed: data.partialShipment,
                 transshipment_allowed: data.transshipment,
+                free_days_detention: data.freeDays,
+                shipping_line: data.shippingLine,
+                freight_forwarder: data.freightForwarder,
+                pol: data.portOfLoading, // Redundant but requested in schema
+                pod: data.portOfDischarge, // Redundant but requested in schema
 
                 // Payment
                 payment_method: data.paymentMethod,
-                payment_terms_desc: data.paymentTermsDesc,
+                payment_terms: data.paymentTerms,
                 advance_percentage: data.advancePercent,
                 balance_percentage: data.balancePercent,
                 lc_number: data.lcNumber || null,
+                lc_expiry_date: data.lcExpiryDate || null,
                 issuing_bank: data.issuingBank || null,
 
-                // Product Quality
-                packaging_type: data.packagingType || null,
+                // Product Quality & Specs
+                packing_type: data.packagingType || null,
+                isri_code: data.isriCode,
+                guaranteed_recovery_rate: data.guaranteedRecovery,
+                moisture_tolerance: data.moistureTolerance,
+                dust_tolerance: data.dustTolerance,
                 quantity_tolerance_percent: data.quantityTolerance || 0,
-                quality_specs: data.qualitySpecs ? { description: data.qualitySpecs } : {},
+                quality_specs: data.qualitySpecs,
+
+                // Agreement
+                claims_days: data.claimsDays,
+                weight_franchise: data.weightFranchise,
+
+                // Costing (Estimates)
+                cost_ocean_freight: data.oceanFreight || 0,
+                cost_insurance: data.insurance || 0,
+                cost_customs_rate: data.customsExchangeRate,
+                cost_bcd_percent: data.bcdPercent,
+                cost_sws_percent: data.swsPercent,
+                cost_finance: data.financeCost,
 
                 // Docs
                 required_documents: data.requiredDocuments,
                 notes: data.notes
-            })
+            } as any)
 
             if (error) throw error
 
