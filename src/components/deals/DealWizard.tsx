@@ -32,7 +32,7 @@ export function DealWizard() {
 
     // Initialize form
     const form = useForm<DealWizardFormData>({
-        resolver: zodResolver(dealWizardSchema),
+        resolver: zodResolver(dealWizardSchema) as any, // Cast to any to bypass strict Zod type inference mismatch with RHF
         defaultValues: defaultFormValues,
         mode: 'onChange'
     })
@@ -164,10 +164,10 @@ export function DealWizard() {
                             <div className="flex items-center">
                                 <div
                                     className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${currentStep > step.number
-                                            ? 'bg-primary border-primary text-primary-foreground'
-                                            : currentStep === step.number
-                                                ? 'border-primary text-primary'
-                                                : 'border-muted text-muted-foreground'
+                                        ? 'bg-primary border-primary text-primary-foreground'
+                                        : currentStep === step.number
+                                            ? 'border-primary text-primary'
+                                            : 'border-muted text-muted-foreground'
                                         }`}
                                 >
                                     {currentStep > step.number ? (
