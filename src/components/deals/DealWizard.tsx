@@ -1,265 +1,244 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
-import { DealWizardFormData, dealWizardSchema, defaultFormValues } from '@/lib/validations/deal-schema'
-import { useDealMasterData, useDealCalculations } from '@/hooks/useDealCalculations'
+import {
+    dealWizardSchema,
+    defaultFormValues,
+    DealWizardFormData,
+    step1Schema,
+    step2Schema,
+    step3Schema,
+    step4Schema
+} from '@/lib/validations/deal-schema'
+import { useDealMasterData } from '@/hooks/useDealCalculations'
+import { createClient } from '@/lib/supabase/client'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useToast } from '@/hooks/use-toast'
+import { Loader2, CheckCircle2, ChevronRight, ChevronLeft } from 'lucide-react'
+
+// Steps
 import { Step1Sourcing } from './Step1Sourcing'
 import { Step2Pricing } from './Step2Pricing'
-import { Step3Profit } from './Step3Profit'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { ChevronLeft, ChevronRight, Check, Loader2 } from 'lucide-react'
-import { Card } from '@/components/ui/card'
-import { useToast } from '@/hooks/use-toast'
+import { Step3Logistics } from './Step3Logistics'
+import { Step4Documents } from './Step4Documents'
 
 const STEPS = [
-    { number: 1, title: 'Sourcing', subtitle: 'Supplier & Commodity' },
-    { number: 2, title: 'Pricing', subtitle: 'Costs & Logistics' },
-    { number: 3, title: 'Profit', subtitle: 'Margin Analysis' }
+    { id: 'sourcing', title: 'Sourcing', schema: step1Schema },
+    { id: 'pricing', title: 'Pricing & Payment', schema: step2Schema },
+    { id: 'logistics', title: 'Logistics', schema: step3Schema },
+    { id: 'review', title: 'Review', schema: step4Schema }
 ]
 
 export function DealWizard() {
-    const [currentStep, setCurrentStep] = useState(1)
-    const [isSubmitting, setIsSubmitting] = useState(false)
     const router = useRouter()
     const { toast } = useToast()
+    const [currentStep, setCurrentStep] = useState(0)
+    const [isSubmitting, setIsSubmitting] = useState(false)
+    const { suppliers, commodities, isLoading: isLoadingMasterData } = useDealMasterData()
 
-    // Load master data
-    const { suppliers, commodities, isLoading: dataLoading } = useDealMasterData()
-
-    // Initialize form
     const form = useForm<DealWizardFormData>({
-        resolver: zodResolver(dealWizardSchema) as any, // Cast to any to bypass strict Zod type inference mismatch with RHF
+        resolver: zodResolver(dealWizardSchema),
         defaultValues: defaultFormValues,
         mode: 'onChange'
     })
 
-    // Get current values for calculations
-    const commodityId = form.watch('commodityId')
-    const commodityName = commodities.find(c => c.id === commodityId)?.name || ''
-
-    // Calculate total landed cost for Step 3
-    const calculations = useDealCalculations({
-        commodityName,
-        originCountry: form.watch('originCountry') || '',
-        incoterm: form.watch('incoterm') || 'FOB',
-        buyPriceUSD: form.watch('buyPriceUSD') || 0,
-        weightMT: form.watch('weightMT') || 0,
-        oceanFreightUSD: form.watch('oceanFreightUSD'),
-        insuranceUSD: form.watch('insuranceUSD'),
-        customsExchangeRateINR: form.watch('customsExchangeRateINR') || 0,
-        localClearanceINR: form.watch('localClearanceINR') || 0,
-        transportINR: form.watch('transportINR') || 0,
-        targetSellPriceINR: form.watch('targetSellPriceINR')
-    })
-
     const handleNext = async () => {
-        let isValid = false
+        const step = STEPS[currentStep]
+        const fields = Object.keys(step.schema.shape) as any[]
 
-        // Validate current step fields
-        if (currentStep === 1) {
-            isValid = await form.trigger(['partnerId', 'originCountry', 'commodityId', 'psicFile'])
-        } else if (currentStep === 2) {
-            isValid = await form.trigger([
-                'incoterm',
-                'buyPriceUSD',
-                'weightMT',
-                'oceanFreightUSD',
-                'insuranceUSD',
-                'forwarderName',
-                'shippingLineName',
-                'customsExchangeRateINR',
-                'localClearanceINR',
-                'transportINR'
-            ])
-        } else if (currentStep === 3) {
-            isValid = await form.trigger(['targetSellPriceINR', 'requestAdminOverride', 'overrideReason'])
-        }
+        // Trigger validation for current step fields
+        const isValid = await form.trigger(fields)
 
         if (isValid) {
-            if (currentStep < 3) {
-                setCurrentStep(currentStep + 1)
-            }
+            setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1))
         } else {
             toast({
                 title: 'Validation Error',
-                description: 'Please fill in all required fields correctly.',
+                description: 'Please fix the errors in the form before proceeding.',
                 variant: 'destructive'
             })
         }
     }
 
-    const handlePrevious = () => {
-        if (currentStep > 1) {
-            setCurrentStep(currentStep - 1)
-        }
+    const handleBack = () => {
+        setCurrentStep((prev) => Math.max(prev - 1, 0))
     }
 
-    const handleSubmit = async (data: DealWizardFormData) => {
-        // Check margin validation
-        if (calculations.isLowMargin && !data.requestAdminOverride) {
-            toast({
-                title: 'Low Margin',
-                description: 'Please request admin override for margins below 2%.',
-                variant: 'destructive'
-            })
-            return
-        }
-
+    const onSubmit = async (data: DealWizardFormData) => {
         setIsSubmitting(true)
-
         try {
-            //TODO: Implement actual deal creation
-            // 1. Upload PSIC file to Supabase Storage (if exists)
-            // 2. Create deal record in database
-            // 3. Create expense records
-            // 4. Redirect to deal view page
+            const supabase = createClient()
 
-            console.log('Deal Data:', data)
-            console.log('Calculations:', calculations)
+            // Generate sequential Ref (mock logic for now, or DB trigger)
+            const dealRef = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
 
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000))
+            const { error } = await supabase.from('deals').insert({
+                deal_ref: dealRef,
+                status: 'Draft',
+                trader_id: (await supabase.auth.getUser()).data.user?.id!,
+                partner_id: data.partnerId,
+                commodity_id: data.commodityId,
+                origin_country: data.originCountry,
+                incoterm: data.incoterm,
 
-            toast({
-                title: 'Success!',
-                description: 'Deal created successfully.',
+                // Pricing
+                buy_price: data.buyPrice,
+                currency: data.currency,
+                weight_mt: data.weightMT,
+                exchange_rate_locked: data.customsExchangeRate,
+
+                // Logistics
+                logistics_type: 'Self_Managed', // Default for now
+                destination_type: 'Warehouse', // Default for now
+                port_of_loading: data.portOfLoading,
+                port_of_discharge: data.portOfDischarge,
+                shipment_period_start: data.shipmentPeriodStart || null,
+                shipment_period_end: data.shipmentPeriodEnd || null,
+                partial_shipment_allowed: data.partialShipment,
+                transshipment_allowed: data.transshipment,
+
+                // Payment
+                payment_method: data.paymentMethod,
+                payment_terms_desc: data.paymentTermsDesc,
+                advance_percentage: data.advancePercent,
+                balance_percentage: data.balancePercent,
+                lc_number: data.lcNumber || null,
+                issuing_bank: data.issuingBank || null,
+
+                // Product Quality
+                packaging_type: data.packagingType || null,
+                quantity_tolerance_percent: data.quantityTolerance || 0,
+                quality_specs: data.qualitySpecs ? { description: data.qualitySpecs } : {},
+
+                // Docs
+                required_documents: data.requiredDocuments,
+                notes: data.notes
             })
 
-            // Redirect to deals list
-            router.push('/admin/metals')
+            if (error) throw error
 
-        } catch (error) {
             toast({
-                title: 'Error',
-                description: 'Failed to create deal. Please try again.',
+                title: 'Deal Created Successfully',
+                description: `Reference: ${dealRef}`,
+            })
+
+            router.push('/admin/deals')
+
+        } catch (error: any) {
+            console.error('Submission error:', error)
+            toast({
+                title: 'Error Creating Deal',
+                description: error.message,
                 variant: 'destructive'
             })
-            console.error('Deal creation error:', error)
         } finally {
             setIsSubmitting(false)
         }
     }
 
-    const progress = (currentStep / STEPS.length) * 100
-
-    if (dataLoading) {
+    if (isLoadingMasterData) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex items-center justify-center p-12">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
         )
     }
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6">
-            {/* Progress Steps */}
-            <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                    {STEPS.map((step, idx) => (
-                        <div key={step.number} className="flex-1">
-                            <div className="flex items-center">
-                                <div
-                                    className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${currentStep > step.number
-                                        ? 'bg-primary border-primary text-primary-foreground'
-                                        : currentStep === step.number
-                                            ? 'border-primary text-primary'
-                                            : 'border-muted text-muted-foreground'
-                                        }`}
-                                >
-                                    {currentStep > step.number ? (
-                                        <Check className="h-5 w-5" />
-                                    ) : (
-                                        <span className="font-semibold">{step.number}</span>
-                                    )}
-                                </div>
-                                <div className="ml-3 flex-1">
-                                    <p className={`text-sm font-semibold ${currentStep >= step.number ? 'text-foreground' : 'text-muted-foreground'
-                                        }`}>
-                                        {step.title}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">{step.subtitle}</p>
-                                </div>
-                                {idx < STEPS.length - 1 && (
-                                    <div className={`h-0.5 w-full mx-4 ${currentStep > step.number ? 'bg-primary' : 'bg-muted'
-                                        }`} />
-                                )}
+        <div className="max-w-4xl mx-auto py-8">
+            <h1 className="text-3xl font-bold mb-8">Create New Deal</h1>
+
+            {/* Step Indicators */}
+            <div className="flex justify-between mb-8 relative">
+                <div className="absolute top-1/2 left-0 w-full h-1 bg-muted -z-10" />
+                {STEPS.map((step, index) => {
+                    const isCompleted = index < currentStep
+                    const isCurrent = index === currentStep
+
+                    return (
+                        <div key={step.id} className="flex flex-col items-center bg-background px-2">
+                            <div
+                                className={`
+                                    w-10 h-10 rounded-full flex items-center justify-center border-2 
+                                    ${isCompleted ? 'bg-primary border-primary text-primary-foreground' :
+                                        isCurrent ? 'border-primary text-primary' : 'border-muted text-muted-foreground'}
+                                    transition-colors duration-200
+                                `}
+                            >
+                                {isCompleted ? <CheckCircle2 className="h-6 w-6" /> : <span>{index + 1}</span>}
                             </div>
+                            <span className={`mt-2 text-sm font-medium ${isCurrent ? 'text-foreground' : 'text-muted-foreground'}`}>
+                                {step.title}
+                            </span>
                         </div>
-                    ))}
-                </div>
-                <Progress value={progress} className="h-2" />
+                    )
+                })}
             </div>
 
-            {/* Form */}
-            <Card className="p-6">
-                <form onSubmit={form.handleSubmit(handleSubmit)}>
-                    {/* Step Content */}
-                    <div className="min-h-[500px]">
-                        {currentStep === 1 && (
+            {/* Form Content */}
+            <Card className="p-6 min-h-[500px]">
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="mb-8">
+                        {currentStep === 0 && (
                             <Step1Sourcing
                                 form={form}
                                 suppliers={suppliers}
                                 commodities={commodities}
                             />
                         )}
+                        {currentStep === 1 && (
+                            <Step2Pricing form={form} />
+                        )}
                         {currentStep === 2 && (
-                            <Step2Pricing
-                                form={form}
-                                commodityName={commodityName}
-                            />
+                            <Step3Logistics form={form} />
                         )}
                         {currentStep === 3 && (
-                            <Step3Profit
+                            <Step4Documents
                                 form={form}
-                                commodityName={commodityName}
-                                totalLandedCost={calculations.totalLandedCostINR}
+                                // Pass commodity name for calculator context
+                                commodityName={commodities.find(c => c.id === form.getValues('commodityId'))?.name}
                             />
                         )}
                     </div>
 
-                    {/* Navigation */}
-                    <div className="flex justify-between items-center mt-8 pt-6 border-t">
+                    {/* Navigation Buttons */}
+                    <div className="flex justify-between pt-4 border-t">
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={handlePrevious}
-                            disabled={currentStep === 1 || isSubmitting}
+                            onClick={handleBack}
+                            disabled={currentStep === 0 || isSubmitting}
                         >
                             <ChevronLeft className="h-4 w-4 mr-2" />
-                            Previous
+                            Back
                         </Button>
 
-                        <div className="text-sm text-muted-foreground">
-                            Step {currentStep} of {STEPS.length}
-                        </div>
-
-                        {currentStep < 3 ? (
-                            <Button type="button" onClick={handleNext}>
-                                Next
+                        {currentStep < STEPS.length - 1 ? (
+                            <Button
+                                type="button"
+                                onClick={handleNext}
+                            >
+                                Next Step
                                 <ChevronRight className="h-4 w-4 ml-2" />
                             </Button>
                         ) : (
                             <Button
                                 type="submit"
-                                disabled={
-                                    isSubmitting ||
-                                    (calculations.isLowMargin && !form.watch('requestAdminOverride'))
-                                }
+                                disabled={isSubmitting}
+                                className="bg-green-600 hover:bg-green-700"
                             >
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                        Creating Deal...
+                                        Creating...
                                     </>
                                 ) : (
-                                    <>
-                                        <Check className="h-4 w-4 mr-2" />
-                                        Create Deal
-                                    </>
+                                    'Create Deal'
                                 )}
                             </Button>
                         )}

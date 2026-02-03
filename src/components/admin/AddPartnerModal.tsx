@@ -64,13 +64,13 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
 
         try {
             const supabase = createClient()
-            const table = data.type === 'supplier' ? 'suppliers' : 'customers'
-
             const { error } = await supabase
-                .from(table)
+                .from('partners')
                 .insert({
                     id: uuidv4(),
                     company_name: data.company_name,
+                    type: data.type === 'supplier' ? 'Supplier' : 'Customer', // Match DB enum case
+                    status: 'Active',
                     contact_person: data.contact_person,
                     email: data.email || null,
                     phone: data.phone,

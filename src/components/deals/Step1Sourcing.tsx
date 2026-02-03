@@ -130,6 +130,45 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                 )}
             </div>
 
+            {/* Packaging & Quality */}
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="packagingType">Packaging</Label>
+                    <Select
+                        value={form.watch('packagingType')}
+                        onValueChange={(value) => form.setValue('packagingType', value)}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select packaging..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="Loose">Loose / Bulk</SelectItem>
+                            <SelectItem value="Container">Container</SelectItem>
+                            <SelectItem value="Pallets">Pallets</SelectItem>
+                            <SelectItem value="Drums">Drums</SelectItem>
+                            <SelectItem value="Bundles">Bundles</SelectItem>
+                            <SelectItem value="Bags">Bags</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="quantityTolerance">Tolerance (+/- %)</Label>
+                    <Input
+                        type="number"
+                        {...form.register('quantityTolerance', { valueAsNumber: true })}
+                        placeholder="e.g. 5"
+                    />
+                </div>
+            </div>
+
+            <div className="space-y-2">
+                <Label htmlFor="qualitySpecs">Quality Specifications</Label>
+                <Input
+                    {...form.register('qualitySpecs')}
+                    placeholder="e.g. Moisture < 1%, Copper Content > 99.9%"
+                />
+            </div>
+
             {/* PSIC Warning */}
             {showPSICWarning && (
                 <Alert className="border-amber-500/50 bg-amber-500/10">

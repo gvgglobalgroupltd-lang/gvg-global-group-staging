@@ -1,213 +1,119 @@
 import { z } from 'zod'
 
 /**
- * Validation schemas for the multi-step deal wizard
+ * Validations for Advanced Deal Flow
  */
 
-// Helper for safe File validation
 const fileSchema = (typeof File !== 'undefined'
     ? z.instanceof(File)
     : z.any()) as z.ZodType<any>
 
-// Step 1: Sourcing & Compliance
-const step1Base = z.object({
-    partnerId: z.string().uuid('Please select a supplier'),
-    originCountry: z.string().min(1, 'Origin country is required'),
-    commodityId: z.string().uuid('Please select a commodity'),
-    psicFile: fileSchema
-        .optional()
-        .refine(
-            (file: any) => !file || file.size <= 5 * 1024 * 1024,
-            'File size must be less than 5MB'
-        )
-        .refine(
-            (file: any) => !file || file.type === 'application/pdf',
-            'Only PDF files are allowed'
-        )
+// Step 1: Parties & Product
+export const step1Schema = z.object({
+    partnerId: z.string().uuid('Select a supplier'),
+    commodityId: z.string().uuid('Select a commodity'),
+    originCountry: z.string().min(1, 'Origin required'),
+    packagingType: z.enum(['Loose', 'Drums', 'Pallets', 'Bundles', 'Bags', 'Container']).optional(),
+    quantityTolerance: z.number().min(0).max(10).optional(),
+    qualitySpecs: z.string().optional(),
 })
 
-export const step1Schema = step1Base.refine(
-    (data) => {
-        // If origin is Dubai or South Africa, PSIC file is required
-        const requiresPSIC = ['Dubai', 'South Africa'].includes(data.originCountry)
-        return !requiresPSIC || (data.psicFile && typeof File !== 'undefined' && data.psicFile instanceof File)
-    },
-    {
-        message: 'PSIC Pre-Contract document is required for Dubai and South Africa',
-        path: ['psicFile']
-    }
-)
+// Step 2: Pricing & Payment
+export const step2Schema = z.object({
+    incoterm: z.enum(['FOB', 'CIF', 'EXW', 'DDP', 'DAP']),
+    buyPrice: z.number().positive(),
+    currency: z.enum(['USD', 'CAD', 'AED', 'INR', 'EUR']),
+    weightMT: z.number().positive(),
 
-// Step 2: Pricing & Logistics
-const step2Base = z.object({
-    incoterm: z.enum(['FOB', 'CIF'] as const),
-    buyPriceUSD: z
-        .number()
-        .positive('Buy price must be greater than 0'),
-    weightMT: z
-        .number()
-        .positive('Weight must be greater than 0'),
+    // Cost Components (Restored)
+    oceanFreight: z.number().nonnegative().optional(),
+    insurance: z.number().nonnegative().optional(),
+    customsExchangeRate: z.number().positive(),
 
-    // FOB-specific fields (conditional)
-    oceanFreightUSD: z.number().nonnegative().optional(),
-    insuranceUSD: z.number().nonnegative().optional(),
-    forwarderName: z.string().optional(),
+    // Payment Terms
+    paymentMethod: z.enum(['LC', 'TT', 'CAD', 'DP', 'PDC']),
+    advancePercent: z.number().min(0).max(100),
+    balancePercent: z.number().min(0).max(100),
+    paymentTermsDesc: z.string().optional(),
 
-    // CIF-specific fields (conditional)
-    shippingLineName: z.string().optional(),
-
-    // Destination type
-    destinationType: z.enum(['Warehouse', 'Direct_Customer'] as const),
-
-    // Warehouse fields (conditional)
-    warehouseDestination: z.string().optional(),
-    portToWarehouseTransportINR: z.number().nonnegative().default(0),
-
-    // Direct customer fields (conditional)
-    customerDeliveryAddress: z.string().optional(),
-
-    // Exchange rate
-    customsExchangeRateINR: z
-        .number()
-        .positive('Exchange rate must be greater than 0'),
-
-    // Local costs
-    localClearanceINR: z
-        .number()
-        .nonnegative('Local clearance must be 0 or greater')
-        .default(0),
-    transportINR: z
-        .number()
-        .nonnegative('Transport cost must be 0 or greater')
-        .default(0)
+    // LC Fields (Conditional)
+    lcNumber: z.string().optional(),
+    issuingBank: z.string().optional(),
 })
-
-export const step2Schema = step2Base.refine(
-    (data) => {
-        // If FOB, ocean freight and insurance are required
+    .refine((data) => data.advancePercent + data.balancePercent === 100, {
+        message: "Advance + Balance must equal 100%",
+        path: ["balancePercent"]
+    })
+    .refine((data) => {
         if (data.incoterm === 'FOB') {
-            return (
-                data.oceanFreightUSD !== undefined &&
-                data.oceanFreightUSD > 0 &&
-                data.insuranceUSD !== undefined &&
-                data.insuranceUSD >= 0
-            )
+            return (data.oceanFreight !== undefined && data.oceanFreight >= 0)
         }
         return true
-    },
-    {
-        message: 'Ocean freight and insurance are required for FOB terms',
-        path: ['oceanFreightUSD']
-    }
-).refine(
-    (data) => {
-        // If Warehouse, warehouse destination is required
-        if (data.destinationType === 'Warehouse') {
-            return data.warehouseDestination && data.warehouseDestination.length > 0
+    }, {
+        message: "Ocean Freight required for FOB",
+        path: ["oceanFreight"]
+    })
+    .refine((data) => {
+        if (data.paymentMethod === 'LC') {
+            return !!data.issuingBank
         }
         return true
-    },
-    {
-        message: 'Warehouse location is required for warehouse stock',
-        path: ['warehouseDestination']
-    }
-).refine(
-    (data) => {
-        // If Direct Customer, delivery address is required
-        if (data.destinationType === 'Direct_Customer') {
-            return data.customerDeliveryAddress && data.customerDeliveryAddress.length > 0
-        }
-        return true
-    },
-    {
-        message: 'Customer delivery address is required for direct sales',
-        path: ['customerDeliveryAddress']
-    }
-)
+    }, {
+        message: "Issuing Bank required for LC",
+        path: ["issuingBank"]
+    })
 
-// Step 3: Profit Guard
-const step3Base = z.object({
-    targetSellPriceINR: z
-        .number()
-        .positive('Target sell price must be greater than 0'),
-    requestAdminOverride: z.boolean().default(false),
-    overrideReason: z.string().optional()
+// Step 3: Logistics
+export const step3Schema = z.object({
+    portOfLoading: z.string().min(1, "POL required"),
+    portOfDischarge: z.string().min(1, "POD required"),
+    shipmentPeriodStart: z.string().optional(),
+    shipmentPeriodEnd: z.string().optional(),
+    partialShipment: z.boolean().default(false),
+    transshipment: z.boolean().default(false),
 })
 
-export const step3Schema = step3Base.refine(
-    (data) => {
-        // If requesting admin override, reason is required
-        return !data.requestAdminOverride || (data.overrideReason && data.overrideReason.length > 0)
-    },
-    {
-        message: 'Please provide a reason for admin override',
-        path: ['overrideReason']
-    }
-)
+// Step 4: Documents & Profit
+export const step4Schema = z.object({
+    requiredDocuments: z.array(z.string()).default([]),
+    notes: z.string().optional(),
 
-// Combined schema for the entire wizard
+    // Profit / Local Costs
+    localClearanceCost: z.number().nonnegative().default(0),
+    transportCost: z.number().nonnegative().default(0),
+    targetSellPrice: z.number().positive().optional(),
+})
+
+// Combined
 export const dealWizardSchema = z.object({
-    // Step 1 fields
-    ...step1Base.shape,
-    // Step 2 fields
-    ...step2Base.shape,
-    // Step 3 fields
-    ...step3Base.shape,
-    // Additional metadata
-    notes: z.string().optional()
+    ...step1Schema.shape,
+    ...step2Schema.shape,
+    ...step3Schema.shape,
+    ...step4Schema.shape
 })
-    .superRefine((data, ctx) => {
-        // Apply Step 1 refinements
-        const step1Result = step1Schema.safeParse(data);
-        if (!step1Result.success) {
-            step1Result.error.issues.forEach((issue) => {
-                ctx.addIssue(issue as any);
-            });
-        }
 
-        // Apply Step 2 refinements
-        const step2Result = step2Schema.safeParse(data);
-        if (!step2Result.success) {
-            step2Result.error.issues.forEach((issue) => {
-                ctx.addIssue(issue as any);
-            });
-        }
-
-        // Apply Step 3 refinements
-        const step3Result = step3Schema.safeParse(data);
-        if (!step3Result.success) {
-            step3Result.error.issues.forEach((issue) => {
-                ctx.addIssue(issue as any);
-            });
-        }
-    });
-
-// Type exports
 export type Step1FormData = z.infer<typeof step1Schema>
 export type Step2FormData = z.infer<typeof step2Schema>
 export type Step3FormData = z.infer<typeof step3Schema>
+export type Step4FormData = z.infer<typeof step4Schema>
 export type DealWizardFormData = z.infer<typeof dealWizardSchema>
 
-/**
- * Default values for the wizard form
- */
 export const defaultFormValues: Partial<DealWizardFormData> = {
+    currency: 'USD',
     incoterm: 'FOB',
-    destinationType: 'Warehouse',
-    localClearanceINR: 500,
-    transportINR: 800,
-    portToWarehouseTransportINR: 0,
-    requestAdminOverride: false
+    advancePercent: 0,
+    balancePercent: 100,
+    partialShipment: false,
+    transshipment: false,
+    paymentMethod: 'TT',
+    localClearanceCost: 0,
+    transportCost: 0,
+    customsExchangeRate: 84.5 // Default fallback
 }
 
-/**
- * Helper to get countries that require PSIC
- */
+// Helpers
 export const PSIC_REQUIRED_COUNTRIES = ['Dubai', 'South Africa']
 
-/**
- * Helper to check if PSIC is required
- */
 export function requiresPSIC(originCountry: string): boolean {
     return PSIC_REQUIRED_COUNTRIES.includes(originCountry)
 }
