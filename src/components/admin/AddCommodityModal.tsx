@@ -76,7 +76,7 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
             console.error('Error adding commodity:', error)
             toast({
                 title: 'Error',
-                description: 'Failed to add commodity. Please try again.',
+                description: (error as Error).message || 'Failed to add commodity',
                 variant: 'destructive'
             })
         } finally {

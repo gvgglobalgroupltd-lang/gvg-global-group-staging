@@ -141,33 +141,48 @@ export function useDealMasterData() {
                 setIsLoading(true)
 
                 const [suppliersResult, commoditiesResult] = await Promise.all([
-                    supabase.from('suppliers').select('id, company_name, country').order('company_name'),
-                    supabase.from('commodities').select('id, name, hscode').order('name')
+                    supabase
+                        .from('partners')
+                        .select('id, company_name, country')
+                        .eq('type', 'Supplier')
+                        .eq('status', 'Active')
+                        .order('company_name'),
+                    supabase
+                        .from('commodities')
+                        .select('id, name, hscode')
+                        .order('name')
                 ])
 
-                if (suppliersResult.error) throw suppliersResult.error
-                if (commoditiesResult.error) throw commoditiesResult.error
+                if (suppliersResult.error) {
+                    console.error('Suppliers fetch error:', suppliersResult.error)
+                    // Don't throw, let it fall through or handle gracefully
+                }
+                if (commoditiesResult.error) {
+                    console.error('Commodities fetch error:', commoditiesResult.error)
+                }
 
                 if (mounted) {
+                    // Use DB data if available, otherwise empty (don't force invalid mocks that break validation)
                     setSuppliers(suppliersResult.data || [])
                     setCommodities(commoditiesResult.data || [])
+
+                    // Only use mocks if absolutely nothing came back AND we possess no data (prevent breaking UI with empty lists if DB is down)
+                    if ((!suppliersResult.data || suppliersResult.data.length === 0) && (!commoditiesResult.data || commoditiesResult.data.length === 0)) {
+                        // Optional: fallback to valid UUID mocks ONLY if really needed for dev without DB
+                        // For now, let's return [] to avoid "Invalid UUID" validation error
+                        // or use real UUIDs:
+                        /*
+                        const mockSuppliers = [
+                            { id: '550e8400-e29b-41d4-a716-446655440000', company_name: 'Mock Supplier', country: 'USA' }
+                        ]
+                        setSuppliers(mockSuppliers)
+                        */
+                    }
                 }
             } catch (err) {
                 if (mounted) {
                     console.error('Failed to load master data:', err)
                     setError(err instanceof Error ? err.message : 'Failed to load data')
-
-                    // Fallback mock data if DB tables don't exist yet/fail
-                    const mockSuppliers = [
-                        { id: '1', company_name: 'Global Metals Inc', country: 'USA' },
-                        { id: '2', company_name: 'Asian Steel Trading', country: 'China' }
-                    ]
-                    const mockCommodities = [
-                        { id: '1', name: 'Copper Millberry', hscode: '740311' },
-                        { id: '2', name: 'Aluminum Ingots', hscode: '760110' }
-                    ]
-                    setSuppliers(prev => prev.length ? prev : mockSuppliers)
-                    setCommodities(prev => prev.length ? prev : mockCommodities)
                 }
             } finally {
                 if (mounted) {
