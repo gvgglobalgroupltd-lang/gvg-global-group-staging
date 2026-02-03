@@ -70,7 +70,7 @@ export function useExchangeRate(baseCurrency: string = 'USD') {
                 setError(null)
 
                 const rates = await getExchangeRates(baseCurrency)
-                const inrRate = rates.find(r => r.currency === 'INR')
+                const inrRate = rates.find(r => r.to === 'INR')
 
                 if (mounted) {
                     if (inrRate) {
@@ -106,7 +106,7 @@ export function useExchangeRate(baseCurrency: string = 'USD') {
         setIsLoading(true)
         try {
             const rates = await getExchangeRates(baseCurrency)
-            const inrRate = rates.find(r => r.currency === 'INR')
+            const inrRate = rates.find(r => r.to === 'INR')
             if (inrRate) {
                 setRate(inrRate.rate)
                 setLastUpdated(new Date())
