@@ -136,7 +136,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                     <Label htmlFor="packagingType">Packaging</Label>
                     <Select
                         value={form.watch('packagingType')}
-                        onValueChange={(value) => form.setValue('packagingType', value)}
+                        onValueChange={(value) => form.setValue('packagingType', value as any)}
                     >
                         <SelectTrigger>
                             <SelectValue placeholder="Select packaging..." />

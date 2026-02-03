@@ -29,16 +29,16 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
     // Mapping for calculator
     const formData = form.watch()
     const calcInputs = {
-        commodityName: commodityName,
-        incoterm: formData.incoterm,
-        buyPriceUSD: formData.buyPrice, // Assuming USD for calc base
-        weightMT: formData.weightMT,
-        oceanFreightUSD: formData.oceanFreight,
-        insuranceUSD: formData.insurance,
-        customsExchangeRateINR: formData.customsExchangeRate,
-        localClearanceINR: formData.localClearanceCost,
-        transportINR: formData.transportCost,
-        targetSellPriceINR: formData.targetSellPrice
+        commodityName: commodityName || '',
+        incoterm: formData.incoterm || 'FOB',
+        buyPriceUSD: formData.buyPrice || 0,
+        weightMT: formData.weightMT || 0,
+        oceanFreightUSD: formData.oceanFreight || 0,
+        insuranceUSD: formData.insurance || 0,
+        customsExchangeRateINR: formData.customsExchangeRate || 84.5,
+        localClearanceINR: formData.localClearanceCost || 0,
+        transportINR: formData.transportCost || 0,
+        targetSellPriceINR: formData.targetSellPrice || 0
     }
 
     const {

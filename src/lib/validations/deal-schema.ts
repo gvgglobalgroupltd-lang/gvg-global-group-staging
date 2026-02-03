@@ -16,6 +16,7 @@ export const step1Schema = z.object({
     packagingType: z.enum(['Loose', 'Drums', 'Pallets', 'Bundles', 'Bags', 'Container']).optional(),
     quantityTolerance: z.number().min(0).max(10).optional(),
     qualitySpecs: z.string().optional(),
+    psicFile: fileSchema.optional(),
 })
 
 // Step 2: Pricing & Payment
@@ -74,36 +75,25 @@ export const step3Schema = z.object({
 })
 
 // Step 4: Documents & Profit
-export const step4Schema = z.object({
-    requiredDocuments: z.array(z.string()).min(0),
+const step4Base = z.object({
+    requiredDocuments: z.array(z.string()).default([]),
     notes: z.string().optional(),
 
     // Profit / Local Costs
     localClearanceCost: z.number().nonnegative().default(0),
     transportCost: z.number().nonnegative().default(0),
     targetSellPrice: z.number().positive().optional(),
-}).transform((data) => ({
-    ...data,
-    localClearanceCost: data.localClearanceCost ?? 0,
-    transportCost: data.transportCost ?? 0,
-    requiredDocuments: data.requiredDocuments ?? [],
-}))
+})
+
+export const step4Schema = step4Base
 
 // Combined
 export const dealWizardSchema = z.object({
     ...step1Schema.shape,
     ...step2Schema.shape,
     ...step3Schema.shape,
-    ...step4Schema.shape, // Use schema for transform? No, shape loses transform. Need explicit transform below.
-}).transform((data) => ({
-    ...data,
-    // Ensure these fields are never undefined
-    localClearanceCost: data.localClearanceCost ?? 0,
-    transportCost: data.transportCost ?? 0,
-    requiredDocuments: data.requiredDocuments ?? [],
-    partialShipment: data.partialShipment ?? false,
-    transshipment: data.transshipment ?? false,
-}))
+    ...step4Base.shape,
+})
 
 export type Step1FormData = z.infer<typeof step1Schema>
 export type Step2FormData = z.infer<typeof step2Schema>
@@ -118,6 +108,7 @@ export const defaultFormValues: DealWizardFormData = {
     packagingType: undefined,
     quantityTolerance: undefined,
     qualitySpecs: undefined,
+    psicFile: undefined,
     incoterm: 'FOB',
     buyPrice: 0,
     currency: 'USD',

@@ -9,7 +9,7 @@ export interface DealCalculationInputs {
     originCountry: string
 
     // Step 2
-    incoterm: 'FOB' | 'CIF'
+    incoterm: 'FOB' | 'CIF' | 'EXW' | 'DDP' | 'DAP'
     buyPriceUSD: number
     weightMT: number
     oceanFreightUSD?: number
@@ -45,14 +45,17 @@ export interface DealCalculationResults {
  */
 export function calculateCIFValue(
     buyPriceUSD: number,
-    incoterm: 'FOB' | 'CIF',
+    incoterm: 'FOB' | 'CIF' | 'EXW' | 'DDP' | 'DAP',
     oceanFreightUSD: number = 0,
     insuranceUSD: number = 0
 ): number {
-    if (incoterm === 'FOB') {
+    // For FOB and EXW, we need to add freight and insurance to get CIF
+    if (incoterm === 'FOB' || incoterm === 'EXW') {
         return buyPriceUSD + oceanFreightUSD + insuranceUSD
     }
-    return buyPriceUSD // CIF already includes freight and insurance
+    // For CIF, DDP, DAP, the buy price usually includes freight/insurance to port
+    // (DDP includes more, but for CIF value used in customs, it's at least the base)
+    return buyPriceUSD
 }
 
 /**

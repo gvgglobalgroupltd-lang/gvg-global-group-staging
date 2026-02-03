@@ -42,7 +42,7 @@ export function DealWizard() {
     const { suppliers, commodities, isLoading: isLoadingMasterData } = useDealMasterData()
 
     const form = useForm<DealWizardFormData>({
-        resolver: zodResolver(dealWizardSchema),
+        resolver: zodResolver(dealWizardSchema) as any,
         defaultValues: defaultFormValues,
         mode: 'onChange'
     })
