@@ -113,7 +113,7 @@ export function AddPaymentModal({ dealId, totalDealValueINR, onSuccess }: AddPay
     }
 
     return (
-        <Dialog open={open} onChangeHandler={setOpen}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button>
                     <Plus className="h-4 w-4 mr-2" />
