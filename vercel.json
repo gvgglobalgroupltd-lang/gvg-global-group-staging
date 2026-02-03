@@ -1,0 +1,50 @@
+{
+    "version": 2,
+    "buildCommand": "npm run build",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    "framework": "nextjs",
+    "outputDirectory": ".next",
+    "regions": [
+        "sin1",
+        "bom1"
+    ],
+    "env": {
+        "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
+        "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-role-key",
+        "METALS_API_KEY": "@metals-api-key",
+        "METALS_API_BASE_URL": "@metals-api-base-url",
+        "EXCHANGE_RATE_API_KEY": "@exchange-rate-api-key",
+        "EXCHANGE_RATE_API_BASE_URL": "@exchange-rate-api-base-url"
+    },
+    "build": {
+        "env": {
+            "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
+            "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key"
+        }
+    },
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "strict-origin-when-cross-origin"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "geolocation=(), microphone=(), camera=()"
+                }
+            ]
+        }
+    ]
+}
