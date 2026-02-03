@@ -75,7 +75,7 @@ export const step3Schema = z.object({
 
 // Step 4: Documents & Profit
 export const step4Schema = z.object({
-    requiredDocuments: z.array(z.string()).default([]),
+    requiredDocuments: z.array(z.string()),
     notes: z.string().optional(),
 
     // Profit / Local Costs
@@ -108,7 +108,8 @@ export const defaultFormValues: Partial<DealWizardFormData> = {
     paymentMethod: 'TT',
     localClearanceCost: 0,
     transportCost: 0,
-    customsExchangeRate: 84.5 // Default fallback
+    customsExchangeRate: 84.5, // Default fallback
+    requiredDocuments: []
 }
 
 // Helpers
