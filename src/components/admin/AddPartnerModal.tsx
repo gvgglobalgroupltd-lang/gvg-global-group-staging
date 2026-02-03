@@ -92,7 +92,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
             console.error('Error adding partner:', error)
             toast({
                 title: 'Error',
-                description: 'Failed to add partner. Please try again.',
+                description: (error as Error).message || 'Failed to add partner',
                 variant: 'destructive'
             })
         } finally {

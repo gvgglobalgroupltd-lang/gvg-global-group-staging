@@ -53,8 +53,16 @@ export default function PartnersPage() {
             const supabase = createClient()
 
             const [suppliersResult, customersResult] = await Promise.all([
-                supabase.from('suppliers').select('*').order('company_name') as any,
-                supabase.from('customers').select('*').order('company_name') as any
+                supabase
+                    .from('partners')
+                    .select('*')
+                    .eq('type', 'Supplier')
+                    .order('company_name') as any,
+                supabase
+                    .from('partners')
+                    .select('*')
+                    .eq('type', 'Customer')
+                    .order('company_name') as any
             ])
 
             if (suppliersResult.error) throw suppliersResult.error
