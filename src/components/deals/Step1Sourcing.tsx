@@ -161,7 +161,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                     </p>
                     {form.formState.errors.psicFile && (
                         <p className="text-sm text-destructive">
-                            {form.formState.errors.psicFile.message}
+                            {(form.formState.errors.psicFile as any)?.message}
                         </p>
                     )}
                 </div>

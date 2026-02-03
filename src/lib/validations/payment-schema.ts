@@ -43,6 +43,11 @@ export const PAYMENT_STATUSES = [
     'Cancelled'
 ] as const
 
+// Helper for safe File validation
+const fileSchema = (typeof File !== 'undefined'
+    ? z.instanceof(File)
+    : z.any()) as z.ZodType<any>
+
 // Payment Schedule Schema
 export const paymentSchema = z.object({
     payment_type: z.enum(PAYMENT_TYPES as unknown as [string, ...string[]]),
@@ -89,7 +94,7 @@ export type PaymentFormData = z.infer<typeof paymentSchema>
 export const markPaymentPaidSchema = z.object({
     payment_id: z.string().uuid('Invalid payment ID'),
     paid_date: z.string().min(1, 'Paid date is required'),
-    proof_document: z.instanceof(File).optional(),
+    proof_document: fileSchema.optional(),
     notes: z.string().optional()
 })
 
@@ -106,7 +111,7 @@ export const expenseSchema = z.object({
     paid_date: z.string().min(1, 'Paid date is required'),
     vendor_name: z.string().optional(),
     invoice_number: z.string().optional(),
-    proof_document: z.instanceof(File).optional(),
+    proof_document: fileSchema.optional(),
     notes: z.string().optional()
 })
 

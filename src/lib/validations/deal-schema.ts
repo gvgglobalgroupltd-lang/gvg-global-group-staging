@@ -4,20 +4,24 @@ import { z } from 'zod'
  * Validation schemas for the multi-step deal wizard
  */
 
+// Helper for safe File validation
+const fileSchema = (typeof File !== 'undefined'
+    ? z.instanceof(File)
+    : z.any()) as z.ZodType<any>
+
 // Step 1: Sourcing & Compliance
 const step1Base = z.object({
     partnerId: z.string().uuid('Please select a supplier'),
     originCountry: z.string().min(1, 'Origin country is required'),
     commodityId: z.string().uuid('Please select a commodity'),
-    psicFile: z
-        .instanceof(File)
+    psicFile: fileSchema
         .optional()
         .refine(
-            (file) => !file || file.size <= 5 * 1024 * 1024,
+            (file: any) => !file || file.size <= 5 * 1024 * 1024,
             'File size must be less than 5MB'
         )
         .refine(
-            (file) => !file || file.type === 'application/pdf',
+            (file: any) => !file || file.type === 'application/pdf',
             'Only PDF files are allowed'
         )
 })
@@ -26,7 +30,7 @@ export const step1Schema = step1Base.refine(
     (data) => {
         // If origin is Dubai or South Africa, PSIC file is required
         const requiresPSIC = ['Dubai', 'South Africa'].includes(data.originCountry)
-        return !requiresPSIC || data.psicFile instanceof File
+        return !requiresPSIC || (data.psicFile && typeof File !== 'undefined' && data.psicFile instanceof File)
     },
     {
         message: 'PSIC Pre-Contract document is required for Dubai and South Africa',
