@@ -2,6 +2,7 @@ import { Mail, Phone, MapPin, Clock, Building2, Globe } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { ContactForm } from '@/components/forms/ContactForm'
 
 export default function ContactPage() {
     const regions = [
@@ -97,32 +98,52 @@ export default function ContactPage() {
                         </p>
                     </div>
 
-                    {/* Quick Contact */}
-                    <Card className="p-8 mb-12 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div className="text-center">
-                                <Mail className="h-8 w-8 mx-auto mb-2" />
-                                <p className="font-semibold mb-1">General Inquiries</p>
-                                <a href="mailto:hello@gvgglobal.com" className="hover:underline">
-                                    hello@gvgglobal.com
-                                </a>
-                            </div>
-                            <div className="text-center">
-                                <Phone className="h-8 w-8 mx-auto mb-2" />
-                                <p className="font-semibold mb-1">24/7 Support</p>
-                                <a href="tel:+1-XXX-XXX-XXXX" className="hover:underline">
-                                    +1-XXX-XXX-XXXX
-                                </a>
-                            </div>
-                            <div className="text-center">
-                                <Globe className="h-8 w-8 mx-auto mb-2" />
-                                <p className="font-semibold mb-1">IT Consultation</p>
-                                <Button asChild variant="secondary" size="sm" className="mt-1">
-                                    <Link href="/tech#consultation">Request Consultation</Link>
-                                </Button>
+                    {/* Quick Contact & Inquiry Form */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        {/* Contact Form */}
+                        <div className="md:col-span-2">
+                            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 h-full">
+                                <div className="p-6 border-b border-slate-200 dark:border-slate-800">
+                                    <h2 className="text-2xl font-bold">Send an Inquiry</h2>
+                                    <p className="text-muted-foreground">Get a quote or ask us anything.</p>
+                                </div>
+                                <div className="p-0">
+                                    <ContactForm />
+                                </div>
                             </div>
                         </div>
-                    </Card>
+
+                        {/* Quick Contact Info */}
+                        <div className="space-y-6">
+                            <Card className="p-6 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+                                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                                    <Phone className="h-5 w-5" /> 24/7 Support
+                                </h3>
+                                <p className="mb-4 text-blue-100">Our trading desk is always open.</p>
+                                <a href="tel:+1-555-0123" className="text-2xl font-bold hover:underline">
+                                    +1 (555) 012-3456
+                                </a>
+                                <div className="mt-4 pt-4 border-t border-blue-500/30">
+                                    <p className="text-sm font-medium mb-1">Email Us:</p>
+                                    <a href="mailto:support@gvgglobal.com" className="hover:underline text-blue-100">support@gvgglobal.com</a>
+                                </div>
+                            </Card>
+
+                            <Card className="p-6">
+                                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                                    <Building2 className="h-5 w-5 text-blue-600" /> Head Office
+                                </h3>
+                                <p className="text-muted-foreground text-sm mb-4">
+                                    1234 Trade Tower, Financial District<br />
+                                    New York, NY 10005<br />
+                                    United States
+                                </p>
+                                <Button variant="outline" className="w-full" asChild>
+                                    <a href="https://maps.google.com" target="_blank">Get Directions</a>
+                                </Button>
+                            </Card>
+                        </div>
+                    </div>
 
                     {/* Regional Offices */}
                     <div className="mb-12">

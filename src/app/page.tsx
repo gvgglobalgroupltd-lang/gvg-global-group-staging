@@ -5,9 +5,6 @@ import { TestimonialsSection } from '@/components/marketing/TestimonialsSection'
 import { StatsCounter } from '@/components/marketing/StatsCounter'
 import { PartnersSection } from '@/components/marketing/PartnersSection'
 import { IndianPartnersSection } from '@/components/marketing/IndianPartnersSection'
-import { IndianCertificationsSection } from '@/components/marketing/IndianCertificationsSection'
-import { SustainabilitySection } from '@/components/marketing/SustainabilitySection'
-import { TradingProcessSection } from '@/components/marketing/TradingProcessSection'
 import { ServicesSelectorSection } from '@/components/marketing/ServicesSelectorSection'
 import { SEOSchema } from '@/components/seo/SEOSchema'
 import { SiteHeader } from '@/components/layout/SiteHeader'
@@ -164,20 +161,8 @@ export default function Home() {
         {/* Stats Counter */}
         <StatsCounter />
 
-        {/* Indian Partners & Clients - REPLACES Government/Fortune 500 */}
+        {/* Indian Partners & Clients */}
         <IndianPartnersSection />
-
-        {/* Trading Process */}
-        <TradingProcessSection />
-
-        {/* Indian Certifications - REPLACES Generic Certifications */}
-        <IndianCertificationsSection />
-
-        {/* Sustainability */}
-        <SustainabilitySection />
-
-        {/* Partners */}
-        <PartnersSection />
 
         {/* Testimonials */}
         <TestimonialsSection />
