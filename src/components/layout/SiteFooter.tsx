@@ -115,6 +115,15 @@ export function SiteFooter() {
                         <p>
                             © {currentYear} GVG Global Group. All rights reserved.
                         </p>
+
+                        <Link
+                            href="/tech"
+                            className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-900/50 hover:bg-indigo-900 text-indigo-200 hover:text-white rounded-full transition-all border border-indigo-800"
+                        >
+                            <span className="font-semibold">Need IT Solutions?</span>
+                            <span>Visit GVG Tech →</span>
+                        </Link>
+
                         <div className="flex gap-6 flex-wrap justify-center">
                             <Link href="/privacy" className="hover:text-white transition-colors">
                                 Privacy

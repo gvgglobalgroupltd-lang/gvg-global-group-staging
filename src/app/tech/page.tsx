@@ -1,12 +1,16 @@
 
-import { Code2, Smartphone, TestTube2, Cloud, Users, Zap } from 'lucide-react'
-import { ConsultationForm } from '@/components/tech/ConsultationForm'
+import { ServiceBookingWizard } from '@/components/tech/ServiceBookingWizard'
+import { QuoteRequestForm } from '@/components/tech/QuoteRequestForm'
+import { PortfolioSection } from '@/components/tech/PortfolioSection'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { Code2, Smartphone, TestTube2, Cloud, Users, Zap, FileText } from 'lucide-react'
 
 export default function TechPage() {
+    // ... services and benefits arrays ...
     const services = [
+        // ... (Keep existing services array content)
         {
             icon: Code2,
             title: 'Custom ERP Development',
@@ -43,6 +47,7 @@ export default function TechPage() {
     ]
 
     const benefits = [
+        // ... (Keep existing benefits array content)
         {
             icon: Cloud,
             title: 'Modern Tech Stack',
@@ -84,7 +89,7 @@ export default function TechPage() {
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Button asChild size="lg" className="text-lg px-8 py-6 h-auto bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg">
-                                <a href="#consultation">Request Consultation</a>
+                                <a href="#booking">Book a Service</a>
                             </Button>
                             <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 h-auto border-2">
                                 <Link href="#services">View Services</Link>
@@ -96,6 +101,7 @@ export default function TechPage() {
 
             {/* Services Section */}
             <section id="services" className="py-24 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+                {/* ... (Keep existing services section content) ... */}
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Our Services</h2>
@@ -138,6 +144,7 @@ export default function TechPage() {
 
             {/* Benefits Section */}
             <section className="py-24 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                {/* ... (Keep existing benefits section content) ... */}
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Why Choose GVG Tech?</h2>
@@ -166,19 +173,39 @@ export default function TechPage() {
                 </div>
             </section>
 
-            {/* Consultation Form Section */}
-            <section id="consultation" className="py-24 bg-white dark:bg-slate-950">
+
+            {/* Portfolio Section */}
+            <PortfolioSection />
+
+            {/* Quote Request Section */}
+            <section id="quote" className="py-24 bg-indigo-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-16">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 text-sm font-medium mb-4">
+                            <FileText className="h-4 w-4" /> Custom Projects
+                        </div>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Request a Detailed Quote</h2>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                            For complex software projects, share your requirements and get a comprehensive technical proposal.
+                        </p>
+                    </div>
+                    <QuoteRequestForm />
+                </div>
+            </section>
+
+            {/* Booking Section */}
+            <section id="booking" className="py-24 bg-white dark:bg-slate-950">
                 <div className="container mx-auto px-4">
                     <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Let's Build Something Amazing</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Book a Service</h2>
                             <p className="text-xl text-slate-600 dark:text-slate-400">
-                                Tell us about your project and we'll get back to you within 24-48 hours
+                                Select a service, check availability, and schedule your appointment online.
                             </p>
                         </div>
-                        <div className="bg-slate-50 dark:bg-slate-900 p-8 md:p-12 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-lg">
-                            <ConsultationForm />
-                        </div>
+
+                        {/* Service Booking Wizard */}
+                        <ServiceBookingWizard />
                     </div>
                 </div>
             </section>
@@ -192,10 +219,10 @@ export default function TechPage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6 h-auto font-bold shadow-lg">
-                            <a href="#consultation">Get Started</a>
+                            <a href="#booking">Book Now</a>
                         </Button>
                         <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 h-auto bg-transparent text-white border-2 border-white hover:bg-white/10 font-bold">
-                            <Link href="/admin">Admin Portal</Link>
+                            <Link href="/">Return to Main Site</Link>
                         </Button>
                     </div>
                 </div>
