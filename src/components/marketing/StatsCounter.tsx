@@ -1,7 +1,6 @@
-'use client'
+"use client"
 
 import { Shield, Award, Users, TrendingUp, Package, Globe } from 'lucide-react'
-import { Card } from '@/components/ui/card'
 import { useEffect, useState } from 'react'
 
 interface Stat {
@@ -20,43 +19,43 @@ export function StatsCounter() {
             icon: TrendingUp,
             value: 15,
             suffix: '+',
-            label: 'Years in Business',
-            color: 'text-blue-600'
+            label: 'Years Exp.',
+            color: 'text-blue-500'
         },
         {
             icon: Globe,
             value: 8,
             suffix: '+',
-            label: 'Countries Served',
-            color: 'text-green-600'
+            label: 'Countries',
+            color: 'text-emerald-500'
         },
         {
             icon: Package,
             value: 1247,
             suffix: '+',
-            label: 'Successful Shipments',
-            color: 'text-purple-600'
+            label: 'Shipments',
+            color: 'text-indigo-500'
         },
         {
             icon: Users,
             value: 47,
             suffix: '+',
             label: 'Active Clients',
-            color: 'text-indigo-600'
+            color: 'text-purple-500'
         },
         {
             icon: Award,
             value: 89,
             suffix: '+',
-            label: 'IT Projects Delivered',
-            color: 'text-amber-600'
+            label: 'Projects',
+            color: 'text-amber-500'
         },
         {
             icon: Shield,
             value: 97,
             suffix: '%',
-            label: 'Client Satisfaction',
-            color: 'text-emerald-600'
+            label: 'Satisfaction',
+            color: 'text-green-500'
         }
     ]
 
@@ -70,7 +69,7 @@ export function StatsCounter() {
             { threshold: 0.1 }
         )
 
-        const element = document.getElementById('stats-counter')
+        const element = document.getElementById('stats-strip')
         if (element) observer.observe(element)
 
         return () => observer.disconnect()
@@ -109,29 +108,24 @@ export function StatsCounter() {
     }
 
     return (
-        <section id="stats-counter" className="py-20 bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">
-                        Trusted Globally, Proven Locally
-                    </h2>
-                    <p className="text-xl text-slate-600 dark:text-slate-400">
-                        Numbers that speak for our commitment to excellence
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <section id="stats-strip" className="bg-white dark:bg-slate-900 border-y border-slate-200 dark:border-slate-800">
+            <div className="container mx-auto">
+                <div className="flex flex-wrap md:flex-nowrap justify-between items-center shadow-none divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                     {stats.map((stat, index) => (
-                        <Card
+                        <div
                             key={index}
-                            className="p-6 text-center bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-lg hover:scale-105 transition-all"
+                            className="flex-1 min-w-[50%] md:min-w-0 py-4 px-2 flex flex-col items-center justify-center text-center group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                         >
-                            <stat.icon className={`h-10 w-10 mx-auto mb-3 ${stat.color}`} />
-                            <p className="text-4xl font-bold mb-2 text-slate-900 dark:text-white">
-                                <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+                            <div className="flex items-center gap-3 mb-1">
+                                <stat.icon className={`h-5 w-5 ${stat.color} opacity-80 group-hover:scale-110 transition-transform`} />
+                                <span className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
+                                    <AnimatedNumber value={stat.value} suffix={stat.suffix} />
+                                </span>
+                            </div>
+                            <p className="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400">
+                                {stat.label}
                             </p>
-                            <p className="text-sm text-slate-600 dark:text-slate-400">{stat.label}</p>
-                        </Card>
+                        </div>
                     ))}
                 </div>
             </div>

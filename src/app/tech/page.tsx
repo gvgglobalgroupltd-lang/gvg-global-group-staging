@@ -1,3 +1,4 @@
+
 import { Code2, Smartphone, TestTube2, Cloud, Users, Zap } from 'lucide-react'
 import { ConsultationForm } from '@/components/tech/ConsultationForm'
 import { Card } from '@/components/ui/card'
@@ -60,32 +61,32 @@ export default function TechPage() {
     ]
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
+        <main className="min-h-screen">
             {/* Hero Section */}
-            <section className="relative overflow-hidden py-20 md:py-32">
+            <section className="relative overflow-hidden py-24 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                 <div className="absolute inset-0 bg-grid-slate-200/50 dark:bg-grid-slate-800/50 [mask-image:linear-gradient(0deg,transparent,black)]" />
 
                 <div className="container relative mx-auto px-4">
                     <div className="max-w-4xl mx-auto text-center">
-                        <div className="inline-block mb-4 px-4 py-2 bg-indigo-600/10 border border-indigo-600/20 rounded-full">
+                        <div className="inline-block mb-6 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 rounded-full">
                             <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400">
                                 GVG Tech - IT Solutions Partner
                             </span>
                         </div>
 
-                        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 mb-6">
+                        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 mb-8 leading-tight">
                             Transform Your Business with Technology
                         </h1>
 
-                        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                        <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
                             Custom software solutions, mobile apps, and IT consulting to accelerate your digital transformation.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Button asChild size="lg" className="text-lg px-8">
+                            <Button asChild size="lg" className="text-lg px-8 py-6 h-auto bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg">
                                 <a href="#consultation">Request Consultation</a>
                             </Button>
-                            <Button asChild variant="outline" size="lg" className="text-lg px-8">
+                            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 h-auto border-2">
                                 <Link href="#services">View Services</Link>
                             </Button>
                         </div>
@@ -94,11 +95,11 @@ export default function TechPage() {
             </section>
 
             {/* Services Section */}
-            <section id="services" className="py-20 bg-white/50 dark:bg-slate-900/50">
+            <section id="services" className="py-24 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h2>
-                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Our Services</h2>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                             Comprehensive technology solutions tailored to your business needs
                         </p>
                     </div>
@@ -109,21 +110,21 @@ export default function TechPage() {
                             return (
                                 <Card
                                     key={index}
-                                    className="p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800"
+                                    className="p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-slate-50 dark:bg-slate-900 border-none shadow-sm"
                                 >
-                                    <div className="mb-4">
-                                        <div className="inline-flex p-3 bg-indigo-600/10 rounded-lg">
+                                    <div className="mb-6">
+                                        <div className="inline-flex p-4 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl">
                                             <Icon className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
                                         </div>
                                     </div>
 
-                                    <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                                    <p className="text-muted-foreground mb-4">{service.description}</p>
+                                    <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">{service.title}</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">{service.description}</p>
 
-                                    <ul className="space-y-2">
+                                    <ul className="space-y-3">
                                         {service.features.map((feature, idx) => (
-                                            <li key={idx} className="flex items-start gap-2 text-sm">
-                                                <span className="text-indigo-600 dark:text-indigo-400 mt-1">✓</span>
+                                            <li key={idx} className="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300">
+                                                <span className="text-indigo-600 dark:text-indigo-400 mt-0.5 font-bold">✓</span>
                                                 <span>{feature}</span>
                                             </li>
                                         ))}
@@ -136,11 +137,11 @@ export default function TechPage() {
             </section>
 
             {/* Benefits Section */}
-            <section className="py-20">
+            <section className="py-24 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose GVG Tech?</h2>
-                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Why Choose GVG Tech?</h2>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                             We bring expertise, innovation, and dedication to every project
                         </p>
                     </div>
@@ -151,13 +152,13 @@ export default function TechPage() {
                             return (
                                 <div
                                     key={index}
-                                    className="text-center p-6 rounded-lg bg-white/50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800"
+                                    className="text-center p-8 rounded-2xl bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
                                 >
-                                    <div className="inline-flex p-4 bg-indigo-600/10 rounded-full mb-4">
-                                        <Icon className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                                    <div className="inline-flex p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-full mb-6 text-indigo-600 dark:text-indigo-400">
+                                        <Icon className="h-10 w-10" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                                    <p className="text-muted-foreground">{benefit.description}</p>
+                                    <h3 className="text-xl font-bold mb-3 text-slate-900 dark:text-white">{benefit.title}</h3>
+                                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{benefit.description}</p>
                                 </div>
                             )
                         })}
@@ -166,38 +167,39 @@ export default function TechPage() {
             </section>
 
             {/* Consultation Form Section */}
-            <section id="consultation" className="py-20 bg-white/50 dark:bg-slate-900/50">
+            <section id="consultation" className="py-24 bg-white dark:bg-slate-950">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-3xl mx-auto">
+                    <div className="max-w-4xl mx-auto">
                         <div className="text-center mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Build Something Amazing</h2>
-                            <p className="text-xl text-muted-foreground">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Let's Build Something Amazing</h2>
+                            <p className="text-xl text-slate-600 dark:text-slate-400">
                                 Tell us about your project and we'll get back to you within 24-48 hours
                             </p>
                         </div>
-
-                        <ConsultationForm />
+                        <div className="bg-slate-50 dark:bg-slate-900 p-8 md:p-12 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-lg">
+                            <ConsultationForm />
+                        </div>
                     </div>
                 </div>
             </section>
 
             {/* Footer CTA */}
-            <section className="py-16 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+            <section className="py-24 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
-                    <p className="text-xl mb-8 opacity-90">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Project?</h2>
+                    <p className="text-xl mb-10 opacity-90 max-w-2xl mx-auto">
                         Join leading companies who trust GVG Tech for their digital transformation
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button asChild size="lg" variant="secondary" className="text-lg px-8">
+                        <Button asChild size="lg" variant="secondary" className="text-lg px-8 py-6 h-auto font-bold shadow-lg">
                             <a href="#consultation">Get Started</a>
                         </Button>
-                        <Button asChild size="lg" variant="outline" className="text-lg px-8 bg-transparent text-white border-white hover:bg-white/10">
+                        <Button asChild size="lg" variant="outline" className="text-lg px-8 py-6 h-auto bg-transparent text-white border-2 border-white hover:bg-white/10 font-bold">
                             <Link href="/admin">Admin Portal</Link>
                         </Button>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
     )
 }

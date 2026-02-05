@@ -1,62 +1,45 @@
-import { Card } from '@/components/ui/card'
-import { Building2, Award, CheckCircle2 } from 'lucide-react'
+"use client"
 
+// eslint-disable-next-line @next/next/no-img-element
 export function IndianPartnersSection() {
     const partners = [
-        { name: 'Tata Steel', category: 'Client', description: 'Steel manufacturing' },
-        { name: 'JSW Steel', category: 'Client', description: 'Integrated steel producer' },
-        { name: 'Hindalco Industries', category: 'Client', description: 'Aluminum & copper products' },
-        { name: 'Vedanta Limited', category: 'Supplier', description: 'Natural resources' },
-        { name: 'SAIL (Steel Authority of India)', category: 'Client', description: 'Public sector steel' },
-        { name: 'Adani Ports', category: 'Logistics Partner', description: 'Port operations' },
-        { name: 'Container Corporation of India (CONCOR)', category: 'Logistics Partner', description: 'Container transport' },
-        { name: 'Bharat Petroleum (BPCL)', category: 'Vendor', description: 'Fuel & energy' },
+        { name: 'Tata Steel', logo: '/logos/tata.png' },
+        { name: 'JSW Steel', logo: '/logos/jsw.png' },
+        { name: 'Hindalco', logo: '/logos/hindalco.png' },
+        { name: 'Vedanta', logo: '/logos/vedanta.png' },
+        { name: 'SAIL', logo: '/logos/sail.png' },
+        { name: 'Adani Ports', logo: '/logos/adani.png' },
+        { name: 'CONCOR', logo: '/logos/concor.png' },
+        { name: 'BPCL', logo: '/logos/bpcl.png' },
     ]
 
-    return (
-        <section className="py-20 bg-white dark:bg-slate-950">
-            <div className="container mx-auto px-4">
-                <div className="max-w-4xl mx-auto text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">
-                        Our Indian Partners & Clients
-                    </h2>
-                    <p className="text-lg text-slate-600 dark:text-slate-400">
-                        Trusted relationships with leading Indian companies in metals, logistics, and manufacturing
-                    </p>
-                </div>
+    // Duplicate list for infinite scroll effect (3x to ensure no gaps on large screens)
+    const rollingPartners = [...partners, ...partners, ...partners]
 
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {partners.map((partner, idx) => (
-                        <Card key={idx} className="p-6 hover:shadow-lg transition-shadow">
-                            <div className="flex items-start gap-3 mb-3">
-                                <Building2 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-1 flex-shrink-0" />
-                                <div>
-                                    <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-1">
-                                        {partner.name}
-                                    </h3>
-                                    <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mb-1">
-                                        {partner.category}
-                                    </p>
-                                    <p className="text-xs text-slate-500">
-                                        {partner.description}
-                                    </p>
-                                </div>
-                            </div>
-                        </Card>
+    return (
+        <section className="py-8 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 overflow-hidden">
+            <div className="container mx-auto px-4 mb-6 text-center">
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                    Trusted by Industry Leaders
+                </p>
+            </div>
+
+            <div className="relative w-full overflow-hidden group">
+                {/* Gradient Masks */}
+                <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
+
+                <div className="flex w-max animate-scroll group-hover:[animation-play-state:paused] items-center">
+                    {rollingPartners.map((partner, idx) => (
+                        <div key={idx} className="mx-12 transition-transform duration-300 hover:scale-110 cursor-pointer">
+                            <img
+                                src={partner.logo}
+                                alt={`${partner.name} logo`}
+                                className="h-20 w-auto max-w-[180px] object-contain"
+                            />
+                        </div>
                     ))}
                 </div>
-
-                <Card className="max-w-4xl mx-auto mt-12 p-6 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-700">
-                    <div className="flex items-start gap-4">
-                        <CheckCircle2 className="h-6 w-6 text-emerald-600 mt-1 flex-shrink-0" />
-                        <div>
-                            <h4 className="font-semibold mb-2 text-slate-900 dark:text-white">Verified Business Relationships</h4>
-                            <p className="text-sm text-slate-600 dark:text-slate-400">
-                                All partnerships are established through proper business contracts and verified transactions. We work with companies that meet Indian quality and compliance standards.
-                            </p>
-                        </div>
-                    </div>
-                </Card>
             </div>
         </section>
     )

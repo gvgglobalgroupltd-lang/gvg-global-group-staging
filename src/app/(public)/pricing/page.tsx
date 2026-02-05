@@ -1,3 +1,4 @@
+
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
@@ -50,109 +51,134 @@ export default function PricingPage() {
     }
 
     return (
-        <main className="min-h-screen py-20 bg-slate-50 dark:bg-slate-900">
-            <div className="container mx-auto px-4">
-                {/* Header */}
-                <div className="max-w-4xl mx-auto text-center mb-12">
-                    <Badge className="mb-4 bg-emerald-600 text-white">Live Pricing</Badge>
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">
-                        Current Scrap Metal Prices
-                    </h1>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 mb-2">
-                        Updated daily based on market conditions
-                    </p>
-                    <p className="text-sm text-slate-500">Last updated: {lastUpdated}</p>
+        <main className="min-h-screen">
+            {/* Header Section */}
+            <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <Badge className="mb-4 bg-emerald-600 text-white hover:bg-emerald-700 transition-colors">Live Pricing</Badge>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">
+                            Current Scrap Metal Prices
+                        </h1>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 mb-2">
+                            Updated daily based on market conditions
+                        </p>
+                        <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Last updated: {lastUpdated}</p>
+                    </div>
                 </div>
+            </section>
 
-                {/* Important Notice */}
-                <Card className="max-w-4xl mx-auto mb-12 p-6 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800">
-                    <h3 className="font-bold mb-2 text-amber-900 dark:text-amber-300">📌 Important Notes:</h3>
-                    <ul className="text-sm text-amber-800 dark:text-amber-400 space-y-1">
-                        <li>• Prices are indicative and subject to market fluctuations</li>
-                        <li>• Final prices depend on material quality, quantity, and delivery location</li>
-                        <li>• Contact us for exact quotations and bulk pricing</li>
-                        <li>• Prices shown are FOB India rates</li>
-                    </ul>
-                </Card>
-
-                {/* Ferrous Metals */}
-                <div className="max-w-6xl mx-auto mb-12">
-                    <h2 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">
-                        Ferrous Metals (Iron & Steel)
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {ferrousPrices.map((item, index) => (
-                            <Card key={index} className="p-5 hover:shadow-lg transition-shadow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.name}</h3>
-                                    {getTrendIcon(item.trend)}
-                                </div>
-                                <div className="mb-2">
-                                    <p className="text-3xl font-bold text-slate-900 dark:text-white">{item.price}</p>
-                                    <p className="text-sm text-slate-500">{item.unit}</p>
-                                </div>
-                                <p className={`text-sm font-medium ${getTrendColor(item.trend)}`}>
-                                    {item.change} from last week
-                                </p>
-                            </Card>
-                        ))}
+            {/* Layout Container for Sidebar/Main */}
+            <section className="bg-white dark:bg-slate-950">
+                {/* Important Notice Bar */}
+                <div className="bg-amber-50 dark:bg-amber-950/20 border-b border-amber-100 dark:border-amber-900/30">
+                    <div className="container mx-auto px-4 py-4">
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-2 text-sm text-amber-900 dark:text-amber-200 text-center">
+                            <span className="font-bold">NOTE:</span> Prices are indicative FOB India rates. Final pricing depends on grade, quantity, and location.
+                        </div>
                     </div>
                 </div>
 
-                {/* Non-Ferrous Metals */}
-                <div className="max-w-6xl mx-auto mb-12">
-                    <h2 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">
-                        Non-Ferrous Metals (Copper, Aluminum, Brass)
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {nonFerrousPrices.map((item, index) => (
-                            <Card key={index} className="p-5 hover:shadow-lg transition-shadow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-semibold text-slate-900 dark:text-white">{item.name}</h3>
-                                    {getTrendIcon(item.trend)}
-                                </div>
-                                <div className="mb-2">
-                                    <p className="text-3xl font-bold text-slate-900 dark:text-white">{item.price}</p>
-                                    <p className="text-sm text-slate-500">{item.unit}</p>
-                                </div>
-                                <p className={`text-sm font-medium ${getTrendColor(item.trend)}`}>
-                                    {item.change} from last week
-                                </p>
-                            </Card>
-                        ))}
+                <div className="py-20">
+                    <div className="container mx-auto px-4">
+                        {/* Ferrous Metals */}
+                        <div className="max-w-6xl mx-auto mb-20">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="h-10 w-2 bg-slate-900 dark:bg-slate-100 rounded-full"></div>
+                                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                                    Ferrous Metals <span className="text-xl font-normal text-slate-500 ml-2">(Iron & Steel)</span>
+                                </h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {ferrousPrices.map((item, index) => (
+                                    <div key={index} className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:shadow-lg transition-all duration-300">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">{item.name}</h3>
+                                            <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm">
+                                                {getTrendIcon(item.trend)}
+                                            </div>
+                                        </div>
+                                        <div className="mb-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                                            <p className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">{item.price}</p>
+                                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide mt-1">{item.unit}</p>
+                                        </div>
+                                        <p className={`text-sm font-bold flex items-center gap-1 ${getTrendColor(item.trend)}`}>
+                                            {item.change} <span className="text-slate-400 font-normal">from last week</span>
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Non-Ferrous Metals */}
+                        <div className="max-w-6xl mx-auto">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="h-10 w-2 bg-emerald-600 rounded-full"></div>
+                                <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
+                                    Non-Ferrous Metals <span className="text-xl font-normal text-slate-500 ml-2">(Copper, Aluminum)</span>
+                                </h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {nonFerrousPrices.map((item, index) => (
+                                    <div key={index} className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:shadow-lg transition-all duration-300">
+                                        <div className="flex justify-between items-start mb-4">
+                                            <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">{item.name}</h3>
+                                            <div className="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm">
+                                                {getTrendIcon(item.trend)}
+                                            </div>
+                                        </div>
+                                        <div className="mb-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                                            <p className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">{item.price}</p>
+                                            <p className="text-sm font-medium text-slate-500 uppercase tracking-wide mt-1">{item.unit}</p>
+                                        </div>
+                                        <p className={`text-sm font-bold flex items-center gap-1 ${getTrendColor(item.trend)}`}>
+                                            {item.change} <span className="text-slate-400 font-normal">from last week</span>
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </section>
 
-                {/* CTA Section */}
-                <Card className="max-w-4xl mx-auto p-8 text-center bg-slate-900 dark:bg-slate-800 text-white">
-                    <h3 className="text-2xl font-bold mb-4">Need a Custom Quote?</h3>
-                    <p className="mb-6 text-slate-300">
-                        Get personalized pricing based on your specific material grade, quantity, and location
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a
-                            href="/contact"
-                            className="px-6 py-3 bg-white text-slate-900 rounded-lg font-semibold hover:bg-slate-100 transition-colors"
-                        >
-                            Request Quote
-                        </a>
-                        <a
-                            href="/contact"
-                            className="px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors"
-                        >
-                            Call: +91-XXXXX-XXXXX
-                        </a>
+            {/* Disclaimer */}
+            <section className="py-12 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center text-sm text-slate-500 leading-relaxed">
+                        <p>
+                            <strong>Disclaimer:</strong> Prices are provided for reference purposes only and do not constitute a binding offer.
+                            Actual pricing may vary based on specific material analysis, quantity, delivery terms, and real-time market fluctuations.
+                        </p>
                     </div>
-                </Card>
-
-                {/* Disclaimer */}
-                <div className="max-w-4xl mx-auto mt-8 text-center text-sm text-slate-500">
-                    <p>
-                        Prices are for reference purposes only and do not constitute an offer.
-                        Actual pricing may vary based on material analysis, market conditions, and other factors.
-                    </p>
                 </div>
-            </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="py-20 bg-slate-900 dark:bg-black text-white">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h3 className="text-3xl font-bold mb-6">Need a Custom Quote?</h3>
+                        <p className="mb-10 text-slate-300 text-lg max-w-2xl mx-auto">
+                            Get personalized pricing based on your specific material grade, quantity, and location.
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a
+                                href="/contact"
+                                className="px-8 py-4 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors shadow-lg"
+                            >
+                                Request Quote
+                            </a>
+                            <a
+                                href="/contact"
+                                className="px-8 py-4 border-2 border-white text-white rounded-lg font-bold hover:bg-white/10 transition-colors"
+                            >
+                                Call Trading Desk
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     )
 }

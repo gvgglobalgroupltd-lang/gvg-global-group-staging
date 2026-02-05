@@ -26,29 +26,7 @@ export function SiteHeader() {
             {/* Live Market Ticker */}
             <MarketTicker />
 
-            {/* Top Bar - Contact Info */}
-            <div className="bg-slate-900 dark:bg-slate-950 text-white py-2 hidden md:block">
-                <div className="container mx-auto px-4">
-                    <div className="flex justify-between items-center text-sm">
-                        <div className="flex gap-6">
-                            <a href="tel:+19059622919" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
-                                <Phone className="h-3.5 w-3.5" />
-                                +1 (905) 962-2919
-                            </a>
-                            <a href="mailto:info@gvgglobal.com" className="flex items-center gap-2 hover:text-emerald-400 transition-colors">
-                                <Mail className="h-3.5 w-3.5" />
-                                info@gvgglobal.com
-                            </a>
-                        </div>
-                        <div className="flex gap-4">
-                            <Link href="/locations" className="hover:text-emerald-400 transition-colors">
-                                <MapPin className="h-3.5 w-3.5 inline mr-1" />
-                                Our Locations
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 
             {/* Main Navigation */}
             <div className="container mx-auto px-4">

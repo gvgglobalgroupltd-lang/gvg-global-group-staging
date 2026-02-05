@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister'
+import { QuickQuoteWidget } from '@/components/common/QuickQuoteWidget'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -108,6 +109,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ServiceWorkerRegister />
+        <QuickQuoteWidget />
         {children}
       </body>
     </html>

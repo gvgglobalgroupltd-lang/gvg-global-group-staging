@@ -1,3 +1,4 @@
+
 import { Mail, Phone, MapPin, Clock, Building2, Globe } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -87,25 +88,29 @@ export default function ContactPage() {
     ]
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950">
-            <div className="container mx-auto px-4 py-16">
-                <div className="max-w-6xl mx-auto">
-                    {/* Header */}
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-                        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <main className="min-h-screen">
+            {/* Header Section */}
+            <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-4xl mx-auto text-center">
+                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">Contact Us</h1>
+                        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
                             We're here to help. Reach out to our offices worldwide or contact the department that best fits your needs.
                         </p>
                     </div>
+                </div>
+            </section>
 
-                    {/* Quick Contact & Inquiry Form */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {/* Main Contact Area */}
+            <section className="py-20 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {/* Contact Form */}
                         <div className="md:col-span-2">
-                            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 h-full">
-                                <div className="p-6 border-b border-slate-200 dark:border-slate-800">
-                                    <h2 className="text-2xl font-bold">Send an Inquiry</h2>
-                                    <p className="text-muted-foreground">Get a quote or ask us anything.</p>
+                            <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 h-full overflow-hidden">
+                                <div className="p-8 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900">
+                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Send an Inquiry</h2>
+                                    <p className="text-slate-500 dark:text-slate-400">Get a quote or ask us anything.</p>
                                 </div>
                                 <div className="p-0">
                                     <ContactForm />
@@ -115,25 +120,25 @@ export default function ContactPage() {
 
                         {/* Quick Contact Info */}
                         <div className="space-y-6">
-                            <Card className="p-6 bg-gradient-to-br from-blue-600 to-indigo-600 text-white">
+                            <Card className="p-8 bg-blue-600 text-white border-none shadow-lg">
                                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                                     <Phone className="h-5 w-5" /> 24/7 Support
                                 </h3>
-                                <p className="mb-4 text-blue-100">Our trading desk is always open.</p>
-                                <a href="tel:+1-555-0123" className="text-2xl font-bold hover:underline">
+                                <p className="mb-6 text-blue-100 opacity-90">Our trading desk is always open for urgent inquiries.</p>
+                                <a href="tel:+1-555-0123" className="block text-3xl font-bold hover:opacity-90 transition-opacity mb-6">
                                     +1 (555) 012-3456
                                 </a>
-                                <div className="mt-4 pt-4 border-t border-blue-500/30">
-                                    <p className="text-sm font-medium mb-1">Email Us:</p>
-                                    <a href="mailto:support@gvgglobal.com" className="hover:underline text-blue-100">support@gvgglobal.com</a>
+                                <div className="pt-6 border-t border-blue-500/30">
+                                    <p className="text-sm font-medium mb-2 text-blue-200">Email Us:</p>
+                                    <a href="mailto:support@gvgglobal.com" className="hover:text-white text-blue-50 font-medium text-lg transition-colors">support@gvgglobal.com</a>
                                 </div>
                             </Card>
 
-                            <Card className="p-6">
-                                <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                            <Card className="p-8 border-none shadow-md bg-slate-50 dark:bg-slate-900">
+                                <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
                                     <Building2 className="h-5 w-5 text-blue-600" /> Head Office
                                 </h3>
-                                <p className="text-muted-foreground text-sm mb-4">
+                                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
                                     1234 Trade Tower, Financial District<br />
                                     New York, NY 10005<br />
                                     United States
@@ -144,69 +149,76 @@ export default function ContactPage() {
                             </Card>
                         </div>
                     </div>
+                </div>
+            </section>
 
-                    {/* Regional Offices */}
-                    <div className="mb-12">
-                        <h2 className="text-3xl font-bold mb-6">Our Global Offices</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {regions.map((region, index) => (
-                                <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
-                                    <div className="flex items-start justify-between mb-4">
-                                        <div>
-                                            <p className="text-3xl mb-2">{region.flag}</p>
-                                            <h3 className="text-xl font-bold">{region.name}</h3>
-                                            <p className="text-sm text-muted-foreground">{region.office}</p>
-                                        </div>
+            {/* Global Offices */}
+            <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <h2 className="text-3xl font-bold mb-12 text-center text-slate-900 dark:text-white">Our Global Offices</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                        {regions.map((region, index) => (
+                            <Card key={index} className="p-6 hover:shadow-xl transition-all duration-300 border-none shadow-sm bg-white dark:bg-slate-950">
+                                <div className="flex items-start justify-between mb-6">
+                                    <div>
+                                        <p className="text-4xl mb-3">{region.flag}</p>
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white">{region.name}</h3>
+                                        <p className="text-sm text-slate-500 font-medium">{region.office}</p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4 text-sm">
+                                    <div className="flex items-start gap-3">
+                                        <MapPin className="h-4 w-4 text-slate-400 mt-1 flex-shrink-0" />
+                                        <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{region.address}</p>
                                     </div>
 
-                                    <div className="space-y-3 text-sm">
-                                        <div className="flex items-start gap-2">
-                                            <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                                            <p>{region.address}</p>
-                                        </div>
-
-                                        <div className="flex items-center gap-2">
-                                            <Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                            <a href={`tel:${region.phone}`} className="text-blue-600 hover:underline">
-                                                {region.phone}
-                                            </a>
-                                        </div>
-
-                                        <div className="flex items-center gap-2">
-                                            <Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                            <a href={`mailto:${region.email}`} className="text-blue-600 hover:underline">
-                                                {region.email}
-                                            </a>
-                                        </div>
-
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                                            <p className="text-muted-foreground">{region.timezone}</p>
-                                        </div>
+                                    <div className="flex items-center gap-3">
+                                        <Phone className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                                        <a href={`tel:${region.phone}`} className="text-blue-600 hover:text-blue-700 font-medium">
+                                            {region.phone}
+                                        </a>
                                     </div>
-                                </Card>
-                            ))}
-                        </div>
+
+                                    <div className="flex items-center gap-3">
+                                        <Mail className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                                        <a href={`mailto:${region.email}`} className="text-blue-600 hover:text-blue-700 font-medium">
+                                            {region.email}
+                                        </a>
+                                    </div>
+
+                                    <div className="flex items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                        <Clock className="h-4 w-4 text-slate-400 flex-shrink-0" />
+                                        <p className="text-slate-500 text-xs font-medium">{region.timezone}</p>
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
                     </div>
+                </div>
+            </section>
 
-                    {/* Departments */}
-                    <div className="mb-12">
-                        <h2 className="text-3xl font-bold mb-6">Contact by Department</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Departments */}
+            <section className="py-20 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-5xl mx-auto">
+                        <h2 className="text-3xl font-bold mb-12 text-center text-slate-900 dark:text-white">Contact by Department</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {departments.map((dept, index) => (
-                                <Card key={index} className="p-6 hover:bg-muted/50 transition-colors">
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-blue-600/10 rounded-lg">
-                                            <Building2 className="h-6 w-6 text-blue-600" />
+                                <Card key={index} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors border-slate-200 dark:border-slate-800">
+                                    <div className="flex items-start gap-5">
+                                        <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                                            <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="font-semibold text-lg mb-1">{dept.name}</h3>
-                                            <p className="text-sm text-muted-foreground mb-2">{dept.description}</p>
+                                            <h3 className="font-bold text-lg mb-1 text-slate-900 dark:text-white">{dept.name}</h3>
+                                            <p className="text-sm text-slate-500 mb-3">{dept.description}</p>
                                             <a
                                                 href={`mailto:${dept.email}`}
-                                                className="text-blue-600 hover:underline text-sm font-medium"
+                                                className="text-blue-600 hover:text-blue-700 text-sm font-semibold inline-flex items-center gap-1"
                                             >
                                                 {dept.email}
+                                                <span className="block w-1.5 h-1.5 rounded-full bg-blue-600 ml-1"></span>
                                             </a>
                                         </div>
                                     </div>
@@ -214,75 +226,92 @@ export default function ContactPage() {
                             ))}
                         </div>
                     </div>
-
-                    {/* Business Hours */}
-                    <Card className="p-8 mb-12">
-                        <h2 className="text-2xl font-bold mb-6">Business Hours</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 className="font-semibold mb-3">Americas (USA, Canada)</h3>
-                                <p className="text-sm text-muted-foreground">Monday - Friday: 9:00 AM - 6:00 PM EST</p>
-                                <p className="text-sm text-muted-foreground">Saturday: 10:00 AM - 2:00 PM EST</p>
-                                <p className="text-sm text-muted-foreground">Sunday: Closed</p>
-                            </div>
-
-                            <div>
-                                <h3 className="font-semibold mb-3">Asia-Pacific (India)</h3>
-                                <p className="text-sm text-muted-foreground">Monday - Saturday: 9:30 AM - 6:30 PM IST</p>
-                                <p className="text-sm text-muted-foreground">Sunday: Closed</p>
-                            </div>
-
-                            <div>
-                                <h3 className="font-semibold mb-3">Middle East (UAE)</h3>
-                                <p className="text-sm text-muted-foreground">Sunday - Thursday: 9:00 AM - 6:00 PM GST</p>
-                                <p className="text-sm text-muted-foreground">Friday-Saturday: Closed</p>
-                            </div>
-
-                            <div>
-                                <h3 className="font-semibold mb-3">Africa (South Africa)</h3>
-                                <p className="text-sm text-muted-foreground">Monday - Friday: 8:00 AM - 5:00 PM SAST</p>
-                                <p className="text-sm text-muted-foreground">Sat-Sun: Closed</p>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
-                            <p className="text-sm">
-                                <strong>Note:</strong> For urgent matters outside business hours, please email{' '}
-                                <a href="mailto:urgent@gvgglobal.com" className="text-blue-600 hover:underline">
-                                    urgent@gvgglobal.com
-                                </a>
-                            </p>
-                        </div>
-                    </Card>
-
-                    {/* Social Media & Other Links */}
-                    <Card className="p-8">
-                        <h2 className="text-2xl font-bold mb-6">Stay Connected</h2>
-                        <div className="space-y-4">
-                            <p className="text-muted-foreground">
-                                Follow us on social media for updates, industry insights, and news:
-                            </p>
-                            <div className="flex flex-wrap gap-4">
-                                <Button variant="outline" asChild>
-                                    <a href="https://linkedin.com/company/gvgglobal" target="_blank" rel="noopener noreferrer">
-                                        LinkedIn
-                                    </a>
-                                </Button>
-                                <Button variant="outline" asChild>
-                                    <a href="https://twitter.com/gvgglobal" target="_blank" rel="noopener noreferrer">
-                                        Twitter
-                                    </a>
-                                </Button>
-                                <Button variant="outline" asChild>
-                                    <a href="https://facebook.com/gvgglobal" target="_blank" rel="noopener noreferrer">
-                                        Facebook
-                                    </a>
-                                </Button>
-                            </div>
-                        </div>
-                    </Card>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            {/* Business Hours & Social */}
+            <section className="py-20 bg-slate-50 dark:bg-slate-900">
+                <div className="container mx-auto px-4">
+                    <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+                        {/* Hours */}
+                        <div className="md:col-span-2">
+                            <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">Business Hours</h2>
+                            <div className="grid sm:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                        <span className="text-xl">🇺🇸</span> Americas
+                                    </h3>
+                                    <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="flex justify-between"><span>Mon - Fri:</span> <span className="font-medium text-slate-900 dark:text-slate-200">9:00 AM - 6:00 PM EST</span></p>
+                                        <p className="flex justify-between"><span>Saturday:</span> <span className="font-medium text-slate-900 dark:text-slate-200">10:00 AM - 2:00 PM EST</span></p>
+                                        <p className="flex justify-between"><span>Sunday:</span> <span className="text-slate-400">Closed</span></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                        <span className="text-xl">🇮🇳</span> Asia-Pacific
+                                    </h3>
+                                    <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="flex justify-between"><span>Mon - Sat:</span> <span className="font-medium text-slate-900 dark:text-slate-200">9:30 AM - 6:30 PM IST</span></p>
+                                        <p className="flex justify-between"><span>Sunday:</span> <span className="text-slate-400">Closed</span></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                        <span className="text-xl">🇦🇪</span> Middle East
+                                    </h3>
+                                    <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="flex justify-between"><span>Sun - Thu:</span> <span className="font-medium text-slate-900 dark:text-slate-200">9:00 AM - 6:00 PM GST</span></p>
+                                        <p className="flex justify-between"><span>Fri - Sat:</span> <span className="text-slate-400">Closed</span></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                                        <span className="text-xl">🇿🇦</span> Africa
+                                    </h3>
+                                    <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="flex justify-between"><span>Mon - Fri:</span> <span className="font-medium text-slate-900 dark:text-slate-200">8:00 AM - 5:00 PM SAST</span></p>
+                                        <p className="flex justify-between"><span>Sat - Sun:</span> <span className="text-slate-400">Closed</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-8 p-4 bg-blue-100/50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
+                                <p className="text-sm text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                                    <Clock className="h-4 w-4" />
+                                    <strong>Urgent Requirement?</strong> Email <a href="mailto:urgent@gvgglobal.com" className="underline hover:text-blue-600">urgent@gvgglobal.com</a> for priority response.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Social */}
+                        <div>
+                            <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-white">Stay Connected</h2>
+                            <Card className="p-6 border-none shadow-md bg-white dark:bg-slate-950">
+                                <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm">
+                                    Follow us on social media for live market updates, industry insights, and company news.
+                                </p>
+                                <div className="space-y-3">
+                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all" asChild>
+                                        <a href="https://linkedin.com/company/gvgglobal" target="_blank" rel="noopener noreferrer">
+                                            LinkedIn
+                                        </a>
+                                    </Button>
+                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-sky-500 hover:border-sky-500 transition-all" asChild>
+                                        <a href="https://twitter.com/gvgglobal" target="_blank" rel="noopener noreferrer">
+                                            Twitter
+                                        </a>
+                                    </Button>
+                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-blue-700 hover:border-blue-700 transition-all" asChild>
+                                        <a href="https://facebook.com/gvgglobal" target="_blank" rel="noopener noreferrer">
+                                            Facebook
+                                        </a>
+                                    </Button>
+                                </div>
+                            </Card>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     )
 }
