@@ -5,7 +5,6 @@ import { Ship, MapPin, Package, Calendar } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
-import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
 interface ShipmentData {
@@ -29,17 +28,9 @@ export function LogisticsTracker() {
 
     async function loadShipments() {
         try {
-            const supabase = createClient()
-
-            // Get deals that are in shipping/transit status
-            const { data, error } = await supabase
-                .from('deals')
-                .select('id, deal_ref, container_number, origin_port, destination_port, eta_date, status')
-                .in('status', ['Shipped', 'In Transit', 'Customs'])
-                .order('eta_date', { ascending: true })
-                .limit(10) as any
-
-            if (error) throw error
+            // Use Server Action instead of client fetch
+            const { getLogisticsShipments } = await import('@/actions/logistics')
+            const data = await getLogisticsShipments()
 
             // Calculate days until arrival
             const shipmentsWithDays = (data || []).map((deal: any) => {

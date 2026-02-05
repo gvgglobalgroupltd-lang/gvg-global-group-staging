@@ -1,7 +1,24 @@
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from './lib/supabase/middleware'
 
 export async function middleware(request: NextRequest) {
+    const url = request.nextUrl
+    const hostname = request.headers.get('host') || ''
+
+    // Define the immigration subdomain (adjust for localhost vs production)
+    // For localhost, we might use "immigration.localhost:3000"
+    // For prod, "immigration.gvgglobalgroupltd.com"
+    const isImmigrationSubdomain = hostname.startsWith('immigration.')
+
+    if (isImmigrationSubdomain) {
+        // Rewrite to the /immigration folder
+        // Only rewrite if the path doesn't already start with /immigration (avoid loops/redundancy)
+        if (!url.pathname.startsWith('/immigration')) {
+            url.pathname = `/immigration${url.pathname}`
+            return NextResponse.rewrite(url)
+        }
+    }
+
     return await updateSession(request)
 }
 
