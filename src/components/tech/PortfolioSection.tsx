@@ -6,28 +6,28 @@ import { Building2, ShieldCheck, Globe2 } from 'lucide-react'
 export function PortfolioSection() {
     const projects = [
         {
-            title: 'Global Banking Payment Gateway',
-            category: 'FinTech',
-            role: 'Lead Architect',
-            description: 'Architected a secure, high-throughput payment gateway processing $50M+ daily. Implemented ISO 20022 standards and real-time fraud detection.',
-            tech: ['Java/Spring Boot', 'Kafka', 'React', 'AWS'],
+            title: 'Boutique E-commerce Platform',
+            category: 'Retail',
+            role: 'Lead Developer',
+            description: 'A custom, high-performance online store for a local fashion brand. Increased mobile conversion rates by 40% with a streamlined checkout flow.',
+            tech: ['Next.js', 'Stripe', 'Supabase', 'Tailwind'],
+            icon: Globe2
+        },
+        {
+            title: 'Field Service Management App',
+            category: 'Operations',
+            role: 'Mobile Lead',
+            description: 'Cross-platform mobile app for a landscaping company to track crews, schedule jobs, and capture on-site signatures.',
+            tech: ['React Native', 'Firebase', 'Maps API', 'Node.js'],
             icon: Building2
         },
         {
-            title: 'Automated QE Framework for Trading Platform',
-            category: 'QE Leadership',
-            role: 'QE Lead',
-            description: 'Designed a hybrid Selenium/Playwright framework reducing regression cycle time by 70%. Managed a team of 15 SDETs ensuring 99.9% release stability.',
-            tech: ['Playwright', 'Python', 'Jenkins', 'Docker'],
+            title: 'Inventory & POS Sync Middleware',
+            category: 'Automation',
+            role: 'Solutions Architect',
+            description: 'Automated synchronization between a restaurant\'s physical POS and their online ordering system, eliminating double-entry errors.',
+            tech: ['Python', 'AWS Lambda', 'Square API', 'PostgreSQL'],
             icon: ShieldCheck
-        },
-        {
-            title: 'Cross-Border Supply Chain Tracker',
-            category: 'Logistics',
-            role: 'Full Stack Developer',
-            description: 'Built a real-time tracking system for international shipments with blockchain-based verification for document integrity.',
-            tech: ['Next.js', 'Supabase', 'Solidity', 'Go'],
-            icon: Globe2
         }
     ]
 
@@ -39,13 +39,13 @@ export function PortfolioSection() {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
                     <div className="inline-block mb-4 px-4 py-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">
-                        <span className="text-sm font-bold text-indigo-300">Proven Expertise</span>
+                        <span className="text-sm font-bold text-indigo-300">Real Business Results</span>
                     </div>
                     <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
-                        Mission Critical Delivery
+                        Digital Growth for Your Business
                     </h2>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                        High-stakes projects in Banking, FinTech, and Enterprise Logistics.
+                        Empowering small to mid-sized retailers and service providers with scalable web & mobile solutions.
                     </p>
                 </div>
 
