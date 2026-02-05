@@ -1,9 +1,7 @@
 
 'use client'
 
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { CheckCircle2, Building2, ShieldCheck, Globe2 } from 'lucide-react'
+import { Building2, ShieldCheck, Globe2 } from 'lucide-react'
 
 export function PortfolioSection() {
     const projects = [
@@ -34,50 +32,53 @@ export function PortfolioSection() {
     ]
 
     return (
-        <section className="py-24 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-            <div className="container mx-auto px-4">
+        <section className="py-24 bg-slate-950 relative overflow-hidden">
+            {/* Background Effects */}
+            <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px]"></div>
+
+            <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center mb-16">
-                    <div className="inline-block mb-4 px-4 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-full">
-                        <span className="text-sm font-bold text-indigo-700 dark:text-indigo-300">Proven Expertise</span>
+                    <div className="inline-block mb-4 px-4 py-1 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm">
+                        <span className="text-sm font-bold text-indigo-300">Proven Expertise</span>
                     </div>
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">
-                        Delivering Excellence in High-Stakes Domains
+                    <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+                        Mission Critical Delivery
                     </h2>
-                    <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Years of experience leading critical projects in Banking, FinTech, and Enterprise Logistics.
+                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+                        High-stakes projects in Banking, FinTech, and Enterprise Logistics.
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto">
                     {projects.map((project, idx) => (
-                        <Card key={idx} className="flex flex-col overflow-hidden hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800">
-                            <div className="p-8 flex-1">
+                        <div key={idx} className="group relative rounded-2xl bg-white/5 border border-white/10 hover:border-indigo-500/50 hover:bg-white/10 transition-all duration-300 overflow-hidden">
+                            <div className="p-8 h-full flex flex-col">
                                 <div className="flex items-start justify-between mb-6">
-                                    <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl">
-                                        <project.icon className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+                                    <div className="p-3 bg-indigo-500/10 rounded-xl">
+                                        <project.icon className="h-6 w-6 text-indigo-400 group-hover:scale-110 transition-transform" />
                                     </div>
-                                    <Badge variant="outline" className="text-indigo-600 border-indigo-200 dark:text-indigo-400 dark:border-indigo-800">
+                                    <div className="text-xs font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
                                         {project.category}
-                                    </Badge>
+                                    </div>
                                 </div>
-                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
                                     {project.title}
                                 </h3>
-                                <div className="text-sm font-medium text-slate-500 mb-4 uppercase tracking-wider">
-                                    Role: {project.role}
+                                <div className="text-xs font-semibold text-slate-500 mb-4 uppercase tracking-wider">
+                                    Lead Role: <span className="text-slate-300">{project.role}</span>
                                 </div>
-                                <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                                <p className="text-slate-400 mb-6 leading-relaxed flex-grow text-sm">
                                     {project.description}
                                 </p>
-                                <div className="flex flex-wrap gap-2 mt-auto">
+                                <div className="flex flex-wrap gap-2 mt-auto pt-4 border-t border-white/5">
                                     {project.tech.map((t, i) => (
-                                        <span key={i} className="text-xs font-medium px-2.5 py-1 bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 rounded-md">
+                                        <span key={i} className="text-[10px] font-medium px-2 py-1 bg-slate-900 text-slate-400 rounded border border-slate-800">
                                             {t}
                                         </span>
                                     ))}
                                 </div>
                             </div>
-                        </Card>
+                        </div>
                     ))}
                 </div>
             </div>

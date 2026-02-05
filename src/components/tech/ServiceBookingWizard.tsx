@@ -68,14 +68,14 @@ export function ServiceBookingWizard() {
     const prevStep = () => setStep(prev => (prev - 1) as 1 | 2 | 3)
 
     return (
-        <Card className="max-w-4xl mx-auto p-6 md:p-8 bg-white dark:bg-slate-900 shadow-xl border-slate-200 dark:border-slate-800">
+        <div className="w-full">
             {/* Progress Steps */}
-            <div className="flex items-center justify-between mb-8 relative">
-                <div className="absolute left-0 top-1/2 w-full h-0.5 bg-slate-100 dark:bg-slate-800 -z-0"></div>
+            <div className="flex items-center justify-between mb-8 relative px-4">
+                <div className="absolute left-0 top-1/2 w-full h-0.5 bg-white/10 -z-0"></div>
                 {[1, 2, 3].map((s) => (
                     <div key={s} className={cn(
-                        "relative z-10 w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-colors duration-300",
-                        step >= s ? "bg-indigo-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                        "relative z-10 w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all duration-300 ring-4 ring-slate-900",
+                        step >= s ? "bg-indigo-500 text-white" : "bg-slate-800 text-slate-500"
                     )}>
                         {s}
                     </div>
@@ -86,15 +86,15 @@ export function ServiceBookingWizard() {
                 {/* SUCCESS STATE */}
                 {formState.success ? (
                     <div className="text-center py-12">
-                        <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-400" />
+                        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-green-500/30">
+                            <CheckCircle2 className="h-8 w-8 text-green-400" />
                         </div>
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Booking Confirmed!</h2>
-                        <p className="text-slate-600 dark:text-slate-400">
+                        <h2 className="text-2xl font-bold text-white mb-2">Booking Confirmed!</h2>
+                        <p className="text-slate-400 mb-8">
                             {formState.message}
                         </p>
                         <Button
-                            className="mt-8"
+                            className="bg-white/10 hover:bg-white/20 text-white"
                             variant="outline"
                             onClick={() => window.location.reload()}
                         >
@@ -106,37 +106,37 @@ export function ServiceBookingWizard() {
                         {/* STEP 1: SELECT SERVICE */}
                         {step === 1 && (
                             <div className="space-y-6">
-                                <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Select a Service</h2>
-                                    <p className="text-slate-500">Choose the service you need assistance with</p>
+                                <div className="text-center mb-6">
+                                    <h2 className="text-xl font-bold text-white">Select a Service</h2>
+                                    <p className="text-sm text-slate-400">Choose the service you need assistance with</p>
                                 </div>
 
                                 {loadingServices ? (
-                                    <div className="flex justify-center py-12"><Loader2 className="animate-spin h-8 w-8 text-indigo-600" /></div>
+                                    <div className="flex justify-center py-12"><Loader2 className="animate-spin h-8 w-8 text-indigo-500" /></div>
                                 ) : (
-                                    <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="grid md:grid-cols-2 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                                         {services.map(service => (
                                             <div
                                                 key={service.id}
                                                 className={cn(
-                                                    "cursor-pointer p-6 rounded-xl border-2 transition-all hover:border-indigo-300 dark:hover:border-indigo-700",
+                                                    "cursor-pointer p-4 rounded-xl border transition-all text-left",
                                                     selectedServiceId === service.id
-                                                        ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/10"
-                                                        : "border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950"
+                                                        ? "border-indigo-500 bg-indigo-500/20"
+                                                        : "border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10"
                                                 )}
                                                 onClick={() => handleServiceSelect(service.id)}
                                             >
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <h3 className="font-bold text-slate-900 dark:text-white">{service.name}</h3>
+                                                <div className="flex justify-between items-start mb-1">
+                                                    <h3 className="font-bold text-white text-sm">{service.name}</h3>
                                                     <span className={cn(
-                                                        "text-xs px-2 py-1 rounded-full font-medium",
-                                                        service.category === 'Hardware' ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                                                        "text-[10px] px-1.5 py-0.5 rounded-full font-medium uppercase tracking-wide",
+                                                        service.category === 'Hardware' ? "bg-amber-500/20 text-amber-300" : "bg-blue-500/20 text-blue-300"
                                                     )}>
                                                         {service.category}
                                                     </span>
                                                 </div>
-                                                <p className="text-sm text-slate-500 mb-3">{service.description}</p>
-                                                <p className="text-sm font-semibold text-slate-900 dark:text-white">{service.price_range}</p>
+                                                <p className="text-xs text-slate-400 mb-2 line-clamp-2">{service.description}</p>
+                                                <p className="text-xs font-semibold text-indigo-300">{service.price_range}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -146,22 +146,24 @@ export function ServiceBookingWizard() {
 
                                 {/* Geofencing Check for Hardware */}
                                 {selectedService?.category === 'Hardware' && (
-                                    <div className="bg-amber-50 dark:bg-amber-900/10 p-6 rounded-xl border border-amber-100 dark:border-amber-900/30 animate-in fade-in slide-in-from-top-4">
-                                        <h4 className="font-bold flex items-center gap-2 text-amber-800 dark:text-amber-400 mb-4">
-                                            <MapPin className="h-5 w-5" /> Location Check Required
+                                    <div className="bg-amber-900/20 p-4 rounded-xl border border-amber-500/30 animate-in fade-in slide-in-from-top-4">
+                                        <h4 className="font-bold flex items-center gap-2 text-amber-400 mb-3 text-sm">
+                                            <MapPin className="h-4 w-4" /> Location Check Required
                                         </h4>
-                                        <div className="flex gap-3">
+                                        <div className="flex gap-2">
                                             <Input
-                                                placeholder="Enter Postal Code (e.g., B3J 2K9)"
+                                                placeholder="Postal Code (e.g. B3K)"
                                                 value={postalCode}
                                                 onChange={(e) => {
                                                     setPostalCode(e.target.value)
-                                                    setAvailability(null) // Reset checks on change
+                                                    setAvailability(null)
                                                 }}
-                                                className="bg-white dark:bg-slate-900"
+                                                className="bg-slate-950/50 border-amber-500/30 text-white placeholder:text-slate-600 h-9 text-sm"
                                             />
                                             <Button
                                                 type="button"
+                                                size="sm"
+                                                className="bg-amber-600 hover:bg-amber-700 text-white"
                                                 onClick={handleCheckAvailability}
                                                 disabled={!postalCode || checkingAvailability}
                                             >
@@ -171,12 +173,12 @@ export function ServiceBookingWizard() {
 
                                         {availability && (
                                             <div className={cn(
-                                                "mt-4 p-3 rounded-lg text-sm font-medium flex items-start gap-2",
+                                                "mt-3 p-2 rounded text-xs font-medium flex items-center gap-2",
                                                 availability.available
-                                                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                                                    : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                                                    ? "bg-green-500/20 text-green-300"
+                                                    : "bg-red-500/20 text-red-300"
                                             )}>
-                                                {availability.available ? <CheckCircle2 className="h-5 w-5 shrink-0" /> : <AlertCircle className="h-5 w-5 shrink-0" />}
+                                                {availability.available ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                                                 {availability.message}
                                             </div>
                                         )}
@@ -187,56 +189,55 @@ export function ServiceBookingWizard() {
 
                         {/* STEP 2: DETAILS */}
                         {step === 2 && (
-                            <div className="space-y-6">
-                                <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Booking Details</h2>
-                                    <p className="text-slate-500">Please provide your contact and location information</p>
+                            <div className="space-y-4">
+                                <div className="text-center mb-4">
+                                    <h2 className="text-xl font-bold text-white">Booking Details</h2>
+                                    <p className="text-sm text-slate-400">Your contact info</p>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <Label>Full Name</Label>
-                                        <Input name="customer_name" placeholder="John Doe" required />
+                                <div className="grid md:grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label className="text-slate-300 text-xs">Name</Label>
+                                        <Input name="customer_name" placeholder="John Doe" required className="bg-slate-950/50 border-slate-700 text-white h-9" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Email</Label>
-                                        <Input name="email" type="email" placeholder="john@example.com" required />
+                                    <div className="space-y-1.5">
+                                        <Label className="text-slate-300 text-xs">Email</Label>
+                                        <Input name="email" type="email" placeholder="john@example.com" required className="bg-slate-950/50 border-slate-700 text-white h-9" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Phone</Label>
-                                        <Input name="phone" placeholder="+1 (555) 000-0000" required />
+                                    <div className="space-y-1.5">
+                                        <Label className="text-slate-300 text-xs">Phone</Label>
+                                        <Input name="phone" placeholder="+1..." required className="bg-slate-950/50 border-slate-700 text-white h-9" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Address</Label>
-                                        <Input name="address" placeholder="123 Main St, Apt 4B" required />
+                                    <div className="space-y-1.5">
+                                        <Label className="text-slate-300 text-xs">Address</Label>
+                                        <Input name="address" placeholder="123 Main St" required className="bg-slate-950/50 border-slate-700 text-white h-9" />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label>Postal Code</Label>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-slate-300 text-xs">Postal Code</Label>
                                         <Input
                                             name="postal_code"
                                             defaultValue={postalCode}
-                                            placeholder="B3K ..."
                                             readOnly={selectedService?.category === 'Hardware'}
-                                            className={selectedService?.category === 'Hardware' ? "bg-slate-100 cursor-not-allowed" : ""}
+                                            className="bg-slate-950/50 border-slate-700 text-white h-9"
                                             required
                                         />
                                     </div>
                                 </div>
 
-                                <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-                                    <Label className="text-base font-semibold">Preferred Schedule</Label>
-                                    <div className="grid md:grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <Label className="flex items-center gap-2"><Calendar className="h-4 w-4" /> Date</Label>
-                                            <Input name="booking_date" type="date" required min={new Date().toISOString().split('T')[0]} />
+                                <div className="space-y-3 pt-3 border-t border-white/10">
+                                    <Label className="text-sm font-semibold text-white">Preferred Schedule</Label>
+                                    <div className="grid md:grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <Label className="text-slate-300 text-xs">Date</Label>
+                                            <Input name="booking_date" type="date" required min={new Date().toISOString().split('T')[0]} className="bg-slate-950/50 border-slate-700 text-white h-9 scheme-dark" />
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label className="flex items-center gap-2"><Clock className="h-4 w-4" /> Time Slot</Label>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-slate-300 text-xs">Time Slot</Label>
                                             <Select name="slot" required>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select slot" />
+                                                <SelectTrigger className="bg-slate-950/50 border-slate-700 text-white h-9">
+                                                    <SelectValue placeholder="Select" />
                                                 </SelectTrigger>
-                                                <SelectContent>
+                                                <SelectContent className="bg-slate-900 border-slate-700 text-white">
                                                     <SelectItem value="Morning">Morning (9AM - 12PM)</SelectItem>
                                                     <SelectItem value="Afternoon">Afternoon (1PM - 5PM)</SelectItem>
                                                 </SelectContent>
@@ -245,9 +246,9 @@ export function ServiceBookingWizard() {
                                     </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <Label>Additional Notes (Optional)</Label>
-                                    <Textarea name="notes" placeholder="Describe the issue or device details..." />
+                                <div className="space-y-1.5">
+                                    <Label className="text-slate-300 text-xs">Notes (Optional)</Label>
+                                    <Textarea name="notes" placeholder="Details..." className="bg-slate-950/50 border-slate-700 text-white min-h-[60px]" />
                                 </div>
                             </div>
                         )}
@@ -255,31 +256,31 @@ export function ServiceBookingWizard() {
                         {/* STEP 3: CONFIRM */}
                         {step === 3 && (
                             <div className="space-y-6">
-                                <div className="text-center mb-8">
-                                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Review & Confirm</h2>
-                                    <p className="text-slate-500">Please review your booking details before submitting</p>
+                                <div className="text-center mb-4">
+                                    <h2 className="text-xl font-bold text-white">Confirm Booking</h2>
+                                    <p className="text-sm text-slate-400">Review your details</p>
                                 </div>
 
-                                <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-xl space-y-4">
-                                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-                                        <span className="text-slate-500">Service</span>
-                                        <span className="font-bold text-slate-900 dark:text-white">{selectedService?.name}</span>
+                                <div className="bg-white/5 p-6 rounded-xl space-y-3 text-sm border border-white/10">
+                                    <div className="flex justify-between border-b border-white/10 pb-2">
+                                        <span className="text-slate-400">Service</span>
+                                        <span className="font-bold text-white">{selectedService?.name}</span>
                                     </div>
-                                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-                                        <span className="text-slate-500">Price Estimate</span>
-                                        <span className="font-bold text-slate-900 dark:text-white">{selectedService?.price_range}</span>
+                                    <div className="flex justify-between border-b border-white/10 pb-2">
+                                        <span className="text-slate-400">Price Estimate</span>
+                                        <span className="font-bold text-white">{selectedService?.price_range}</span>
                                     </div>
-                                    <div className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
-                                        <span className="text-slate-500">Location</span>
-                                        <span className="font-medium text-slate-900 dark:text-white">{postalCode}</span>
+                                    <div className="flex justify-between border-b border-white/10 pb-2">
+                                        <span className="text-slate-400">Location</span>
+                                        <span className="font-medium text-white">{postalCode}</span>
                                     </div>
-                                    <div className="text-sm text-slate-500 italic pt-2">
-                                        * You will receive a confirmation email with preparation instructions shortly.
+                                    <div className="text-xs text-slate-500 italic pt-1">
+                                        * You will receive a confirmation email shortly.
                                     </div>
                                 </div>
 
                                 {formState.success === false && formState.message && (
-                                    <div className="bg-red-50 text-red-600 p-4 rounded-lg text-sm">
+                                    <div className="bg-red-500/20 text-red-300 p-3 rounded-lg text-xs border border-red-500/30">
                                         {formState.message}
                                     </div>
                                 )}
@@ -288,36 +289,36 @@ export function ServiceBookingWizard() {
 
 
                         {/* NAVIGATION BUTTONS */}
-                        <div className="flex justify-between pt-8 mt-6 border-t border-slate-100 dark:border-slate-800">
+                        <div className="flex justify-between pt-6 mt-4 border-t border-white/10">
                             {step > 1 ? (
-                                <Button type="button" variant="outline" onClick={prevStep} className="gap-2">
+                                <Button type="button" variant="ghost" onClick={prevStep} className="gap-2 text-slate-400 hover:text-white hover:bg-white/10">
                                     <ArrowLeft className="h-4 w-4" /> Back
                                 </Button>
                             ) : (
-                                <div></div> // Spacer
+                                <div></div>
                             )}
 
                             {step < 3 ? (
                                 <Button
                                     type="button"
                                     onClick={nextStep}
-                                    className="gap-2 bg-indigo-600 hover:bg-indigo-700"
+                                    className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white"
                                     disabled={
                                         !selectedService ||
                                         (selectedService.category === 'Hardware' && !availability?.available)
                                     }
                                 >
-                                    Next Step <ArrowRight className="h-4 w-4" />
+                                    Next <ArrowRight className="h-4 w-4" />
                                 </Button>
                             ) : (
-                                <Button type="submit" className="gap-2 bg-indigo-600 hover:bg-indigo-700 min-w-[140px]">
-                                    Confirm Booking
+                                <Button type="submit" className="gap-2 bg-indigo-600 hover:bg-indigo-700 text-white min-w-[140px]">
+                                    Confirm
                                 </Button>
                             )}
                         </div>
                     </>
                 )}
             </form>
-        </Card>
+        </div>
     )
 }
