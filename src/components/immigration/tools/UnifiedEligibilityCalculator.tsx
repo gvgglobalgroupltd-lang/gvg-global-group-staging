@@ -12,13 +12,14 @@ import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { CheckCircle2, AlertCircle, ArrowRight, Globe, Users, BookOpen, MapPin, Briefcase, FileText, ShieldAlert, Timer } from 'lucide-react'
+import { CheckCircle2, AlertCircle, ArrowRight, Globe, Users, BookOpen, MapPin, Briefcase, FileText, ShieldAlert, Timer, Gavel } from 'lucide-react'
 import { CandidateProfile, ProgramResult } from '@/lib/immigration/programs/types'
 import { calculateAllStreams } from '@/lib/immigration/eligibilityEngineV2'
 import { DocumentChecklists } from '@/lib/immigration/data/documentChecklists'
 import { calculateCRS } from '@/lib/immigration/CRSEngine'
 import { validateWorkExperience, ExperienceValidationResult } from '@/lib/immigration/compliance/workExperienceValidator'
 import { analyzeStatusStrategy, StatusStrategyResult } from '@/lib/immigration/compliance/statusStrategy'
+import { analyzeLegalDefense, DefenseResult } from '@/lib/immigration/legal/legalDefenseEngine'
 import { format } from 'date-fns'
 
 const PROVINCES = [
@@ -69,7 +70,16 @@ export function UnifiedEligibilityCalculator() {
     const [expiryDate, setExpiryDate] = useState<string>(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0]) // Default 1 yr future
     const [statusApplied, setStatusApplied] = useState(false)
 
-    // 5. Connections
+    // 5. Admissibility & Risk (NEW)
+    const [hasCriminal, setHasCriminal] = useState(false)
+    const [isSeriousCrime, setIsSeriousCrime] = useState(false)
+    const [sentenceDate, setSentenceDate] = useState<string>('')
+    const [hasMedical, setHasMedical] = useState(false)
+    const [medicalCost, setMedicalCost] = useState('0')
+    const [hasRefusal, setHasRefusal] = useState(false)
+    const [refusalReason, setRefusalReason] = useState<'Misrepresentation' | 'ReferenceLetter' | 'Funds' | 'Other'>('Other')
+
+    // 6. Connections
     const [relatives, setRelatives] = useState<string[]>([])
     const [friends, setFriends] = useState<string[]>([])
     const [pastStudy, setPastStudy] = useState<string[]>([])
@@ -97,10 +107,19 @@ export function UnifiedEligibilityCalculator() {
         })
     }, [expiryDate, statusApplied])
 
-    const results = useMemo(() => {
-        // Use compliance-adjusted years if less than claimed? 
-        // For now using user inputs but displaying warnings.
+    const legalDefense = useMemo(() => analyzeLegalDefense({
+        hasCriminalRecord: hasCriminal,
+        offenseMaxSentenceInCanada: isSeriousCrime ? 10 : 5,
+        sentenceCompletedDate: sentenceDate ? new Date(sentenceDate) : undefined,
+        hasMedicalCondition: hasMedical,
+        annualTreatmentCost: parseFloat(medicalCost),
+        hasRefusalHistory: hasRefusal,
+        refusalReason: hasRefusal ? refusalReason : undefined,
+        isFlagpolingConsidered: false
+    }), [hasCriminal, isSeriousCrime, sentenceDate, hasMedical, medicalCost, hasRefusal, refusalReason])
 
+
+    const results = useMemo(() => {
         const crsProfile = {
             maritalStatus: marital,
             age: parseInt(age),
@@ -152,19 +171,19 @@ export function UnifiedEligibilityCalculator() {
             <div className="lg:col-span-7">
                 <Card className="p-6 bg-white dark:bg-slate-900 shadow-sm border-slate-200 dark:border-slate-800">
                     <div className="mb-6">
-                        <div className="text-xs font-bold text-indigo-600 uppercase mb-1">Step {step} of 5</div>
+                        <div className="text-xs font-bold text-indigo-600 uppercase mb-1">Step {step} of 6</div>
                         <h2 className="text-2xl font-bold">
                             {step === 1 && 'Education & Personal'}
                             {step === 2 && 'Language Profile'}
                             {step === 3 && 'Work Experience Compliance'}
                             {step === 4 && 'Legal Status & Expiry'}
-                            {step === 5 && 'Connections & Intent'}
+                            {step === 5 && 'Admissibility & Risk'}
+                            {step === 6 && 'Connections & Intent'}
                         </h2>
                     </div>
 
                     {step === 1 && (
                         <div className="space-y-5">
-                            {/* Same as before */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div><Label>Age</Label><Input type="number" value={age} onChange={e => setAge(e.target.value)} /></div>
                                 <div>
@@ -214,7 +233,6 @@ export function UnifiedEligibilityCalculator() {
 
                     {step === 2 && (
                         <div className="space-y-5">
-                            {/* Same as before */}
                             <Label>English (CLB)</Label>
                             <div className="grid grid-cols-4 gap-2">
                                 {['Speaking', 'Reading', 'Writing', 'Listening'].map((l, i) => (
@@ -247,7 +265,6 @@ export function UnifiedEligibilityCalculator() {
 
                     {step === 3 && (
                         <div className="space-y-6">
-                            {/* Deep Dive Work */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div><Label>Canadian Work (Yrs)</Label><Input type="number" value={workCan} onChange={e => setWorkCan(e.target.value)} /></div>
                                 <div><Label>Foreign Work (Yrs)</Label><Input type="number" value={workFor} onChange={e => setWorkFor(e.target.value)} /></div>
@@ -279,7 +296,6 @@ export function UnifiedEligibilityCalculator() {
                                 )}
                             </div>
 
-                            {/* Job Offer */}
                             <div className="space-y-3 p-4 border rounded">
                                 <Label className="font-semibold flex items-center gap-2"><Briefcase className="w-4 h-4" /> Current Job Offer</Label>
                                 <div className="grid grid-cols-2 gap-4">
@@ -324,7 +340,6 @@ export function UnifiedEligibilityCalculator() {
 
                     {step === 4 && (
                         <div className="space-y-6">
-                            {/* Status Check */}
                             <div className="space-y-4">
                                 <Label>Work/Study Permit Expiry Date</Label>
                                 <Input type="date" value={expiryDate} onChange={e => setExpiryDate(e.target.value)} />
@@ -337,7 +352,6 @@ export function UnifiedEligibilityCalculator() {
                                     </div>
                                 </div>
 
-                                {/* Status Result */}
                                 <Alert className={`${statusStrategy.urgentActionRequired ? 'border-red-500 bg-red-50' : 'border-emerald-500 bg-emerald-50'}`}>
                                     <Timer className="h-4 w-4" />
                                     <AlertTitle>
@@ -367,6 +381,63 @@ export function UnifiedEligibilityCalculator() {
 
                     {step === 5 && (
                         <div className="space-y-6">
+                            <div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded border border-amber-200">
+                                <Label className="flex items-center gap-2 font-bold mb-4 text-amber-800"><Gavel className="w-5 h-5" /> Lawyer's Assessment (Confidential)</Label>
+
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <Label>Criminal History?</Label>
+                                        <Checkbox checked={hasCriminal} onCheckedChange={(c: any) => setHasCriminal(c)} />
+                                    </div>
+                                    {hasCriminal && (
+                                        <div className="pl-4 border-l-2 border-amber-300 space-y-3">
+                                            <div className="flex items-center gap-4">
+                                                <Label>Sentence Completed Date</Label>
+                                                <Input type="date" value={sentenceDate} onChange={e => setSentenceDate(e.target.value)} className="w-48" />
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <Checkbox checked={isSeriousCrime} onCheckedChange={(c: any) => setIsSeriousCrime(c)} />
+                                                <Label>Serious Offense? (Max sentence > 10 yrs e.g. Fraud > $5k)</Label>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <Separator className="bg-amber-200" />
+                                    <div className="flex items-center justify-between">
+                                        <Label>Medical Condition? (Chronic/Costly)</Label>
+                                        <Checkbox checked={hasMedical} onCheckedChange={(c: any) => setHasMedical(c)} />
+                                    </div>
+                                    {hasMedical && (
+                                        <div className="pl-4 border-l-2 border-amber-300">
+                                            <Label>Est. Annual Cost ($)</Label>
+                                            <Input type="number" value={medicalCost} onChange={e => setMedicalCost(e.target.value)} placeholder="27000" className="w-48" />
+                                        </div>
+                                    )}
+                                    <Separator className="bg-amber-200" />
+                                    <div className="flex items-center justify-between">
+                                        <Label>Prior Refusals?</Label>
+                                        <Checkbox checked={hasRefusal} onCheckedChange={(c: any) => setHasRefusal(c)} />
+                                    </div>
+                                    {hasRefusal && (
+                                        <div className="pl-4 border-l-2 border-amber-300">
+                                            <Label>Primary Reason</Label>
+                                            <Select value={refusalReason} onValueChange={(v: any) => setRefusalReason(v)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Misrepresentation">Misrepresentation</SelectItem>
+                                                    <SelectItem value="ReferenceLetter">Reference Letters / Duties</SelectItem>
+                                                    <SelectItem value="Funds">Proof of Funds</SelectItem>
+                                                    <SelectItem value="Other">Other</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 6 && (
+                        <div className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-6">
                                 <CheckBoxGroup label="Relatives in Canada?" options={PROVINCES} selected={relatives} onChange={setRelatives} />
                                 <CheckBoxGroup label="Friends in Canada?" options={PROVINCES} selected={friends} onChange={setFriends} />
@@ -378,7 +449,7 @@ export function UnifiedEligibilityCalculator() {
 
                     <div className="flex justify-between mt-8">
                         <Button disabled={step === 1} variant="ghost" onClick={() => setStep(s => s - 1)}>Back</Button>
-                        {step < 5 && <Button onClick={() => setStep(s => s + 1)}>Next</Button>}
+                        {step < 6 && <Button onClick={() => setStep(s => s + 1)}>Next</Button>}
                     </div>
                 </Card>
             </div>
@@ -389,6 +460,33 @@ export function UnifiedEligibilityCalculator() {
                     <h3 className="text-xl font-bold">Analysis Results</h3>
                     <Badge variant="outline">{results.filter(r => r.eligible).length} pathways</Badge>
                 </div>
+
+                {/* DEFENSE MEMO RESULTS */}
+                {step >= 5 && legalDefense.inadmissibility.isInadmissible && (
+                    <Alert variant="destructive" className="bg-red-50 border-red-200 dark:bg-red-900/20 mb-4">
+                        <ShieldAlert className="w-4 h-4" />
+                        <AlertTitle className="font-bold">Risk Of Inadmissibility: {legalDefense.inadmissibility.ground}</AlertTitle>
+                        <AlertDescription className="text-xs mt-2">
+                            <p className="font-semibold mb-1">Defense Strategy:</p>
+                            <ul className="list-disc pl-4 space-y-2">
+                                {legalDefense.defenseStrategy.map((d, i) => (
+                                    <li key={i}>
+                                        <strong>{d.title}</strong>
+                                        <p className="text-slate-600 dark:text-slate-400">{d.arguments[0]}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="mt-2 pt-2 border-t border-red-200">
+                                <Label className="text-xs font-bold">Recommended Legal Documents:</Label>
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                    {legalDefense.defenseStrategy.flatMap(d => d.recommendedDocuments).map(doc => (
+                                        <Badge key={doc} variant="outline" className="bg-white">{doc}</Badge>
+                                    ))}
+                                </div>
+                            </div>
+                        </AlertDescription>
+                    </Alert>
+                )}
 
                 <ScrollArea className="h-[600px] pr-4">
                     <div className="space-y-3">
@@ -405,7 +503,6 @@ export function UnifiedEligibilityCalculator() {
 function CheckBoxGroup({ label, options, selected, onChange }: any) {
     return (
         <div className="space-y-2">
-            {/* Same as previous */}
             <Label className="font-semibold">{label}</Label>
             <ScrollArea className="h-32 border rounded p-2">
                 {options.map((opt: string) => (
@@ -432,7 +529,6 @@ function ResultCard({ result }: { result: ProgramResult }) {
 
     return (
         <Card className={`p-4 border-l-4 ${isHigh ? 'border-l-emerald-500 bg-emerald-50/50 dark:bg-emerald-900/10' : isMed ? 'border-l-amber-500' : 'border-l-slate-300 opacity-80'}`}>
-            {/* Same as previous */}
             <div className="flex justify-between items-start mb-2">
                 <div>
                     <h4 className="font-bold text-sm text-slate-900 dark:text-slate-100">{result.stream}</h4>
