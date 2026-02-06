@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { MapPin, Briefcase, Search, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronUp } from 'lucide-react'
+import { MapPin, Briefcase, Search, CheckCircle2, AlertCircle, Info, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 
 // Comprehensive PNP Data with ALL provinces and detailed eligibility logic
@@ -13,6 +13,7 @@ const ALL_PROVINCES = [
     {
         province: 'Ontario (OINP)',
         color: 'emerald',
+        officialUrl: 'https://www.ontario.ca/page/ontario-immigrant-nominee-program-oinp',
         streams: [
             {
                 name: 'Human Capital Priorities',
@@ -52,6 +53,7 @@ const ALL_PROVINCES = [
     {
         province: 'British Columbia (BC PNP)',
         color: 'blue',
+        officialUrl: 'https://www.welcomebc.ca/Immigrate-to-B-C/BC-PNP-Skills-Immigration',
         streams: [
             {
                 name: 'BC Tech',
@@ -91,6 +93,7 @@ const ALL_PROVINCES = [
     {
         province: 'Alberta (AAIP)',
         color: 'orange',
+        officialUrl: 'https://www.alberta.ca/aaip',
         streams: [
             {
                 name: 'Alberta Opportunity Stream',
@@ -119,6 +122,7 @@ const ALL_PROVINCES = [
     {
         province: 'Saskatchewan (SINP)',
         color: 'yellow',
+        officialUrl: 'https://www.saskatchewan.ca/residents/moving-to-saskatchewan/immigrating-to-saskatchewan/saskatchewan-immigrant-nominee-program',
         streams: [
             {
                 name: 'Occupations In-Demand',
@@ -147,6 +151,7 @@ const ALL_PROVINCES = [
     {
         province: 'Manitoba (MPNP)',
         color: 'red',
+        officialUrl: 'https://www.immigratemanitoba.com/',
         streams: [
             {
                 name: 'Skilled Worker in Manitoba',
@@ -168,13 +173,14 @@ const ALL_PROVINCES = [
                     education: 'Manitoba Diploma/Degree (1 year+)',
                     special: 'Job offer aligned with studies'
                 },
-                why: 'Manitoba offers guaranteed nominations for graduates of  Manitoba institutions with relevant job offers.'
+                why: 'Manitoba offers guaranteed nominations for graduates of Manitoba institutions with relevant job offers.'
             }
         ]
     },
     {
         province: 'Nova Scotia (NSNP)',
         color: 'purple',
+        officialUrl: 'https://novascotiaimmigration.com/move-here/',
         streams: [
             {
                 name: 'NS Experience: Express Entry',
@@ -214,6 +220,7 @@ const ALL_PROVINCES = [
     {
         province: 'New Brunswick (NBPNP)',
         color: 'teal',
+        officialUrl: 'https://www.welcomenb.ca/content/wel-bien/en/immigrating/content/HowToImmigrate.html',
         streams: [
             {
                 name: 'Express Entry Labour Market Stream',
@@ -231,6 +238,7 @@ const ALL_PROVINCES = [
     {
         province: 'Newfoundland & Labrador (NLPNP)',
         color: 'indigo',
+        officialUrl: 'https://www.gov.nl.ca/immigration/immigrating-to-newfoundland-and-labrador/provincial-nominee-program/',
         streams: [
             {
                 name: 'Priority Skills NL',
@@ -241,13 +249,14 @@ const ALL_PROVINCES = [
                     education: 'Bachelor or Trade Cert',
                     special: 'Express Entry + Priority occupation'
                 },
-                why: 'NL targets specific  industries critical to provincial growth with streamlined Express Entry nominations.'
+                why: 'NL targets specific industries critical to provincial growth with streamlined Express Entry nominations.'
             }
         ]
     },
     {
         province: 'Prince Edward Island (PEI PNP)',
         color: 'pink',
+        officialUrl: 'https://www.princeedwardisland.ca/en/topic/immigrate',
         streams: [
             {
                 name: 'PEI Express Entry',
@@ -265,6 +274,7 @@ const ALL_PROVINCES = [
     {
         province: 'Yukon (YNP)',
         color: 'cyan',
+        officialUrl: 'https://yukon.ca/en/doing-business/yukon-nominee-program',
         streams: [
             {
                 name: 'Yukon Skilled Worker',
@@ -395,6 +405,17 @@ export function PNPFinder() {
                                         </div>
                                         <p className="text-xs text-slate-500">{prov.streams.length} stream(s) available</p>
                                         <p className="text-xs text-slate-600 mt-1">Focus: {prov.streams[0]?.focus.slice(0, 2).join(', ')}</p>
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            variant="ghost"
+                                            className="w-full mt-3 text-xs h-7 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                        >
+                                            <a href={prov.officialUrl} target="_blank" rel="noopener noreferrer">
+                                                <ExternalLink className="w-3 h-3 mr-1" />
+                                                View Portal
+                                            </a>
+                                        </Button>
                                     </Card>
                                 ))}
                             </div>
@@ -427,9 +448,22 @@ function ProvinceCard({ province, expanded, onToggle, occupation }: any) {
                         <p className="text-xs text-slate-500">{province.streams.length} relevant stream(s)</p>
                     </div>
                 </div>
-                <Badge className={`bg-${province.color}-100 text-${province.color}-700`}>
-                    {province.matchCount} Match{province.matchCount > 1 ? 'es' : ''}
-                </Badge>
+                <div className="flex flex-col items-end gap-2">
+                    <Badge className={`bg-${province.color}-100 text-${province.color}-700`}>
+                        {province.matchCount} Match{province.matchCount > 1 ? 'es' : ''}
+                    </Badge>
+                    <Button
+                        asChild
+                        size="sm"
+                        variant="outline"
+                        className="text-xs h-7 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300"
+                    >
+                        <a href={province.officialUrl} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            Official Portal
+                        </a>
+                    </Button>
+                </div>
             </div>
 
             <div className="space-y-3 mb-4">
