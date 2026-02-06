@@ -46,7 +46,7 @@ const materials = [
     {
         name: "Electronic Waste",
         description: "High-grade PCBs, Processors, Memory",
-        image: "/images/materials/copper.png", // Fallback until E-waste is generated
+        image: "/images/materials/ewaste.png",
         type: "Electronics",
         link: "/services"
     }
