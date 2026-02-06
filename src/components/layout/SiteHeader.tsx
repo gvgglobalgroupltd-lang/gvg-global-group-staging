@@ -196,18 +196,6 @@ export function SiteHeader() {
 
                     {/* CTA Buttons - Desktop */}
                     <div className="hidden lg:flex items-center gap-3">
-                        <Button asChild variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50">
-                            <a href="tel:+917383848493">
-                                <Phone className="h-4 w-4 mr-2" />
-                                India: +91 738 384 8493
-                            </a>
-                        </Button>
-                        <Button asChild variant="outline" size="sm" className="border-emerald-600 text-emerald-600 hover:bg-emerald-50">
-                            <a href="tel:+19059622919">
-                                <Phone className="h-4 w-4 mr-2" />
-                                Canada: +1 905 962 2919
-                            </a>
-                        </Button>
                         <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
                             <Link href={config.ctaHref}>{config.ctaText}</Link>
                         </Button>
@@ -264,18 +252,6 @@ export function SiteHeader() {
                             })}
 
                             <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
-                                <Button asChild variant="outline" className="w-full border-emerald-600 text-emerald-600">
-                                    <a href="tel:+917383848493">
-                                        <Phone className="h-4 w-4 mr-2" />
-                                        India: +91 738 384 8493
-                                    </a>
-                                </Button>
-                                <Button asChild variant="outline" className="w-full border-emerald-600 text-emerald-600">
-                                    <a href="tel:+19059622919">
-                                        <Phone className="h-4 w-4 mr-2" />
-                                        Canada: +1 905 962 2919
-                                    </a>
-                                </Button>
                                 <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
                                     <Link href={config.ctaHref}>{config.ctaText}</Link>
                                 </Button>
