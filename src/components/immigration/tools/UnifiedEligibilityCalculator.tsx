@@ -311,7 +311,7 @@ export function UnifiedEligibilityCalculator() {
                         <div className="space-y-2"><Label>Field of Study</Label><Select value={fieldOfStudy} onValueChange={(v: any) => setFieldOfStudy(v)}><SelectTrigger className="h-10"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="STEM_Health_Trades">STEM, Health, or Trades</SelectItem><SelectItem value="Business_Admin">Business or Administration</SelectItem><SelectItem value="Arts_Humanities">Arts, Humanities, Social Science</SelectItem><SelectItem value="Other">Other</SelectItem></SelectContent></Select></div>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-2"><Label>Canadian Education?</Label><Select value={canEduProv} onValueChange={setCanEduProv}><SelectTrigger className="h-10"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="None">None</SelectItem>{PROVINCES.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent></Select></div>
-                            <div className="flex items-center pt-8 space-x-2"><Checkbox checked={canEduCompleted} onCheckedChange={(c: any) => setCanEduCompleted(c)} id="ce" /><Label htmlFor="ce" className="cursor-pointer">Completed?</Label></div>
+                            <div className="flex items-center pt-8 space-x-2"><Checkbox checked={canEduCompleted} onCheckedChange={(c) => setCanEduCompleted(c === true)} id="ce" /><Label htmlFor="ce" className="cursor-pointer">Completed?</Label></div>
                         </div>
                     </div>
                 )
@@ -327,7 +327,7 @@ export function UnifiedEligibilityCalculator() {
                                 ))}
                             </div>
                         </div>
-                        <div className="flex items-center space-x-2"><Checkbox checked={hasFrench} onCheckedChange={(c: any) => setHasFrench(c)} id="fr" /><Label htmlFor="fr" className="cursor-pointer font-semibold">Do you speak French?</Label></div>
+                        <div className="flex items-center space-x-2"><Checkbox checked={hasFrench} onCheckedChange={(c) => setHasFrench(c === true)} id="fr" /><Label htmlFor="fr" className="cursor-pointer font-semibold">Do you speak French?</Label></div>
                         {hasFrench && (
                             <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg border border-indigo-100 dark:border-indigo-800 animate-in fade-in slide-in-from-top-2">
                                 <Label className="mb-3 block text-indigo-900 dark:text-indigo-300 font-bold">French (NCLC Level)</Label>
@@ -359,9 +359,9 @@ export function UnifiedEligibilityCalculator() {
                                 <div><Label className="text-xs text-slate-500">Weeks Worked</Label><Input value={weeksWorked} onChange={e => setWeeksWorked(e.target.value)} className="bg-white" /></div>
                             </div>
                             <div className="flex flex-wrap gap-4">
-                                <div className="flex items-center space-x-2"><Checkbox checked={isSeasonal} onCheckedChange={(c: any) => setIsSeasonal(c)} /><Label className="text-sm">Seasonal?</Label></div>
-                                <div className="flex items-center space-x-2"><Checkbox checked={isStudentWork} onCheckedChange={(c: any) => setIsStudentWork(c)} /><Label className="text-sm">Student Status?</Label></div>
-                                <div className="flex items-center space-x-2"><Checkbox checked={isCoop} onCheckedChange={(c: any) => setIsCoop(c)} /><Label className="text-sm">Co-op?</Label></div>
+                                <div className="flex items-center space-x-2"><Checkbox checked={isSeasonal} onCheckedChange={(c) => setIsSeasonal(c === true)} /><Label className="text-sm">Seasonal?</Label></div>
+                                <div className="flex items-center space-x-2"><Checkbox checked={isStudentWork} onCheckedChange={(c) => setIsStudentWork(c === true)} /><Label className="text-sm">Student Status?</Label></div>
+                                <div className="flex items-center space-x-2"><Checkbox checked={isCoop} onCheckedChange={(c) => setIsCoop(c === true)} /><Label className="text-sm">Co-op?</Label></div>
                             </div>
                             {compliance.warnings.length > 0 && (
                                 <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900 rounded text-xs text-red-700 dark:text-red-300">
@@ -392,7 +392,7 @@ export function UnifiedEligibilityCalculator() {
                             </div>
 
                             <div className="flex items-start space-x-3 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded border border-indigo-100 dark:border-indigo-800">
-                                <Checkbox checked={statusApplied} onCheckedChange={(c: any) => setStatusApplied(c)} className="mt-1" id="ext" />
+                                <Checkbox checked={statusApplied} onCheckedChange={(c) => setStatusApplied(c === true)} className="mt-1" id="ext" />
                                 <div>
                                     <Label htmlFor="ext" className="font-semibold cursor-pointer">Extension Applied?</Label>
                                     <p className="text-xs text-slate-500">I submitted an application for extension BEFORE my current status expired.</p>
@@ -446,14 +446,14 @@ export function UnifiedEligibilityCalculator() {
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between p-3 hover:bg-amber-100/50 rounded transition-colors">
                                         <Label className="text-amber-900 dark:text-amber-200 font-medium">Criminal Record?</Label>
-                                        <Checkbox checked={hasCriminal} onCheckedChange={(c: any) => setHasCriminal(c)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
+                                        <Checkbox checked={hasCriminal} onCheckedChange={(c) => setHasCriminal(c === true)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
                                     </div>
                                     <AnimatePresence>
                                         {hasCriminal && (
                                             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="pl-4 border-l-2 border-amber-300 space-y-3 overflow-hidden">
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div className="space-y-1"><Label className="text-xs text-amber-800">Sentence Completed</Label><Input type="date" value={sentenceDate} onChange={e => setSentenceDate(e.target.value)} className="bg-white/80 border-amber-200" /></div>
-                                                    <div className="flex items-center pt-6 gap-2"><Checkbox checked={isSeriousCrime} onCheckedChange={(c: any) => setIsSeriousCrime(c)} className="border-amber-400" /><Label className="text-xs text-amber-800">Serious (>10yr Max)</Label></div>
+                                                    <div className="flex items-center pt-6 gap-2"><Checkbox checked={isSeriousCrime} onCheckedChange={(c) => setIsSeriousCrime(c === true)} className="border-amber-400" /><Label className="text-xs text-amber-800">Serious (&gt;10yr Max)</Label></div>
                                                 </div>
                                             </motion.div>
                                         )}
@@ -463,7 +463,7 @@ export function UnifiedEligibilityCalculator() {
 
                                     <div className="flex items-center justify-between p-3 hover:bg-amber-100/50 rounded transition-colors">
                                         <Label className="text-amber-900 dark:text-amber-200 font-medium">Medical Condition?</Label>
-                                        <Checkbox checked={hasMedical} onCheckedChange={(c: any) => setHasMedical(c)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
+                                        <Checkbox checked={hasMedical} onCheckedChange={(c) => setHasMedical(c === true)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
                                     </div>
                                     {hasMedical && (
                                         <div className="pl-4 border-l-2 border-amber-300">
@@ -476,7 +476,7 @@ export function UnifiedEligibilityCalculator() {
 
                                     <div className="flex items-center justify-between p-3 hover:bg-amber-100/50 rounded transition-colors">
                                         <Label className="text-amber-900 dark:text-amber-200 font-medium">Prior Refusals?</Label>
-                                        <Checkbox checked={hasRefusal} onCheckedChange={(c: any) => setHasRefusal(c)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
+                                        <Checkbox checked={hasRefusal} onCheckedChange={(c) => setHasRefusal(c === true)} className="border-amber-400 data-[state=checked]:bg-amber-600" />
                                     </div>
                                     {hasRefusal && (
                                         <div className="pl-4 border-l-2 border-amber-300">
