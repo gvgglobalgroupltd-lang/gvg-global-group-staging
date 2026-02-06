@@ -120,23 +120,23 @@ export default function ContactPage() {
 
                         {/* Quick Contact Info */}
                         <div className="space-y-6">
-                            <Card className="p-8 bg-blue-600 text-white border-none shadow-lg">
+                            <Card className="p-8 bg-primary text-primary-foreground border-none shadow-lg">
                                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
                                     <Phone className="h-5 w-5" /> 24/7 Support
                                 </h3>
-                                <p className="mb-6 text-blue-100 opacity-90">Our trading desk is always open for urgent inquiries.</p>
+                                <p className="mb-6 text-primary-foreground/90 opacity-90">Our trading desk is always open for urgent inquiries.</p>
                                 <a href="tel:+1-555-0123" className="block text-3xl font-bold hover:opacity-90 transition-opacity mb-6">
                                     +1 (555) 012-3456
                                 </a>
-                                <div className="pt-6 border-t border-blue-500/30">
-                                    <p className="text-sm font-medium mb-2 text-blue-200">Email Us:</p>
-                                    <a href="mailto:support@gvgglobal.com" className="hover:text-white text-blue-50 font-medium text-lg transition-colors">support@gvgglobal.com</a>
+                                <div className="pt-6 border-t border-primary-foreground/30">
+                                    <p className="text-sm font-medium mb-2 text-primary-foreground/80">Email Us:</p>
+                                    <a href="mailto:support@gvgglobal.com" className="hover:text-white text-primary-foreground font-medium text-lg transition-colors">support@gvgglobal.com</a>
                                 </div>
                             </Card>
 
                             <Card className="p-8 border-none shadow-md bg-slate-50 dark:bg-slate-900">
                                 <h3 className="font-bold text-lg mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
-                                    <Building2 className="h-5 w-5 text-blue-600" /> Head Office
+                                    <Building2 className="h-5 w-5 text-primary" /> Head Office
                                 </h3>
                                 <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
                                     1234 Trade Tower, Financial District<br />
@@ -175,14 +175,14 @@ export default function ContactPage() {
 
                                     <div className="flex items-center gap-3">
                                         <Phone className="h-4 w-4 text-slate-400 flex-shrink-0" />
-                                        <a href={`tel:${region.phone}`} className="text-blue-600 hover:text-blue-700 font-medium">
+                                        <a href={`tel:${region.phone}`} className="text-primary hover:text-primary/80 font-medium">
                                             {region.phone}
                                         </a>
                                     </div>
 
                                     <div className="flex items-center gap-3">
                                         <Mail className="h-4 w-4 text-slate-400 flex-shrink-0" />
-                                        <a href={`mailto:${region.email}`} className="text-blue-600 hover:text-blue-700 font-medium">
+                                        <a href={`mailto:${region.email}`} className="text-primary hover:text-primary/80 font-medium">
                                             {region.email}
                                         </a>
                                     </div>
@@ -207,18 +207,18 @@ export default function ContactPage() {
                             {departments.map((dept, index) => (
                                 <Card key={index} className="p-6 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors border-slate-200 dark:border-slate-800">
                                     <div className="flex items-start gap-5">
-                                        <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-                                            <Building2 className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                        <div className="p-4 bg-primary/10 dark:bg-primary/20 rounded-xl">
+                                            <Building2 className="h-6 w-6 text-primary dark:text-primary" />
                                         </div>
                                         <div className="flex-1">
                                             <h3 className="font-bold text-lg mb-1 text-slate-900 dark:text-white">{dept.name}</h3>
                                             <p className="text-sm text-slate-500 mb-3">{dept.description}</p>
                                             <a
                                                 href={`mailto:${dept.email}`}
-                                                className="text-blue-600 hover:text-blue-700 text-sm font-semibold inline-flex items-center gap-1"
+                                                className="text-primary hover:text-primary/80 text-sm font-semibold inline-flex items-center gap-1"
                                             >
                                                 {dept.email}
-                                                <span className="block w-1.5 h-1.5 rounded-full bg-blue-600 ml-1"></span>
+                                                <span className="block w-1.5 h-1.5 rounded-full bg-primary ml-1"></span>
                                             </a>
                                         </div>
                                     </div>
@@ -275,10 +275,10 @@ export default function ContactPage() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-8 p-4 bg-blue-100/50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-900/30">
-                                <p className="text-sm text-blue-800 dark:text-blue-200 flex items-center gap-2">
+                            <div className="mt-8 p-4 bg-primary/10 dark:bg-primary/20 rounded-lg border border-primary/20 dark:border-primary/30">
+                                <p className="text-sm text-primary dark:text-primary-foreground flex items-center gap-2">
                                     <Clock className="h-4 w-4" />
-                                    <strong>Urgent Requirement?</strong> Email <a href="mailto:urgent@gvgglobal.com" className="underline hover:text-blue-600">urgent@gvgglobal.com</a> for priority response.
+                                    <strong>Urgent Requirement?</strong> Email <a href="mailto:urgent@gvgglobal.com" className="underline hover:text-primary/80">urgent@gvgglobal.com</a> for priority response.
                                 </p>
                             </div>
                         </div>
@@ -291,7 +291,7 @@ export default function ContactPage() {
                                     Follow us on social media for live market updates, industry insights, and company news.
                                 </p>
                                 <div className="space-y-3">
-                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-blue-600 hover:border-blue-600 transition-all" asChild>
+                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-primary hover:border-primary transition-all" asChild>
                                         <a href="https://linkedin.com/company/gvgglobal" target="_blank" rel="noopener noreferrer">
                                             LinkedIn
                                         </a>
@@ -301,7 +301,7 @@ export default function ContactPage() {
                                             Twitter
                                         </a>
                                     </Button>
-                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-blue-700 hover:border-blue-700 transition-all" asChild>
+                                    <Button variant="outline" className="w-full justify-start h-12 text-slate-600 hover:text-primary hover:border-primary transition-all" asChild>
                                         <a href="https://facebook.com/gvgglobal" target="_blank" rel="noopener noreferrer">
                                             Facebook
                                         </a>

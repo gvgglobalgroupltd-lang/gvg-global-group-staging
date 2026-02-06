@@ -58,7 +58,7 @@ export default function AboutPage() {
                         <div className="max-w-4xl mx-auto text-center">
                             <Badge className="mb-4" variant="outline">Est. 2010</Badge>
                             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900 dark:text-white">
-                                About <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">GVG Global Group</span>
+                                About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-600">GVG Global Group</span>
                             </h1>
                             <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
                                 A diversified global enterprise specializing in international metals trading and cutting-edge IT consulting services, bridging industries and continents.
@@ -73,8 +73,8 @@ export default function AboutPage() {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                             {stats.map((stat, index) => (
                                 <div key={index} className="flex flex-col items-center text-center p-4">
-                                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-full mb-3">
-                                        <stat.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                                    <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-full mb-3">
+                                        <stat.icon className="h-6 w-6 text-primary dark:text-primary" />
                                     </div>
                                     <p className="text-3xl font-bold text-slate-900 dark:text-white mb-1">{stat.value}</p>
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{stat.label}</p>
@@ -88,9 +88,9 @@ export default function AboutPage() {
                 <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
                     <div className="container mx-auto px-4">
                         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                            <Card className="p-8 bg-gradient-to-br from-blue-600 to-indigo-600 text-white border-none shadow-lg">
+                            <Card className="p-8 bg-gradient-to-br from-primary to-indigo-600 text-white border-none shadow-lg">
                                 <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-                                <p className="text-blue-50 leading-relaxed font-medium">
+                                <p className="text-primary-foreground/90 leading-relaxed font-medium">
                                     To facilitate seamless global trade and deliver innovative technology solutions that empower businesses worldwide. We are committed to excellence, integrity, and sustainable growth across all our ventures.
                                 </p>
                             </Card>
@@ -134,8 +134,8 @@ export default function AboutPage() {
                                 {divisions.map((division, index) => (
                                     <Card key={index} className="p-8 hover:shadow-xl transition-all duration-300 border-none shadow-md bg-white dark:bg-slate-950">
                                         <div className="flex items-center gap-4 mb-6">
-                                            <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
-                                                <division.icon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                                            <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-xl">
+                                                <division.icon className="h-8 w-8 text-primary dark:text-primary" />
                                             </div>
                                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{division.name}</h3>
                                         </div>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                                             <ul className="space-y-3">
                                                 {division.services.map((service, idx) => (
                                                     <li key={idx} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400">
-                                                        <span className="text-blue-600 dark:text-blue-400 mt-0.5">•</span>
+                                                        <span className="text-primary dark:text-primary mt-0.5">•</span>
                                                         <span>{service}</span>
                                                     </li>
                                                 ))}
@@ -167,7 +167,7 @@ export default function AboutPage() {
                                 {regions.map((region, index) => (
                                     <div key={index} className="text-center group">
                                         <div className="w-16 h-16 mx-auto mb-4 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                                            <Globe className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                                            <Globe className="h-8 w-8 text-primary dark:text-primary" />
                                         </div>
                                         <h3 className="font-bold text-lg mb-2 text-slate-900 dark:text-white">{region.name}</h3>
                                         <div className="space-y-1 mb-3">
@@ -175,12 +175,12 @@ export default function AboutPage() {
                                                 <p key={idx} className="text-sm text-slate-600 dark:text-slate-400 font-medium">{country}</p>
                                             ))}
                                         </div>
-                                        <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wide">{region.description}</p>
+                                        <p className="text-xs text-primary dark:text-primary font-semibold uppercase tracking-wide">{region.description}</p>
                                     </div>
                                 ))}
                             </div>
                             <div className="text-center mt-12">
-                                <Link href="/locations" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold inline-flex items-center">
+                                <Link href="/locations" className="text-primary dark:text-primary hover:text-primary/80 font-bold inline-flex items-center">
                                     View our global locations <TrendingUp className="ml-2 h-4 w-4" />
                                 </Link>
                             </div>
@@ -213,16 +213,16 @@ export default function AboutPage() {
                 </section>
 
                 {/* CTA Section */}
-                <section className="py-20 bg-blue-600 dark:bg-blue-700">
+                <section className="py-20 bg-primary dark:bg-primary/90">
                     <div className="container mx-auto px-4">
                         <div className="max-w-4xl mx-auto text-center text-white">
                             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
-                            <p className="text-xl text-blue-50 mb-10 max-w-2xl mx-auto">
+                            <p className="text-xl text-primary-foreground/90 mb-10 max-w-2xl mx-auto">
                                 Whether you're looking for reliable metals trading solutions or cutting-edge IT consulting services, we're here to help.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Link href="/contact">
-                                    <button className="w-full sm:w-auto bg-white text-blue-600 px-8 py-4 rounded-lg font-bold hover:bg-blue-50 transition-colors shadow-lg">
+                                    <button className="w-full sm:w-auto bg-white text-primary px-8 py-4 rounded-lg font-bold hover:bg-white/90 transition-colors shadow-lg">
                                         Contact Us
                                     </button>
                                 </Link>

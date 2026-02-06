@@ -20,7 +20,7 @@ export default async function ImmigrationPage() {
     const getColor = (code: string) => {
         if (code.includes('OCI')) return 'text-orange-600 bg-orange-100'
         if (code.includes('CAN')) return 'text-red-600 bg-red-100'
-        if (code.includes('US')) return 'text-blue-600 bg-blue-100'
+        if (code.includes('US')) return 'text-primary bg-primary/10'
         return 'text-emerald-600 bg-emerald-100'
     }
 
@@ -38,7 +38,7 @@ export default async function ImmigrationPage() {
 
                 {/* Decorative Elements */}
                 <div className="absolute top-20 right-20 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+                <div className="absolute bottom-20 left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
 
                 <div className="container relative mx-auto px-4">
                     <div className="max-w-3xl mx-auto text-center">

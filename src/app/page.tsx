@@ -67,9 +67,8 @@ export default function Home() {
         {/* Hero Slider Section */}
         <HeroSlider />
 
-        {/* Premium Separator Line */}
-        <div className="h-1 w-full bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent"></div>
-        <div className="h-4 bg-white dark:bg-slate-950"></div>
+        {/* Subtle Separator */}
+        <div className="h-px w-full bg-border"></div>
 
         {/* Services Selector - Clear Separation */}
         <ServicesSelectorSection />
@@ -90,20 +89,20 @@ export default function Home() {
         <TestimonialsSection />
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-slate-100 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-y border-slate-200 dark:border-slate-700">
-          <div className="container mx-auto px-4">
+        <section className="py-20 bg-gradient-to-br from-accent via-background to-accent border-y border-border">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-foreground">
                 Ready to Start Trading?
               </h2>
-              <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Contact us for quotes and business opportunities
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-lg font-semibold">
+                <Button asChild size="lg" className="shadow-lg text-base">
                   <Link href="tel:+19059622919">Call +1-905-962-2919</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-900 font-semibold shadow-md">
+                <Button asChild size="lg" variant="outline" className="text-base shadow-md">
                   <Link href="https://wa.me/19059622919">WhatsApp Us</Link>
                 </Button>
               </div>

@@ -108,25 +108,26 @@ export function SiteHeader() {
     }
 
     const config = navigationConfigs[currentService]
+    const isHomePage = pathname === '/'
 
     return (
-        <header className="sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <header className={`${isHomePage ? 'absolute top-4 left-0 right-0 mx-auto max-w-7xl rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 shadow-lg supports-[backdrop-filter]:bg-white/10 overflow-hidden' : 'sticky top-0 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm'} z-50 transition-all duration-300`}>
             {/* Live Market Ticker */}
             {showTicker && <MarketTicker />}
 
             {/* Main Navigation */}
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-cyan-600 rounded-lg flex items-center justify-center">
-                            <span className="text-white font-bold text-xl">GVG</span>
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-all">
+                            <span className={`font-bold text-xl ${isHomePage ? 'text-white' : 'text-white'}`}>GVG</span>
                         </div>
                         <div>
-                            <div className="font-bold text-lg text-slate-900 dark:text-white leading-tight">
+                            <div className={`font-bold text-lg leading-tight ${isHomePage ? 'text-white' : 'text-foreground'}`}>
                                 GVG Global Group
                             </div>
-                            <div className="text-xs text-slate-500">
+                            <div className={`text-xs ${isHomePage ? 'text-white/80' : 'text-muted-foreground'}`}>
                                 {currentService === 'immigration' ? 'Immigration Services' :
                                     currentService === 'metals' ? 'Metals Trading' :
                                         currentService === 'tech' ? 'IT Consulting' :
@@ -136,7 +137,7 @@ export function SiteHeader() {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-8">
+                    <nav className="hidden lg:flex items-center gap-1">
                         {config.links.map((link: any, idx: number) => {
                             if (link.items) {
                                 // Dropdown
@@ -147,30 +148,30 @@ export function SiteHeader() {
                                         onMouseEnter={() => setDropdownOpen(true)}
                                         onMouseLeave={() => setDropdownOpen(false)}
                                     >
-                                        <button className="flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition-colors">
+                                        <button className={`flex items-center gap-1.5 px-4 py-2 font-medium transition-colors rounded-lg hover:bg-accent/10 ${isHomePage ? 'text-white hover:text-white' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}>
                                             {link.label}
                                             <ChevronDown className={`h-4 w-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                                         </button>
 
                                         {/* Dropdown Menu */}
                                         {dropdownOpen && (
-                                            <div className="absolute top-full left-0 mt-2 w-72 bg-white dark:bg-slate-900 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 py-2">
+                                            <div className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-xl border border-border py-2 animate-in fade-in slide-in-from-top-2 duration-200">
                                                 {link.items.map((item: any, itemIdx: number) => {
                                                     const Icon = item.icon
                                                     return (
                                                         <Link
                                                             key={itemIdx}
                                                             href={item.href}
-                                                            className="flex items-start gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                                            className="flex items-start gap-3 px-4 py-3 hover:bg-accent transition-colors group"
                                                         >
                                                             {Icon && (
-                                                                <div className="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                                                                    <Icon className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                                                                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                                                                    <Icon className="h-4 w-4 text-primary" />
                                                                 </div>
                                                             )}
-                                                            <div>
-                                                                <div className="font-semibold text-slate-900 dark:text-white">{item.label}</div>
-                                                                {item.desc && <div className="text-xs text-slate-500">{item.desc}</div>}
+                                                            <div className="flex-1 min-w-0">
+                                                                <div className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">{item.label}</div>
+                                                                {item.desc && <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.desc}</div>}
                                                             </div>
                                                         </Link>
                                                     )
@@ -185,7 +186,7 @@ export function SiteHeader() {
                                     <Link
                                         key={idx}
                                         href={link.href}
-                                        className="text-slate-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-medium transition-colors"
+                                        className={`px-4 py-2 font-medium transition-colors rounded-lg hover:bg-accent/10 ${isHomePage ? 'text-white hover:text-white' : 'text-muted-foreground hover:text-foreground hover:bg-accent'}`}
                                     >
                                         {link.label}
                                     </Link>
@@ -196,7 +197,7 @@ export function SiteHeader() {
 
                     {/* CTA Buttons - Desktop */}
                     <div className="hidden lg:flex items-center gap-3">
-                        <Button asChild size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
+                        <Button asChild size="default" className="shadow-sm">
                             <Link href={config.ctaHref}>{config.ctaText}</Link>
                         </Button>
                     </div>
@@ -204,33 +205,34 @@ export function SiteHeader() {
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="lg:hidden p-2 text-slate-700 dark:text-slate-300"
+                        className={`lg:hidden p-2 rounded-lg transition-colors ${isHomePage ? 'text-white hover:bg-white/10' : 'text-foreground hover:bg-accent'}`}
                     >
                         {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                     </button>
                 </div>
 
+
                 {/* Mobile Menu */}
                 {mobileMenuOpen && (
-                    <div className="lg:hidden border-t border-slate-200 dark:border-slate-800 py-4">
-                        <nav className="flex flex-col space-y-4">
+                    <div className="lg:hidden border-t border-border py-4 animate-in slide-in-from-top duration-200">
+                        <nav className="flex flex-col space-y-1">
                             {config.links.map((link: any, idx: number) => {
                                 if (link.items) {
                                     return (
-                                        <div key={idx}>
-                                            <div className="font-semibold text-slate-700 dark:text-slate-300 mb-2">{link.label}</div>
-                                            <div className="pl-4 space-y-3 border-l-2 border-emerald-600">
+                                        <div key={idx} className="py-2">
+                                            <div className="font-semibold text-foreground mb-2 px-4">{link.label}</div>
+                                            <div className="space-y-1">
                                                 {link.items.map((item: any, itemIdx: number) => {
                                                     const Icon = item.icon
                                                     return (
                                                         <Link
                                                             key={itemIdx}
                                                             href={item.href}
-                                                            className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-emerald-600"
+                                                            className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg mx-2 transition-colors"
                                                             onClick={() => setMobileMenuOpen(false)}
                                                         >
                                                             {Icon && <Icon className="h-4 w-4" />}
-                                                            {item.label}
+                                                            <span className="text-sm">{item.label}</span>
                                                         </Link>
                                                     )
                                                 })}
@@ -242,7 +244,7 @@ export function SiteHeader() {
                                         <Link
                                             key={idx}
                                             href={link.href}
-                                            className="text-slate-700 dark:text-slate-300 hover:text-emerald-600 font-medium"
+                                            className="px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg mx-2 font-medium transition-colors text-sm"
                                             onClick={() => setMobileMenuOpen(false)}
                                         >
                                             {link.label}
@@ -251,8 +253,8 @@ export function SiteHeader() {
                                 }
                             })}
 
-                            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
-                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700">
+                            <div className="pt-4 mt-4 border-t border-border px-2">
+                                <Button asChild className="w-full">
                                     <Link href={config.ctaHref}>{config.ctaText}</Link>
                                 </Button>
                             </div>
