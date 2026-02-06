@@ -111,9 +111,13 @@ export function SiteHeader() {
     const isHomePage = pathname === '/'
 
     return (
-        <header className={`${isHomePage ? 'absolute top-4 left-0 right-0 mx-auto max-w-7xl rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 shadow-lg supports-[backdrop-filter]:bg-white/10 overflow-hidden' : 'sticky top-0 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm'} z-50 transition-all duration-300`}>
+        <header className={`${isHomePage ? 'absolute top-4 left-0 right-0 mx-auto max-w-7xl rounded-2xl bg-black/20 backdrop-blur-md border border-white/10 shadow-lg supports-[backdrop-filter]:bg-black/20' : 'sticky top-0 bg-background/95 backdrop-blur-sm border-b border-border shadow-sm'} z-50 transition-all duration-300`}>
             {/* Live Market Ticker */}
-            {showTicker && <MarketTicker />}
+            {showTicker && (
+                <div className={isHomePage ? "rounded-t-2xl overflow-hidden" : ""}>
+                    <MarketTicker />
+                </div>
+            )}
 
             {/* Main Navigation */}
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -153,25 +157,25 @@ export function SiteHeader() {
                                             <ChevronDown className={`h-4 w-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
                                         </button>
 
-                                        {/* Dropdown Menu */}
+                                        {/* Dropdown Menu - Dark Theme to match Header */}
                                         {dropdownOpen && (
-                                            <div className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-xl border border-border py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                            <div className="absolute top-full left-0 mt-2 w-72 bg-slate-950/60 backdrop-blur-md rounded-xl shadow-2xl border border-white/10 py-2 animate-in fade-in slide-in-from-top-2 duration-200 z-[100]">
                                                 {link.items.map((item: any, itemIdx: number) => {
                                                     const Icon = item.icon
                                                     return (
                                                         <Link
                                                             key={itemIdx}
                                                             href={item.href}
-                                                            className="flex items-start gap-3 px-4 py-3 hover:bg-accent transition-colors group"
+                                                            className="flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors group"
                                                         >
                                                             {Icon && (
-                                                                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
-                                                                    <Icon className="h-4 w-4 text-primary" />
+                                                                <div className="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                                                                    <Icon className="h-4 w-4 text-primary group-hover:text-primary-foreground" />
                                                                 </div>
                                                             )}
                                                             <div className="flex-1 min-w-0">
-                                                                <div className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">{item.label}</div>
-                                                                {item.desc && <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.desc}</div>}
+                                                                <div className="font-semibold text-sm text-white group-hover:text-primary transition-colors">{item.label}</div>
+                                                                {item.desc && <div className="text-xs text-slate-400 mt-0.5 line-clamp-1">{item.desc}</div>}
                                                             </div>
                                                         </Link>
                                                     )

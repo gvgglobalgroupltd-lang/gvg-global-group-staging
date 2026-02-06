@@ -45,10 +45,10 @@ export function MarketTicker() {
     if (loading) return <div className="h-8 bg-black/90 w-full animate-pulse" />
 
     return (
-        <div className="w-full bg-black text-white overflow-hidden whitespace-nowrap border-b border-white/10 h-8 flex items-center box-border relative">
+        <div className="w-full bg-transparent text-white overflow-hidden whitespace-nowrap border-b border-white/10 h-8 flex items-center box-border relative">
             {/* Gradient Overlays for smooth fade */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black/30 to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-black/30 to-transparent z-10 pointer-events-none" />
 
             <div className="animate-marquee inline-block px-4">
                 {/* Metals */}

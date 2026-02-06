@@ -18,7 +18,7 @@ export function QuickQuoteWidget() {
             <Sheet>
                 <SheetTrigger asChild>
                     <Button
-                        className="h-auto py-4 px-1 rounded-l-lg rounded-r-none bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg writing-mode-vertical"
+                        className="h-auto py-4 px-1 rounded-l-lg rounded-r-none bg-primary hover:bg-primary/90 text-white shadow-lg writing-mode-vertical"
                         style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
                     >
                         <MessageSquarePlus className="w-5 h-5 mb-2 rotate-90" />
