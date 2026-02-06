@@ -4,6 +4,7 @@ import { calculateBCPNP } from './programs/bcpnp';
 import { calculateSINP } from './programs/sinp';
 import { calculateMPNP } from './programs/mpnp';
 import { calculateAAIP, calculateAtlantic } from './programs/aaip_atlantic';
+import { calculateNSNP } from './programs/nsnp';
 
 export function calculateAllStreams(profile: CandidateProfile, currentCrs: number): ProgramResult[] {
     let results: ProgramResult[] = [];
@@ -16,6 +17,7 @@ export function calculateAllStreams(profile: CandidateProfile, currentCrs: numbe
         ...calculateSINP(profile),
         ...calculateMPNP(profile),
         ...calculateAAIP(profile, currentCrs),
+        ...calculateNSNP(profile, currentCrs),
         ...calculateAtlantic(profile)
     ];
 

@@ -62,5 +62,30 @@ export const DocumentChecklists: Record<string, { title: string, items: string[]
             'Police Clearance Certificates',
             'Medical Exam Confirmation'
         ]
+    },
+    'ns_employer_form': {
+        title: 'NSNP Employer Form (NSNP 200)',
+        items: [
+            'NSNP 200 Employer Form (completed by employer)',
+            'Copy of Employment Contract',
+            'Business Registration Certificate',
+            'Employer Reference Letter'
+        ]
+    },
+    'ns_diploma': {
+        title: 'Nova Scotia Education Credential',
+        items: [
+            'Copy of Diploma/Degree from NS Institution',
+            'Official Transcripts',
+            'Proof of Completion'
+        ]
+    },
+    'ns_work_reference': {
+        title: 'Proof of Nova Scotia Work',
+        items: [
+            'Reference Letters from NS Employers',
+            'T4 Slips',
+            'Pay Stubs (12 months)'
+        ]
     }
 }

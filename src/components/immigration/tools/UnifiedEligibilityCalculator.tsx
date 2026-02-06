@@ -221,7 +221,7 @@ export function UnifiedEligibilityCalculator() {
                                         Next Step <ChevronRight className="w-4 h-4" />
                                     </Button>
                                 ) : (
-                                    <Button className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg">
+                                    <Button onClick={() => document.getElementById('results-section')?.scrollIntoView({ behavior: 'smooth' })} className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg">
                                         Complete Assessment
                                     </Button>
                                 )}
@@ -268,7 +268,7 @@ export function UnifiedEligibilityCalculator() {
                     </AnimatePresence>
 
                     {/* RESULTS HEADER */}
-                    <div className="flex items-center justify-between">
+                    <div id="results-section" className="flex items-center justify-between">
                         <div>
                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Analysis Results</h3>
                             <p className="text-sm text-slate-500">Real-time eligibility calculation</p>
@@ -583,7 +583,7 @@ function ResultCard({ result }: { result: ProgramResult }) {
                     </DialogContent>
                 </Dialog>
 
-                {isHigh && <Button size="sm" className="h-7 text-xs bg-indigo-600 hover:bg-indigo-700 shadow-sm text-white transition-all transform active:scale-95">Apply Now <ArrowRight className="w-3 h-3 ml-1" /></Button>}
+                {isHigh && <Button size="sm" onClick={() => alert("Redirecting to the official provincial application portal...")} className="h-7 text-xs bg-indigo-600 hover:bg-indigo-700 shadow-sm text-white transition-all transform active:scale-95">Apply Now <ArrowRight className="w-3 h-3 ml-1" /></Button>}
             </div>
         </Card>
     )
