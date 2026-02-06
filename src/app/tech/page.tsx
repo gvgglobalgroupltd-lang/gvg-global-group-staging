@@ -85,6 +85,13 @@ export default function TechPage() {
 
                 {/* SERVICES - Dark Glass Cards */}
                 <section id="services" className="py-32 relative bg-slate-950">
+                    {/* Web Development Anchor */}
+                    <div id="web" className="absolute -top-20"></div>
+                    {/* Mobile Apps Anchor */}
+                    <div id="mobile" className="absolute -top-20"></div>
+                    {/* Cloud Solutions Anchor */}
+                    <div id="cloud" className="absolute -top-20"></div>
+
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-20">
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/50">Our Expertise</h2>
@@ -121,13 +128,15 @@ export default function TechPage() {
                 </section>
 
                 {/* PORTFOLIO - Seamless Integration */}
-                <div className="relative">
+                <div className="relative" id="portfolio">
                     <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-900 to-transparent"></div>
                     <PortfolioSection />
                 </div>
 
                 {/* QUOTE & BOOKING - Split Layout Container */}
                 <section id="booking" className="py-32 relative bg-slate-950 overflow-hidden">
+                    {/* Contact Anchor */}
+                    <div id="contact" className="absolute -top-20"></div>
                     {/* Background Glows */}
                     <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-purple-900/20 rounded-full blur-[120px]"></div>
                     <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px]"></div>
