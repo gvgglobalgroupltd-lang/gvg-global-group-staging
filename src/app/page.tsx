@@ -8,7 +8,6 @@ import { IndianPartnersSection } from '@/components/marketing/IndianPartnersSect
 import { ServicesSelectorSection } from '@/components/marketing/ServicesSelectorSection'
 import { MaterialCatalog } from '@/components/marketing/MaterialCatalog'
 import { ImpactDashboard } from '@/components/marketing/ImpactDashboard'
-import { FAQSection } from '@/components/marketing/FAQSection'
 import { HeroSlider } from '@/components/marketing/HeroSlider'
 import { SEOSchema } from '@/components/seo/SEOSchema'
 import { SiteHeader } from '@/components/layout/SiteHeader'
@@ -86,9 +85,6 @@ export default function Home() {
 
         {/* Impact Dashboard (New) - Sustainability Stats */}
         <ImpactDashboard />
-
-        {/* FAQ Section (New) */}
-        <FAQSection />
 
         {/* Testimonials */}
         <TestimonialsSection />
