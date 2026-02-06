@@ -13,42 +13,42 @@ const materials = [
         description: "Premium Millberry, Berry, Birch/Cliff",
         image: "/images/materials/copper.png",
         type: "Non-Ferrous",
-        link: "/services"
+        link: "/pricing"
     },
     {
         name: "Aluminum Alloys",
         description: "Taint/Tabor, Tense, Extrusion 6063",
         image: "/images/materials/aluminum.png",
         type: "Non-Ferrous",
-        link: "/services"
+        link: "/pricing"
     },
     {
         name: "Heavy Melting Steel",
         description: "Industrial HMS 1 & 2, Shredded",
         image: "/images/materials/hms_steel.png",
         type: "Ferrous",
-        link: "/services"
+        link: "/pricing"
     },
     {
         name: "Brass Honey",
         description: "Yellow Brass, Mixed Honey/Ocean",
         image: "/images/materials/brass.png",
         type: "Non-Ferrous",
-        link: "/services"
+        link: "/pricing"
     },
     {
         name: "Stainless Steel",
         description: "Grade 304, 316, 430 Sheets/Pipes",
         image: "/images/materials/stainless.png",
         type: "Ferrous",
-        link: "/services"
+        link: "/pricing"
     },
     {
         name: "Electronic Waste",
         description: "High-grade PCBs, Processors, Memory",
         image: "/images/materials/ewaste.png",
         type: "Electronics",
-        link: "/services"
+        link: "/pricing"
     }
 ]
 
