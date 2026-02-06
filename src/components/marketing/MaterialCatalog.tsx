@@ -111,13 +111,19 @@ export function MaterialCatalog() {
                             {/* Image Area */}
                             <div className="relative w-full aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800">
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/20 group-hover:to-slate-900/10 transition-colors z-10"></div>
-                                {/* Image Zoom Effect */}
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
-                                    className="h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                />
+                                {/* Progressive Image with WebP Support */}
+                                <picture>
+                                    <source
+                                        srcSet={item.image.replace('.png', '.webp')}
+                                        type="image/webp"
+                                    />
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        loading="lazy"
+                                        className="h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                </picture>
                                 <div className="absolute top-3 right-3 z-20">
                                     <Badge className="bg-white/90 text-slate-900 backdrop-blur-sm hover:bg-white text-[10px] font-bold border-none px-2 py-0.5">
                                         {item.type}
