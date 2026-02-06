@@ -109,14 +109,14 @@ export function MaterialCatalog() {
                     {materials.map((item, idx) => (
                         <Card key={idx} className="flex-none w-[280px] md:w-[320px] snap-center group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 bg-white dark:bg-slate-950">
                             {/* Image Area */}
-                            <div className="relative h-48 w-full overflow-hidden bg-white dark:bg-slate-900">
-                                <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/0 transition-colors z-10"></div>
+                            <div className="relative w-full aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800">
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/20 group-hover:to-slate-900/10 transition-colors z-10"></div>
                                 {/* Image Zoom Effect */}
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    className="h-full w-full object-contain p-4 transform group-hover:scale-105 transition-transform duration-700"
+                                    className="h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute top-3 right-3 z-20">
                                     <Badge className="bg-white/90 text-slate-900 backdrop-blur-sm hover:bg-white text-[10px] font-bold border-none px-2 py-0.5">
