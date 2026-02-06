@@ -42,18 +42,18 @@ export default async function ImmigrationPage() {
                         <p className="text-xl text-slate-300 mb-8">
                             Professional immigration services for individuals and families. We simplify the complexity of visas, PR, and citizenship.
                         </p>
-                        <div className="flex gap-4">
+                        <div className="flex flex-col gap-4">
                             <Button asChild size="lg" className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold">
                                 <Link href="/immigration/tools/eligibility-checker">Check Eligibility</Link>
                             </Button>
-                            <div className="flex flex-wrap gap-4 pt-4">
-                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                            <div className="flex flex-wrap gap-3">
+                                <Button asChild size="sm" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white">
                                     <Link href="/immigration/tools/crs-calculator">CRS Calculator</Link>
                                 </Button>
-                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                                <Button asChild size="sm" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white">
                                     <Link href="/immigration/tools/pnp-finder">PNP Finder</Link>
                                 </Button>
-                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                                <Button asChild size="sm" variant="outline" className="bg-white/10 text-white border-white/20 hover:bg-white/20 hover:text-white">
                                     <Link href="/immigration/resources/faq">Common FAQs</Link>
                                 </Button>
                             </div>

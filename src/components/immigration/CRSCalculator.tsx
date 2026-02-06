@@ -8,8 +8,18 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Calculator, ChevronRight, ChevronLeft, RotateCcw, Award, GraduationCap, Briefcase, Heart } from 'lucide-react'
+import { Calculator, ChevronRight, ChevronLeft, RotateCcw, Award, GraduationCap, Briefcase, Heart, Info } from 'lucide-react'
 import { calculateCRS, CRSProfile, CRSResult } from '@/lib/immigration/CRSEngine'
+import { ieltsToCLB, celpipToCLB, pteToCLB, type TestType } from '@/lib/immigration/languageTestConversion'
+
+// Helper function to convert raw test scores to CLB
+function convertToCLB(score: string, skill: 'speaking' | 'reading' | 'writing' | 'listening', testType: TestType): number {
+    const numScore = parseFloat(score)
+    if (testType === 'IELTS') return ieltsToCLB(numScore, skill)
+    if (testType === 'CELPIP') return celpipToCLB(numScore)
+    if (testType === 'PTE') return pteToCLB(numScore, skill)
+    return 0
+}
 
 export function CRSCalculator() {
     const [step, setStep] = useState(1)
@@ -23,13 +33,15 @@ export function CRSCalculator() {
     const [canadianDegree, setCanadianDegree] = useState<string>('None')
 
     // 2. Language (English)
-    const [lSpeak, setLSpeak] = useState('9')
-    const [lRead, setLRead] = useState('9')
-    const [lWrite, setLWrite] = useState('9')
-    const [lListen, setLListen] = useState('9')
+    const [testType, setTestType] = useState<TestType>('IELTS')
+    const [lSpeak, setLSpeak] = useState('7.0') // Raw scores
+    const [lRead, setLRead] = useState('7.0')
+    const [lWrite, setLWrite] = useState('7.0')
+    const [lListen, setLListen] = useState('7.0')
 
     // French (Optional)
     const [hasFrench, setHasFrench] = useState(false)
+    const [fTestType, setFTestType] = useState<'TEF' | 'TCF'>('TEF')
     const [fSpeak, setFSpeak] = useState('0')
     const [fRead, setFRead] = useState('0')
     const [fWrite, setFWrite] = useState('0')
@@ -58,10 +70,10 @@ export function CRSCalculator() {
             education,
             canadianDegree,
             language: {
-                speaking: parseInt(lSpeak),
-                reading: parseInt(lRead),
-                writing: parseInt(lWrite),
-                listening: parseInt(lListen)
+                speaking: convertToCLB(lSpeak, 'speaking', testType),
+                reading: convertToCLB(lRead, 'reading', testType),
+                writing: convertToCLB(lWrite, 'writing', testType),
+                listening: convertToCLB(lListen, 'listening', testType)
             },
             secondLanguage: hasFrench ? {
                 speaking: parseInt(fSpeak),
