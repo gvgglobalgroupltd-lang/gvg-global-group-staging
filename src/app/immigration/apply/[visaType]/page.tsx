@@ -30,6 +30,9 @@ export default async function VisaApplicationPage({ params }: PageProps) {
 
     const requirements = Array.isArray(service.requirements) ? service.requirements : []
 
+    // Get user for pre-filling
+    const { data: { user } } = await supabase.auth.getUser()
+
     return (
         <div className="min-h-screen bg-slate-50 py-12">
             <div className="container mx-auto px-4 max-w-4xl">
@@ -80,9 +83,20 @@ export default async function VisaApplicationPage({ params }: PageProps) {
                                 </div>
                             </div>
 
-                            <Button size="lg" className="w-full font-bold mb-3">
-                                Start Application
-                            </Button>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button size="lg" className="w-full font-bold mb-3">
+                                        Start Application
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                                    <DialogHeader>
+                                        <DialogTitle>Apply for {service.title}</DialogTitle>
+                                    </DialogHeader>
+                                    <ApplicationWizard service={service} user={user} />
+                                </DialogContent>
+                            </Dialog>
+
                             <p className="text-xs text-center text-slate-400">
                                 Secure handling of your data.
                             </p>
@@ -93,3 +107,13 @@ export default async function VisaApplicationPage({ params }: PageProps) {
         </div>
     )
 }
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { ApplicationWizard } from '@/components/immigration/ApplicationWizard'

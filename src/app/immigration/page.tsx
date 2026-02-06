@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card'
 import { Plane, FileText, Stamp, MapPin, ArrowRight, CheckCircle2 } from 'lucide-react'
 import { getImmigrationServices } from '@/actions/immigration'
 import { Badge } from '@/components/ui/badge'
+import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
 
 export default async function ImmigrationPage() {
     const services = await getImmigrationServices() || []
@@ -43,11 +44,19 @@ export default async function ImmigrationPage() {
                         </p>
                         <div className="flex gap-4">
                             <Button asChild size="lg" className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold">
-                                <Link href="/immigration/eligibility">Check Eligibility</Link>
+                                <Link href="/immigration/tools/eligibility-checker">Check Eligibility</Link>
                             </Button>
-                            <Button asChild variant="outline" size="lg" className="border-slate-700 hover:bg-slate-800 text-white">
-                                <Link href="#services">View Services</Link>
-                            </Button>
+                            <div className="flex flex-wrap gap-4 pt-4">
+                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                                    <Link href="/immigration/tools/crs-calculator">CRS Calculator</Link>
+                                </Button>
+                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                                    <Link href="/immigration/tools/pnp-finder">PNP Finder</Link>
+                                </Button>
+                                <Button asChild size="sm" variant="outline" className="text-indigo-300 border-indigo-500/30 hover:bg-indigo-500/10">
+                                    <Link href="/immigration/resources/faq">Common FAQs</Link>
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,6 +157,31 @@ export default async function ImmigrationPage() {
                                         <h3 className="font-bold text-lg text-slate-900">Halifax In-Person Service</h3>
                                         <p className="text-slate-600">Local clients in Halifax can opt for doorstep document verification and pickup.</p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-20 max-w-4xl mx-auto">
+                        <div className="bg-slate-900 rounded-2xl p-8 md:p-12 text-center md:text-left relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                    <h2 className="text-3xl font-bold text-white mb-4">Start Your Journey Today</h2>
+                                    <p className="text-slate-300 mb-6">
+                                        Fill out a quick assessment form and get a personalized immigration plan within 48 hours.
+                                    </p>
+                                    <div className="flex flex-col gap-3 text-sm text-slate-400">
+                                        <div className="flex items-center gap-2">
+                                            <CheckCircle2 className="h-4 w-4 text-emerald-400" /> Free initial assessment
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <CheckCircle2 className="h-4 w-4 text-emerald-400" /> Secure document handling
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-white/5 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+                                    <ServiceQuoteForm mode="immigration" />
                                 </div>
                             </div>
                         </div>

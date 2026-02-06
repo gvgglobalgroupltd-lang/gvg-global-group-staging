@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,11 +21,15 @@ import { MarketTicker } from '@/components/dashboard/MarketTicker'
 export function SiteHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [servicesOpen, setServicesOpen] = useState(false)
+    const pathname = usePathname()
+
+    // Show ticker only on Home and Pricing/Metals pages
+    const showTicker = pathname === '/' || pathname?.startsWith('/pricing')
 
     return (
         <header className="sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 shadow-sm">
             {/* Live Market Ticker */}
-            <MarketTicker />
+            {showTicker && <MarketTicker />}
 
 
 

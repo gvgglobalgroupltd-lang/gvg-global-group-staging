@@ -1,6 +1,6 @@
 
 import { ServiceBookingWizard } from '@/components/tech/ServiceBookingWizard'
-import { QuoteRequestForm } from '@/components/tech/QuoteRequestForm'
+import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
 import { PortfolioSection } from '@/components/tech/PortfolioSection'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
@@ -142,7 +142,7 @@ export default function TechPage() {
                                     <p className="text-slate-400">For complex software consulting and development.</p>
                                 </div>
                                 <div className="p-6">
-                                    <QuoteRequestForm />
+                                    <ServiceQuoteForm mode="tech" />
                                 </div>
                             </div>
                         </div>

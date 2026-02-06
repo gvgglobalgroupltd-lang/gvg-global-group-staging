@@ -2,6 +2,7 @@
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -156,25 +157,30 @@ export default function PricingPage() {
 
             {/* CTA Section */}
             <section className="py-20 bg-slate-900 dark:bg-black text-white">
-                <div className="container mx-auto px-4">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h3 className="text-3xl font-bold mb-6">Need a Custom Quote?</h3>
-                        <p className="mb-10 text-slate-300 text-lg max-w-2xl mx-auto">
-                            Get personalized pricing based on your specific material grade, quantity, and location.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a
-                                href="/contact"
-                                className="px-8 py-4 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors shadow-lg"
-                            >
-                                Request Quote
-                            </a>
-                            <a
-                                href="/contact"
-                                className="px-8 py-4 border-2 border-white text-white rounded-lg font-bold hover:bg-white/10 transition-colors"
-                            >
-                                Call Trading Desk
-                            </a>
+                <div className="container mx-auto px-4 z-10 relative">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div className="text-center lg:text-left">
+                                <h3 className="text-3xl md:text-4xl font-bold mb-6">Need a Custom Quote?</h3>
+                                <p className="mb-8 text-slate-300 text-lg leading-relaxed">
+                                    Get personalized pricing based on your specific material grade, quantity, and location. Our trading desk monitors global markets to give you the best spot rates.
+                                </p>
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                                    <a
+                                        href="tel:+19059622919"
+                                        className="px-8 py-4 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors shadow-lg"
+                                    >
+                                        Call Trading Desk
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-2xl">
+                                <h4 className="text-xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
+                                    <TrendingUp className="h-5 w-5" /> Request Spot Rate
+                                </h4>
+                                <ServiceQuoteForm mode="logistics" />
+                            </div>
                         </div>
                     </div>
                 </div>

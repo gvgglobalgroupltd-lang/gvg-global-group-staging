@@ -6,8 +6,13 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
 const visaApplicationSchema = z.object({
-    visa_type: z.enum(['OCI', 'Canada_PR', 'US_Tourist', 'Schengen', 'Dubai_Express', 'Other']),
-    application_data: z.any() // Using any for JSONB flexibility initially
+    visa_type: z.string(), // Allow dynamic strings for now
+    application_data: z.any(),
+    documents: z.array(z.object({
+        name: z.string(),
+        path: z.string()
+    })).optional(),
+    payment_reference: z.string().optional()
 })
 
 export type SubmitVisaState = {
@@ -27,9 +32,12 @@ export async function submitVisaApplication(prevState: SubmitVisaState, formData
     }
 
     // 2. Extract Data
+    // We expect 'documents' to be a JSON string of uploaded file metadata
     const rawData = {
         visa_type: formData.get('visa_type'),
-        application_data: JSON.parse(formData.get('application_data') as string || '{}')
+        application_data: JSON.parse(formData.get('application_data') as string || '{}'),
+        documents: JSON.parse(formData.get('documents') as string || '[]'),
+        payment_reference: formData.get('payment_reference')
     }
 
     // 3. Validate
@@ -43,13 +51,21 @@ export async function submitVisaApplication(prevState: SubmitVisaState, formData
     }
 
     // 4. Insert into DB
+    // We'll store documents and payment info within application_data for now unless we add columns
+    // Merging them into application_data is the safest schema-less approach
+    const finalApplicationData = {
+        ...validated.data.application_data,
+        documents: validated.data.documents,
+        payment_reference: validated.data.payment_reference
+    }
+
     const { data, error } = await supabase
         .from('visa_applications')
         .insert({
             user_id: user.id,
             visa_type: validated.data.visa_type,
             status: 'Draft', // Default status
-            application_data: validated.data.application_data
+            application_data: finalApplicationData
         })
         .select()
         .single()

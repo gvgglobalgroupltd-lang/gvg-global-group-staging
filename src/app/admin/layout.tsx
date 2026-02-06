@@ -11,7 +11,8 @@ import {
     Package,
     Warehouse,
     Users,
-    DollarSign
+    DollarSign,
+    Stamp
 } from 'lucide-react'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -35,6 +36,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         { icon: DollarSign, label: 'Finance', href: '/admin/finance' },
         { icon: Package, label: 'Commodities', href: '/admin/commodities' },
         { icon: LayoutDashboard, label: 'Reports', href: '/admin/reports' },
+        { icon: Stamp, label: 'Immigration', href: '/admin/immigration' },
         { icon: Cpu, label: 'IT Services', href: '/tech' },
     ]
 

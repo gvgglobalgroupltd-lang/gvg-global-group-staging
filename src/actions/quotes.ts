@@ -11,17 +11,34 @@ const quoteSchema = z.object({
     email: z.string().email("Invalid email"),
     phone: z.string().optional(),
     service_interest: z.enum([
+        // Tech Services
         'Custom ERP Development',
         'Mobile App Development',
         'QA & Testing Services',
         'Cloud Solutions',
         'IT Consulting',
+        // Immigration Services
+        'Study Visa',
+        'Work Permit',
+        'PR Application',
+        'Visitor Visa',
+        'Business Visa',
+        // Logistics Services
+        'Scrap Metal Import',
+        'Scrap Metal Export',
+        'Logistics & Shipping',
+        'Customs Clearance',
         'Other'
     ]),
     project_description: z.string().min(10, "Please provide more details"),
     budget_range: z.string().optional(),
     timeline: z.string().optional(),
-    tech_stack: z.string().optional() // Storing in notes or separate field if migration didn't add it. 005 didn't have tech_stack. I'll append to description.
+    tech_stack: z.string().optional(),
+    // New optional fields for specific modes (mapped to description or stored if columns exist)
+    destination_country: z.string().optional(),
+    current_location: z.string().optional(),
+    commodity_type: z.string().optional(),
+    target_port: z.string().optional()
 })
 
 export type SubmitQuoteState = {
@@ -44,14 +61,21 @@ export async function submitQuote(prevState: SubmitQuoteState, formData: FormDat
         project_description: formData.get('project_description'),
         budget_range: formData.get('budget_range'),
         timeline: formData.get('timeline'),
-        tech_stack: formData.get('tech_stack')
+        tech_stack: formData.get('tech_stack'),
+        destination_country: formData.get('destination_country'),
+        current_location: formData.get('current_location'),
+        commodity_type: formData.get('commodity_type'),
+        target_port: formData.get('target_port')
     }
 
-    // Helper to append tech stack to description since column might be missing
+    // Helper to append extra details to description
     let description = rawData.project_description as string
-    if (rawData.tech_stack) {
-        description += `\n\nPreferred Tech Stack: ${rawData.tech_stack}`
-    }
+
+    if (rawData.tech_stack) description += `\n\nPreferred Tech Stack: ${rawData.tech_stack}`
+    if (rawData.destination_country) description += `\n\nDestination: ${rawData.destination_country}`
+    if (rawData.current_location) description += `\n\nCurrent Location: ${rawData.current_location}`
+    if (rawData.commodity_type) description += `\n\nCommodity: ${rawData.commodity_type}`
+    if (rawData.target_port) description += `\n\nTarget Port: ${rawData.target_port}`
 
     const validated = quoteSchema.safeParse(rawData)
 
