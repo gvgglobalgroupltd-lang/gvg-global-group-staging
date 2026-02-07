@@ -32,16 +32,29 @@ export default function LocationsPage() {
     return (
         <main className="min-h-screen">
             {/* Header Section */}
-            <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                <div className="container mx-auto px-4">
+            <section className="relative pt-40 pb-20 overflow-hidden bg-slate-950">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/hero_logistics.jpg"
+                        alt="Global Logistics Network"
+                        className="h-full w-full object-cover opacity-40"
+                    />
+                </div>
+
+                {/* Background Effects */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-slate-950 z-0" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] z-0" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">
-                            Global Sourcing, <span className="text-emerald-600">India Based</span>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-lg">
+                            Global Sourcing, <span className="text-emerald-400">India Based</span>
                         </h1>
-                        <p className="text-xl text-slate-600 dark:text-slate-400 mb-4 max-w-2xl mx-auto">
+                        <p className="text-xl text-slate-200 mb-4 max-w-2xl mx-auto drop-shadow-md">
                             Headquarters in India • Sourcing from USA, Canada, UAE & Beyond
                         </p>
-                        <p className="text-base text-slate-500 dark:text-slate-400">
+                        <p className="text-base text-slate-300 drop-shadow-sm">
                             We source premium scrap metals from suppliers across North America and Middle East, importing to India for distribution
                         </p>
                     </div>

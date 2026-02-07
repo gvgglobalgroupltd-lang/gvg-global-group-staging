@@ -53,14 +53,27 @@ export default function AboutPage() {
 
             <main className="min-h-screen">
                 {/* Hero Section */}
-                <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                    <div className="container mx-auto px-4">
+                <section className="relative pt-40 pb-20 overflow-hidden bg-slate-950">
+                    {/* Background Image */}
+                    <div className="absolute inset-0 z-0">
+                        <img
+                            src="/images/hero_foundry.jpg"
+                            alt="Industrial Foundry"
+                            className="h-full w-full object-cover opacity-40"
+                        />
+                    </div>
+
+                    {/* Background Effects */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-slate-950 z-0" />
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] z-0" />
+
+                    <div className="container mx-auto px-4 relative z-10">
                         <div className="max-w-4xl mx-auto text-center">
-                            <Badge className="mb-4" variant="outline">Est. 2010</Badge>
-                            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-slate-900 dark:text-white">
-                                About <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-indigo-600">GVG Global Group</span>
+                            <Badge className="mb-4 bg-white/10 text-white border-white/20 backdrop-blur-md" variant="outline">Est. 2010</Badge>
+                            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">
+                                About <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-indigo-400">GVG Global Group</span>
                             </h1>
-                            <p className="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p className="text-xl text-slate-200 leading-relaxed drop-shadow-md">
                                 A diversified global enterprise specializing in international metals trading and cutting-edge IT consulting services, bridging industries and continents.
                             </p>
                         </div>

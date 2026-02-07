@@ -54,24 +54,24 @@ export function MarketTicker() {
                 {/* Metals */}
                 {metals.map((m) => (
                     <span key={m.symbol} className="mx-6 text-xs font-mono tracking-wider inline-flex items-center">
-                        <span className="font-bold text-amber-500 mr-2">{m.name}</span>
-                        <span className="mr-1">${m.price.toFixed(2)}</span>
+                        <span className="font-bold text-white mr-2">{m.name}</span>
+                        <span className="mr-1 text-primary-foreground/90 font-medium">${m.price.toFixed(2)}</span>
                         {Math.random() > 0.5 ? (
-                            <TrendingUp className="h-3 w-3 text-green-500" />
+                            <TrendingUp className="h-3 w-3 text-emerald-400" />
                         ) : (
-                            <TrendingDown className="h-3 w-3 text-red-500" />
+                            <TrendingDown className="h-3 w-3 text-red-400" />
                         )}
                     </span>
                 ))}
 
                 {/* Separator */}
-                <span className="mx-4 text-gray-600">|</span>
+                <span className="mx-4 text-white/20">|</span>
 
                 {/* Currencies */}
                 {currencies.map((c) => (
                     <span key={c.code} className="mx-6 text-xs font-mono tracking-wider inline-flex items-center">
-                        <span className="font-bold text-blue-400 mr-2">1 USD =</span>
-                        <span className="mr-1">{c.rate.toFixed(2)} {c.code}</span>
+                        <span className="font-bold text-indigo-300 mr-2">1 USD =</span>
+                        <span className="mr-1 text-white/90">{c.rate.toFixed(2)} {c.code}</span>
                     </span>
                 ))}
             </div>
@@ -80,20 +80,20 @@ export function MarketTicker() {
             <div className="animate-marquee inline-block px-4" aria-hidden="true">
                 {metals.map((m) => (
                     <span key={`${m.symbol}-duplicate`} className="mx-6 text-xs font-mono tracking-wider inline-flex items-center">
-                        <span className="font-bold text-amber-500 mr-2">{m.name}</span>
-                        <span className="mr-1">${m.price.toFixed(2)}</span>
+                        <span className="font-bold text-white mr-2">{m.name}</span>
+                        <span className="mr-1 text-primary-foreground/90 font-medium">${m.price.toFixed(2)}</span>
                         {Math.random() > 0.5 ? (
-                            <TrendingUp className="h-3 w-3 text-green-500" />
+                            <TrendingUp className="h-3 w-3 text-emerald-400" />
                         ) : (
-                            <TrendingDown className="h-3 w-3 text-red-500" />
+                            <TrendingDown className="h-3 w-3 text-red-400" />
                         )}
                     </span>
                 ))}
-                <span className="mx-4 text-gray-600">|</span>
+                <span className="mx-4 text-white/20">|</span>
                 {currencies.map((c) => (
                     <span key={`${c.code}-dup`} className="mx-6 text-xs font-mono tracking-wider inline-flex items-center">
-                        <span className="font-bold text-blue-400 mr-2">1 USD =</span>
-                        <span className="mr-1">{c.rate.toFixed(2)} {c.code}</span>
+                        <span className="font-bold text-indigo-300 mr-2">1 USD =</span>
+                        <span className="mr-1 text-white/90">{c.rate.toFixed(2)} {c.code}</span>
                     </span>
                 ))}
             </div>

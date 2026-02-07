@@ -89,12 +89,25 @@ export default function ContactPage() {
 
     return (
         <main className="min-h-screen">
-            {/* Header Section */}
-            <section className="py-20 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-                <div className="container mx-auto px-4">
+            {/* Header Section - Dark Hero */}
+            <section className="relative pt-40 pb-20 overflow-hidden bg-slate-950">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/hero_logistics.jpg"
+                        alt="Global Logistics Network"
+                        className="h-full w-full object-cover opacity-40"
+                    />
+                </div>
+
+                {/* Background Effects */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-slate-950 z-0" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] z-0" />
+
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white">Contact Us</h1>
-                        <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-md">Contact Us</h1>
+                        <p className="text-xl text-slate-200 max-w-2xl mx-auto drop-shadow-sm">
                             We're here to help. Reach out to our offices worldwide or contact the department that best fits your needs.
                         </p>
                     </div>
