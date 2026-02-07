@@ -6,6 +6,9 @@ import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
 import { getMetalRates, type MetalRate } from '@/app/actions/market'
 import type { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
     title: 'Current Scrap Metal Prices | Live Market Rates - GVG Global Group',
     description: 'Real-time scrap metal pricing for ferrous and non-ferrous metals. Updated daily. Get competitive rates for HMS, copper, aluminum, brass, and more.',
@@ -60,7 +63,7 @@ export default async function PricingPage() {
     )
 
     return (
-        <main className="min-h-screen pt-0">
+        <main className="min-h-screen pt-0" data-version="2.0-dark-hero">
             {/* Header Section - Dark Hero to support transparent header */}
             <section className="relative pt-40 pb-20 overflow-hidden bg-slate-950">
                 {/* Background Image */}
