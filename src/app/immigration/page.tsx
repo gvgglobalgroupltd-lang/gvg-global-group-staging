@@ -202,7 +202,7 @@ export default async function ImmigrationPage() {
                         </div>
                     </div>
 
-                    <div className="mt-20 max-w-4xl mx-auto">
+                    <div className="mt-20 max-w-4xl mx-auto" id="quote">
                         <div className="bg-slate-900 rounded-2xl p-8 md:p-12 text-center md:text-left relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                             <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">

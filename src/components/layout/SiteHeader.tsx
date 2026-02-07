@@ -20,10 +20,19 @@ import {
 } from 'lucide-react'
 
 import { MarketTicker } from '@/components/dashboard/MarketTicker'
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+} from "@/components/ui/sheet"
+import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
 
 export function SiteHeader() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [quoteOpen, setQuoteOpen] = useState(false)
     const pathname = usePathname()
 
     // Detect current service section
@@ -54,8 +63,7 @@ export function SiteHeader() {
                 { label: 'All Services', href: '/immigration' },
                 { label: 'Contact', href: '/contact' },
             ],
-            ctaText: 'Check Eligibility',
-            ctaHref: '/immigration/tools/eligibility-checker'
+            // No CTA for immigration
         },
         metals: {
             links: [
@@ -84,7 +92,7 @@ export function SiteHeader() {
                 { label: 'Contact', href: '/contact' },
             ],
             ctaText: 'Get Started',
-            ctaHref: '/tech#contact'
+            ctaHref: '/tech#quote'
         },
         default: {
             links: [
@@ -103,7 +111,7 @@ export function SiteHeader() {
                 { label: 'Contact', href: '/contact' },
             ],
             ctaText: 'Get Quote',
-            ctaHref: '/contact'
+            ctaHref: '/pricing#quote'
         }
     }
 
@@ -202,11 +210,17 @@ export function SiteHeader() {
                     </nav>
 
                     {/* CTA Buttons - Desktop */}
-                    <div className="hidden lg:flex items-center gap-3">
-                        <Button asChild size="default" className="shadow-sm">
-                            <Link href={config.ctaHref}>{config.ctaText}</Link>
-                        </Button>
-                    </div>
+                    {config.ctaText && (
+                        <div className="hidden lg:flex items-center gap-3">
+                            <Button
+                                size="default"
+                                className="shadow-sm"
+                                onClick={() => setQuoteOpen(true)}
+                            >
+                                {config.ctaText}
+                            </Button>
+                        </div>
+                    )}
 
                     {/* Mobile Menu Button */}
                     <button
@@ -259,15 +273,46 @@ export function SiteHeader() {
                                 }
                             })}
 
-                            <div className="pt-4 mt-4 border-t border-border px-2">
-                                <Button asChild className="w-full">
-                                    <Link href={config.ctaHref}>{config.ctaText}</Link>
-                                </Button>
-                            </div>
+                            {config.ctaText && (
+                                <div className="pt-4 mt-4 border-t border-border px-2">
+                                    <Button
+                                        className="w-full"
+                                        onClick={() => {
+                                            setMobileMenuOpen(false)
+                                            setQuoteOpen(true)
+                                        }}
+                                    >
+                                        {config.ctaText}
+                                    </Button>
+                                </div>
+                            )}
                         </nav>
                     </div>
                 )}
             </div>
+
+            <Sheet open={quoteOpen} onOpenChange={setQuoteOpen}>
+                <SheetContent className="w-full sm:max-w-xl overflow-y-auto bg-slate-50 dark:bg-slate-950 border-l border-border">
+                    <SheetHeader className="text-left mb-6">
+                        <SheetTitle className="text-2xl font-bold">
+                            {currentService === 'tech' ? 'Request Tech Proposal' :
+                                currentService === 'metals' ? 'Request Scrap Rate' :
+                                    'Get a Quote'}
+                        </SheetTitle>
+                        <SheetDescription>
+                            {currentService === 'tech' ? 'Tell us about your project requirements.' :
+                                currentService === 'metals' ? 'Get today\'s live spot rates for your materials.' :
+                                    'Fill out the form below and we will get back to you shortly.'}
+                        </SheetDescription>
+                    </SheetHeader>
+
+                    <div className="px-1 py-4">
+                        <ServiceQuoteForm
+                            mode={currentService === 'tech' ? 'tech' : 'logistics'}
+                        />
+                    </div>
+                </SheetContent>
+            </Sheet>
         </header>
     )
 }
