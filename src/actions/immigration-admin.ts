@@ -13,7 +13,7 @@ const serviceSchema = z.object({
     price: z.coerce.number().min(0),
     currency: z.string().default('USD'),
     processing_time: z.string().min(1, "Processing time required"),
-    icon_name: z.string().optional(),
+    icon_name: z.string().nullable().optional(),
     requirements: z.string().or(z.array(z.string())).transform(val => {
         if (Array.isArray(val)) return val;
         // Split by newline if string
@@ -48,7 +48,7 @@ export async function manageImmigrationService(prevState: ServiceFormState, form
         price: formData.get('price'),
         currency: formData.get('currency'),
         processing_time: formData.get('processing_time'),
-        icon_name: formData.get('icon_name'),
+        icon_name: formData.get('icon_name') ? (formData.get('icon_name') as string) : null,
         requirements: formData.get('requirements') // Expecting textarea string
     }
 
@@ -65,35 +65,41 @@ export async function manageImmigrationService(prevState: ServiceFormState, form
 
     const { id, ...payload } = validated.data
 
+    // Check for uniqueness manually to handle update properly
+    const { data: existing } = await supabase
+        .from('immigration_service_catalog')
+        .select('id')
+        .eq('code', validated.data.code)
+        .neq('id', id || '') // Exclude self if updating
+        .single()
+
+    if (existing) {
+        return {
+            success: false,
+            message: 'A service with this code already exists.',
+            payload: rawData
+        }
+    }
+
     let error
 
     if (id) {
         // Update
-        const res = await (supabase
-            .from('immigration_service_catalog') as any)
+        const res = await supabase
+            .from('immigration_service_catalog')
             .update(payload)
             .eq('id', id)
         error = res.error
     } else {
         // Insert
-        const res = await (supabase
-            .from('immigration_service_catalog') as any)
+        const res = await supabase
+            .from('immigration_service_catalog')
             .insert(payload)
         error = res.error
     }
 
     if (error) {
         console.error('Service Save Error:', error)
-
-        // Handle Unique Constraint Violation
-        if (error.code === '23505') {
-            return {
-                success: false,
-                message: 'A service with this code already exists.',
-                payload: rawData // Return user input so form doesn't clear
-            }
-        }
-
         return {
             success: false,
             message: 'Database error occurred: ' + (error.message || 'Unknown error'),
@@ -109,8 +115,8 @@ export async function manageImmigrationService(prevState: ServiceFormState, form
 
 export async function toggleServiceStatus(id: string, currentStatus: boolean) {
     const supabase = await createClient()
-    const { error } = await (supabase
-        .from('immigration_service_catalog') as any)
+    const { error } = await supabase
+        .from('immigration_service_catalog')
         .update({ is_active: !currentStatus })
         .eq('id', id)
 

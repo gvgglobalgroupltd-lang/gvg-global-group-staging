@@ -7,6 +7,7 @@ type ToastProps = {
     description?: React.ReactNode
     action?: ToastActionElement
     variant?: "default" | "destructive"
+    duration?: number
 }
 
 type Toast = ToastProps & {
@@ -34,7 +35,7 @@ function genId() {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>()
 
-const addToRemoveQueue = (toastId: string) => {
+const addToRemoveQueue = (toastId: string, duration = TOAST_REMOVE_DELAY) => {
     if (toastTimeouts.has(toastId)) {
         return
     }
@@ -45,7 +46,7 @@ const addToRemoveQueue = (toastId: string) => {
             type: "REMOVE_TOAST",
             toastId: toastId,
         })
-    }, TOAST_REMOVE_DELAY)
+    }, duration)
 
     toastTimeouts.set(toastId, timeout)
 }
@@ -64,10 +65,11 @@ export const reducer = (state: Toast[], action: ActionType): Toast[] => {
             const { toastId } = action
 
             if (toastId) {
-                addToRemoveQueue(toastId)
+                // Remove immediately upon dismissal
+                addToRemoveQueue(toastId, 0)
             } else {
                 state.forEach((toast) => {
-                    addToRemoveQueue(toast.id)
+                    addToRemoveQueue(toast.id, 0)
                 })
             }
 
@@ -99,7 +101,7 @@ function dispatch(action: ActionType) {
     })
 }
 
-function toast(props: ToastProps) {
+function toast({ duration, ...props }: ToastProps) {
     const id = genId()
 
     const update = (props: ToasterToast) =>
@@ -115,8 +117,13 @@ function toast(props: ToastProps) {
             ...props,
             id,
             open: true,
+            duration,
         },
     })
+
+    if (duration) {
+        addToRemoveQueue(id, duration)
+    }
 
     return {
         id: id,

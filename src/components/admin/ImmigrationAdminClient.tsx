@@ -139,6 +139,7 @@ export function ImmigrationAdminClient({ initialServices }: { initialServices: a
 
             {isFormOpen && (
                 <ImmigrationServiceForm
+                    key={editingService?.id || 'new'}
                     service={editingService}
                     onClose={() => setIsFormOpen(false)}
                 />

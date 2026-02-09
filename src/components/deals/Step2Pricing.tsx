@@ -38,7 +38,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
             {/* Price & Quantity */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <Label>Buy Price ({currency}) *</Label>
+                    <Label>Buy Price ({currency}) <span className="text-destructive">*</span></Label>
                     <Input
                         id="buyPrice"
                         type="number"
@@ -50,7 +50,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                     )}
                 </div>
                 <div className="space-y-2">
-                    <Label>Weight (MT) *</Label>
+                    <Label>Weight (MT) <span className="text-destructive">*</span></Label>
                     <Input
                         id="weightMT"
                         type="number"

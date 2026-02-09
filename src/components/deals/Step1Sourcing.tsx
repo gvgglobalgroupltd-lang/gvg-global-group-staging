@@ -69,7 +69,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
 
             {/* Supplier Selection */}
             <div className="space-y-2">
-                <Label htmlFor="partnerId">Supplier *</Label>
+                <Label htmlFor="partnerId">Supplier <span className="text-destructive">*</span></Label>
                 <Select
                     value={form.watch('partnerId')}
                     onValueChange={(value) => form.setValue('partnerId', value, { shouldValidate: true })}
@@ -94,7 +94,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
 
             {/* Origin Country */}
             <div className="space-y-2">
-                <Label htmlFor="originCountry">Origin Country *</Label>
+                <Label htmlFor="originCountry">Origin Country <span className="text-destructive">*</span></Label>
                 <Select
                     value={form.watch('originCountry')}
                     onValueChange={(value) => form.setValue('originCountry', value, { shouldValidate: true })}
@@ -119,7 +119,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
 
             {/* Commodity Selection */}
             <div className="space-y-2">
-                <Label htmlFor="commodityId">Commodity *</Label>
+                <Label htmlFor="commodityId">Commodity <span className="text-destructive">*</span></Label>
                 <Select
                     value={form.watch('commodityId')}
                     onValueChange={(value) => form.setValue('commodityId', value, { shouldValidate: true })}
@@ -247,7 +247,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
             {/* PSIC File Upload */}
             {showPSICWarning && (
                 <div className="space-y-2">
-                    <Label htmlFor="psicFile">PSIC Pre-Contract Document *</Label>
+                    <Label htmlFor="psicFile">PSIC Pre-Contract Document <span className="text-destructive">*</span></Label>
                     <div className="flex items-center gap-4">
                         <Input
                             id="psicFile"

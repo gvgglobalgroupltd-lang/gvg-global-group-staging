@@ -10,6 +10,7 @@ import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
+import { deleteDeal } from '@/actions/deals'
 
 interface DealDetails {
     id: string
@@ -153,11 +154,26 @@ export default function DealDetailsPage() {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline">
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
+                    <Button variant="outline" asChild>
+                        <Link href={`/admin/deals/${deal.id}/edit`}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                        </Link>
                     </Button>
-                    <Button variant="outline" className="text-destructive">
+                    <Button
+                        variant="outline"
+                        className="text-destructive hover:bg-destructive/10"
+                        onClick={async () => {
+                            if (confirm('Are you sure you want to delete this deal? This action cannot be undone.')) {
+                                try {
+                                    await deleteDeal(deal.id)
+                                    window.location.href = '/admin/deals' // Redirect after delete
+                                } catch (error) {
+                                    alert('Failed to delete deal')
+                                }
+                            }
+                        }}
+                    >
                         <Trash2 className="h-4 w-4 mr-2" />
                         Delete
                     </Button>

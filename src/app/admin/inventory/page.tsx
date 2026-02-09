@@ -37,6 +37,7 @@ interface InventoryItem {
     quantity_remaining: number
     unit: string
     storage_date: string
+    status: string
     notes: string | null
 }
 
@@ -51,36 +52,56 @@ export default function InventoryPage() {
         try {
             const supabase = createClient()
 
+            // Query updated to match actual DB schema
+            // inventory -> deals -> commodities
             const { data, error } = await supabase
                 .from('inventory')
                 .select(`
           id,
           deal_id,
-          deals(deal_ref),
-          product_name,
           warehouse_location,
-          quantity_stored,
-          quantity_remaining,
-          unit,
-          storage_date,
-          notes
+          current_weight,
+          reserved_weight,
+          status,
+          notes,
+          created_at,
+          deals (
+            deal_ref,
+            commodities (
+                name
+            )
+          )
         `)
-                .order('storage_date', { ascending: false }) as any
+                .order('created_at', { ascending: false }) as any
 
-            if (error) throw error
+            if (error) {
+                console.error('Supabase Query Error:', error)
+                throw error
+            }
 
-            const formattedInventory = (data || []).map((item: any) => ({
-                id: item.id,
-                deal_id: item.deal_id,
-                deal_ref: item.deals?.deal_ref || 'N/A',
-                product_name: item.product_name,
-                warehouse_location: item.warehouse_location,
-                quantity_stored: item.quantity_stored,
-                quantity_remaining: item.quantity_remaining,
-                unit: item.unit,
-                storage_date: item.storage_date,
-                notes: item.notes
-            }))
+            console.log('Raw Inventory Data:', data)
+
+            const formattedInventory = (data || []).map((item: any) => {
+                // Handle deals relation
+                const dealData = Array.isArray(item.deals) ? item.deals[0] : item.deals
+                // Handle commodities relation nested in deal
+                const commodityData = dealData?.commodities
+                const productName = Array.isArray(commodityData) ? commodityData[0]?.name : commodityData?.name
+
+                return {
+                    id: item.id,
+                    deal_id: item.deal_id,
+                    deal_ref: dealData?.deal_ref || 'N/A',
+                    product_name: productName || 'Unknown Product',
+                    warehouse_location: item.warehouse_location,
+                    quantity_stored: item.current_weight || 0,
+                    quantity_remaining: (item.current_weight || 0) - (item.reserved_weight || 0),
+                    unit: 'MT', // Default to MT as per system standard
+                    storage_date: item.created_at,
+                    status: item.status,
+                    notes: item.notes
+                }
+            })
 
             setInventory(formattedInventory)
             setFilteredInventory(formattedInventory)
@@ -98,7 +119,7 @@ export default function InventoryPage() {
         if (searchQuery) {
             filtered = filtered.filter(item =>
                 item.product_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                item.deal_ref.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (item.deal_ref?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
                 item.warehouse_location.toLowerCase().includes(searchQuery.toLowerCase())
             )
         }

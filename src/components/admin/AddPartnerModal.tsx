@@ -29,9 +29,9 @@ import { addPartner } from '@/actions/partners'
 
 const partnerSchema = z.object({
     type: z.enum(['supplier', 'customer']),
-    company_name: z.string().min(1, 'Company name is required'),
+    company_name: z.string().min(1, 'Company Name is required'),
     contact_person: z.string().optional(),
-    email: z.string().email('Invalid email').optional().or(z.literal('')),
+    email: z.string().email('Invalid email address').optional().or(z.literal('')),
     phone: z.string().optional(),
     address: z.string().optional(),
     country: z.string().min(1, 'Country is required'),
@@ -124,7 +124,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="company_name">Company Name *</Label>
+                            <Label htmlFor="company_name">Company Name <span className="text-destructive">*</span></Label>
                             <Input id="company_name" {...form.register('company_name')} />
                             {form.formState.errors.company_name && (
                                 <p className="text-xs text-destructive">{form.formState.errors.company_name.message}</p>
@@ -151,7 +151,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="country">Country *</Label>
+                            <Label htmlFor="country">Country <span className="text-destructive">*</span></Label>
                             <Input id="country" {...form.register('country')} />
                             {form.formState.errors.country && (
                                 <p className="text-xs text-destructive">{form.formState.errors.country.message}</p>

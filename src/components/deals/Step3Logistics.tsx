@@ -25,14 +25,14 @@ export function Step3Logistics({ form }: Step3LogisticsProps) {
 
             <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                    <Label>Port of Loading (POL)</Label>
+                    <Label>Port of Loading (POL) <span className="text-destructive">*</span></Label>
                     <Input id="portOfLoading" {...form.register('portOfLoading')} placeholder="e.g. Mundra, India" />
                     {form.formState.errors.portOfLoading && (
                         <p className="text-xs text-destructive">{form.formState.errors.portOfLoading.message}</p>
                     )}
                 </div>
                 <div className="space-y-2">
-                    <Label>Port of Discharge (POD)</Label>
+                    <Label>Port of Discharge (POD) <span className="text-destructive">*</span></Label>
                     <Input id="portOfDischarge" {...form.register('portOfDischarge')} placeholder="e.g. Jebel Ali, UAE" />
                     {form.formState.errors.portOfDischarge && (
                         <p className="text-xs text-destructive">{form.formState.errors.portOfDischarge.message}</p>

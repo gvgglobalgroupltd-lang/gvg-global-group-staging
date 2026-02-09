@@ -88,6 +88,44 @@ export function Step4Documents({ form, commodityName }: Step4DocumentsProps) {
                 </p>
             </div>
 
+            <Card className="p-6 bg-muted/30">
+                <h3 className="font-semibold mb-4 text-lg">Deal Summary</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                        <Label className="text-muted-foreground">Supplier</Label>
+                        <p className="font-medium">{formData.partnerId ? 'Selected' : 'Not Selected'}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Commodity</Label>
+                        <p className="font-medium">{commodityName || 'Not Selected'}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Origin</Label>
+                        <p className="font-medium">{formData.originCountry}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Incoterm</Label>
+                        <p className="font-medium">{formData.incoterm}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Price</Label>
+                        <p className="font-medium">{formData.currency} {formData.buyPrice}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Quantity</Label>
+                        <p className="font-medium">{formData.weightMT} MT</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Payment</Label>
+                        <p className="font-medium">{formData.paymentMethod}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Logistics</Label>
+                        <p className="font-medium">{formData.portOfLoading} ➔ {formData.portOfDischarge}</p>
+                    </div>
+                </div>
+            </Card>
+
             <Card className="p-6">
                 <h3 className="font-semibold mb-4">Required Documents</h3>
                 <div className="grid grid-cols-2 gap-3">

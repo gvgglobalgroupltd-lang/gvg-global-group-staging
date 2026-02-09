@@ -17,6 +17,7 @@ import {
 import { Card } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
 import { Skeleton } from '@/components/ui/skeleton'
+import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
@@ -173,8 +174,8 @@ export default function PartnersPage() {
                             <TableCell>{partner.country || 'N/A'}</TableCell>
                             <TableCell>{formatDate(partner.created_at)}</TableCell>
                             <TableCell>
-                                <Button variant="ghost" size="sm">
-                                    View Details
+                                <Button variant="ghost" size="sm" asChild>
+                                    <Link href={`/admin/partners/${partner.id}`}>View Details</Link>
                                 </Button>
                             </TableCell>
                         </TableRow>

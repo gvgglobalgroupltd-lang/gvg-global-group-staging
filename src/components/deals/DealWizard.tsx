@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,6 +14,7 @@ import {
     step3Schema,
     step4Schema
 } from '@/lib/validations/deal-schema'
+import { updateDeal } from '@/actions/deals'
 import { useDealMasterData } from '@/hooks/useDealCalculations'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -35,18 +36,44 @@ const STEPS = [
     { id: 'review', title: 'Review', schema: step4Schema, baseSchema: step4Schema }
 ]
 
-export function DealWizard() {
+interface DealWizardProps {
+    dealId?: string
+    initialData?: DealWizardFormData
+}
+
+export function DealWizard({ dealId, initialData }: DealWizardProps) {
     const router = useRouter()
     const { toast } = useToast()
     const [currentStep, setCurrentStep] = useState(0)
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [canSubmit, setCanSubmit] = useState(false)
     const { suppliers, commodities, isLoading: isLoadingMasterData } = useDealMasterData()
 
     const form = useForm<DealWizardFormData>({
         resolver: zodResolver(dealWizardSchema) as any,
-        defaultValues: defaultFormValues,
+        defaultValues: initialData || defaultFormValues,
         mode: 'onChange'
     })
+
+    // Enable submit button after a delay when entering the last step
+    // This prevents accidental double-clicks on "Next" triggering "Submit"
+    useEffect(() => {
+        if (currentStep === STEPS.length - 1) {
+            setCanSubmit(false)
+            const timer = setTimeout(() => {
+                setCanSubmit(true)
+            }, 1000) // 1 second cooldown
+            return () => clearTimeout(timer)
+        }
+    }, [currentStep])
+
+    // Ensure form is reset if initialData changes or arrives late
+    useEffect(() => {
+        if (initialData) {
+            console.log('Resetting form with initialData:', initialData)
+            form.reset(initialData)
+        }
+    }, [initialData, form])
 
     const handleNext = async () => {
         const step = STEPS[currentStep]
@@ -54,20 +81,12 @@ export function DealWizard() {
         const baseSchema = (step as any).baseSchema || step.schema
         const fields = Object.keys(baseSchema.shape) as any[]
 
-        console.log('=== handleNext Debug ===')
-        console.log('Current Step:', currentStep, '-', step.title)
-        console.log('Fields to validate:', fields)
-        console.log('Current form values:', form.getValues())
-
         // Trigger basic field validation (UI feedback)
         const isBaseValid = await form.trigger(fields)
-        console.log('Base validation result:', isBaseValid)
 
         // Perform full schema validation (including refinements like Sum=100%)
         const fullValidation = step.schema.safeParse(form.getValues())
         const isValid = isBaseValid && fullValidation.success
-
-        console.log('Full validation success:', fullValidation.success)
 
         if (isValid) {
             console.log('✅ Validation passed, advancing to next step')
@@ -75,9 +94,17 @@ export function DealWizard() {
         } else {
             console.log('❌ Validation failed')
 
-            // If base validation passed but full validation failed (refinement errors)
-            if (isBaseValid && !fullValidation.success) {
-                console.log('Refinement errors found:', fullValidation.error.issues)
+            // Collect error messages
+            const errorMessages = new Set<string>()
+            if (!isBaseValid) {
+                // Get errors from form state
+                Object.keys(form.formState.errors).forEach(key => {
+                    const message = (form.formState.errors as any)[key]?.message
+                    if (message) errorMessages.add(message)
+                })
+            }
+
+            if (!fullValidation.success) {
                 fullValidation.error.issues.forEach((issue) => {
                     if (issue.path.length > 0) {
                         const fieldName = issue.path[0] as any
@@ -85,14 +112,18 @@ export function DealWizard() {
                             type: 'manual',
                             message: issue.message
                         })
+                        errorMessages.add(issue.message)
                     }
                 })
             }
 
+            const errorList = Array.from(errorMessages).join(', ')
+
             toast({
                 title: 'Validation Error',
-                description: 'Please fix the errors in the form before proceeding.',
-                variant: 'destructive'
+                description: `Please fix the following: ${errorList || 'Check highlighted fields'}`,
+                variant: 'destructive',
+                duration: 5000
             })
         }
     }
@@ -107,151 +138,217 @@ export function DealWizard() {
         try {
             const supabase = createClient()
 
-            // Generate sequential Ref (mock logic for now, or DB trigger)
-            const dealRef = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
+            if (dealId) {
+                // UPDATE MODE
+                // Map form data to DB columns
+                const updatePayload = {
+                    partner_id: data.partnerId,
+                    commodity_id: data.commodityId,
+                    origin_country: data.originCountry,
+                    validity_date: data.validityDate || null,
+                    incoterm: data.incoterm,
+                    buy_price: data.buyPrice,
+                    currency: data.currency,
+                    weight_mt: data.weightMT,
+                    exchange_rate_locked: data.customsExchangeRate,
+                    logistics_type: 'Self_Managed',
+                    destination_type: 'Warehouse',
+                    port_of_loading: data.portOfLoading,
+                    port_of_discharge: data.portOfDischarge,
+                    shipment_period_start: data.shipmentPeriodStart || null,
+                    shipment_period_end: data.shipmentPeriodEnd || null,
+                    partial_shipment_allowed: data.partialShipment,
+                    transshipment_allowed: data.transshipment,
+                    free_days_detention: data.freeDays,
+                    shipping_line: data.shippingLine,
+                    freight_forwarder: data.freightForwarder,
+                    pol: data.portOfLoading,
+                    pod: data.portOfDischarge,
+                    payment_method: data.paymentMethod,
+                    payment_terms: data.paymentTerms,
+                    advance_percentage: data.advancePercent,
+                    balance_percentage: data.balancePercent,
+                    lc_number: data.lcNumber || null,
+                    lc_expiry_date: data.lcExpiryDate || null,
+                    issuing_bank: data.issuingBank || null,
+                    packing_type: data.packagingType || null,
+                    isri_code: data.isriCode,
+                    guaranteed_recovery_rate: data.guaranteedRecovery,
+                    moisture_tolerance: data.moistureTolerance,
+                    dust_tolerance: data.dustTolerance,
+                    quantity_tolerance_percent: data.quantityTolerance || 0,
+                    quality_specs: data.qualitySpecs,
+                    claims_days: data.claimsDays,
+                    weight_franchise: data.weightFranchise,
+                    cost_ocean_freight: data.oceanFreight || 0,
+                    cost_insurance: data.insurance || 0,
+                    cost_customs_rate: data.customsExchangeRate,
+                    cost_bcd_percent: data.bcdPercent,
+                    cost_sws_percent: data.swsPercent,
+                    cost_finance: data.financeCost,
+                    required_documents: data.requiredDocuments,
+                    notes: data.notes
+                }
 
-            const { error } = await (supabase.from('deals') as any).insert({
-                deal_ref: dealRef,
-                status: 'Draft',
-                trader_id: (await supabase.auth.getUser()).data.user?.id!,
-                partner_id: data.partnerId,
-                commodity_id: data.commodityId,
-                origin_country: data.originCountry,
-                validity_date: data.validityDate || null,
-                incoterm: data.incoterm,
+                await updateDeal(dealId, updatePayload)
 
-                // Pricing
-                buy_price: data.buyPrice,
-                currency: data.currency,
-                weight_mt: data.weightMT,
-                exchange_rate_locked: data.customsExchangeRate,
+                toast({
+                    title: 'Deal Updated',
+                    description: 'Changes have been saved successfully.',
+                    duration: 3000,
+                })
 
-                // Logistics
-                logistics_type: 'Self_Managed',
-                destination_type: 'Warehouse',
-                port_of_loading: data.portOfLoading,
-                port_of_discharge: data.portOfDischarge,
-                shipment_period_start: data.shipmentPeriodStart || null,
-                shipment_period_end: data.shipmentPeriodEnd || null,
-                partial_shipment_allowed: data.partialShipment,
-                transshipment_allowed: data.transshipment,
-                free_days_detention: data.freeDays,
-                shipping_line: data.shippingLine,
-                freight_forwarder: data.freightForwarder,
-                pol: data.portOfLoading, // Redundant but requested in schema
-                pod: data.portOfDischarge, // Redundant but requested in schema
-
-                // Payment
-                payment_method: data.paymentMethod,
-                payment_terms: data.paymentTerms,
-                advance_percentage: data.advancePercent,
-                balance_percentage: data.balancePercent,
-                lc_number: data.lcNumber || null,
-                lc_expiry_date: data.lcExpiryDate || null,
-                issuing_bank: data.issuingBank || null,
-
-                // Product Quality & Specs
-                packing_type: data.packagingType || null,
-                isri_code: data.isriCode,
-                guaranteed_recovery_rate: data.guaranteedRecovery,
-                moisture_tolerance: data.moistureTolerance,
-                dust_tolerance: data.dustTolerance,
-                quantity_tolerance_percent: data.quantityTolerance || 0,
-                quality_specs: data.qualitySpecs,
-
-                // Agreement
-                claims_days: data.claimsDays,
-                weight_franchise: data.weightFranchise,
-
-                // Costing (Estimates)
-                cost_ocean_freight: data.oceanFreight || 0,
-                cost_insurance: data.insurance || 0,
-                cost_customs_rate: data.customsExchangeRate,
-                cost_bcd_percent: data.bcdPercent,
-                cost_sws_percent: data.swsPercent,
-                cost_finance: data.financeCost,
-
-                // Docs
-                required_documents: data.requiredDocuments,
-                notes: data.notes
-            } as any)
-
-            if (error) throw error
-
-            // Create Payment Records
-            const dealId = (data as any)[0]?.id // Assuming Supabase returns created object if .select() is used
-
-            // Re-fetch deal ID if not returned above (insert doesn't return data by default without select)
-            const { data: createdDeal, error: fetchError } = await (supabase
-                .from('deals') as any)
-                .select('id')
-                .eq('deal_ref', dealRef)
-                .single() as any
-
-            if (fetchError || !createdDeal) {
-                console.error('Failed to fetch created deal for payments:', fetchError)
-                // Don't block flow, but log error
+                router.push(`/admin/deals/${dealId}`)
             } else {
-                const payments = []
-                // Calculate total cost approx from form data if column missing in DB
-                const totalCost = (data.buyPrice * data.weightMT) || 0
+                // CREATE MODE
+                // Generate sequential Ref (mock logic for now, or DB trigger)
+                const dealRef = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
 
-                // Map form payment method to DB allowed values for deal_payments
-                const methodMap: Record<string, string> = {
-                    'TT': 'Wire Transfer',
-                    'LC': 'Letter of Credit',
-                    'CAD': 'Cash',
-                    'DP': 'Other'
-                }
-                const dbPaymentMethod = methodMap[data.paymentMethod] || 'Other'
+                const { error } = await (supabase.from('deals') as any).insert({
+                    deal_ref: dealRef,
+                    status: 'Draft',
+                    trader_id: (await supabase.auth.getUser()).data.user?.id!,
+                    partner_id: data.partnerId,
+                    commodity_id: data.commodityId,
+                    origin_country: data.originCountry,
+                    validity_date: data.validityDate || null,
+                    incoterm: data.incoterm,
 
-                // 1. Advance Payment
-                if (data.advancePercent > 0) {
-                    payments.push({
-                        deal_id: createdDeal.id,
-                        payment_type: 'Advance',
-                        percentage: data.advancePercent,
-                        amount_usd: (data.buyPrice * data.weightMT * (data.advancePercent / 100)), // Approximate
-                        due_date: new Date().toISOString(), // Due immediately
-                        status: 'Pending',
-                        payment_method: dbPaymentMethod,
-                        created_by: (await supabase.auth.getUser()).data.user?.id!
-                    })
+                    // Pricing
+                    buy_price: data.buyPrice,
+                    currency: data.currency,
+                    weight_mt: data.weightMT,
+                    exchange_rate_locked: data.customsExchangeRate,
+
+                    // Logistics
+                    logistics_type: 'Self_Managed',
+                    destination_type: 'Warehouse',
+                    port_of_loading: data.portOfLoading,
+                    port_of_discharge: data.portOfDischarge,
+                    shipment_period_start: data.shipmentPeriodStart || null,
+                    shipment_period_end: data.shipmentPeriodEnd || null,
+                    partial_shipment_allowed: data.partialShipment,
+                    transshipment_allowed: data.transshipment,
+                    free_days_detention: data.freeDays,
+                    shipping_line: data.shippingLine,
+                    freight_forwarder: data.freightForwarder,
+                    pol: data.portOfLoading, // Redundant but requested in schema
+                    pod: data.portOfDischarge, // Redundant but requested in schema
+
+                    // Payment
+                    payment_method: data.paymentMethod,
+                    payment_terms: data.paymentTerms,
+                    advance_percentage: data.advancePercent,
+                    balance_percentage: data.balancePercent,
+                    lc_number: data.lcNumber || null,
+                    lc_expiry_date: data.lcExpiryDate || null,
+                    issuing_bank: data.issuingBank || null,
+
+                    // Product Quality & Specs
+                    packing_type: data.packagingType || null,
+                    isri_code: data.isriCode,
+                    guaranteed_recovery_rate: data.guaranteedRecovery,
+                    moisture_tolerance: data.moistureTolerance,
+                    dust_tolerance: data.dustTolerance,
+                    quantity_tolerance_percent: data.quantityTolerance || 0,
+                    quality_specs: data.qualitySpecs,
+
+                    // Agreement
+                    claims_days: data.claimsDays,
+                    weight_franchise: data.weightFranchise,
+
+                    // Costing (Estimates)
+                    cost_ocean_freight: data.oceanFreight || 0,
+                    cost_insurance: data.insurance || 0,
+                    cost_customs_rate: data.customsExchangeRate,
+                    cost_bcd_percent: data.bcdPercent,
+                    cost_sws_percent: data.swsPercent,
+                    cost_finance: data.financeCost,
+
+                    // Docs
+                    required_documents: data.requiredDocuments,
+                    notes: data.notes
+                } as any)
+
+                if (error) throw error
+
+                // Create Payment Records
+                const dealId = (data as any)[0]?.id // Assuming Supabase returns created object if .select() is used
+
+                // Re-fetch deal ID if not returned above (insert doesn't return data by default without select)
+                const { data: createdDeal, error: fetchError } = await (supabase
+                    .from('deals') as any)
+                    .select('id')
+                    .eq('deal_ref', dealRef)
+                    .single() as any
+
+                if (fetchError || !createdDeal) {
+                    console.error('Failed to fetch created deal for payments:', fetchError)
+                    // Don't block flow, but log error
+                } else {
+                    const payments = []
+                    // Calculate total cost approx from form data if column missing in DB
+                    const totalCost = (data.buyPrice * data.weightMT) || 0
+
+                    // Map form payment method to DB allowed values for deal_payments
+                    const methodMap: Record<string, string> = {
+                        'TT': 'Wire Transfer',
+                        'LC': 'Letter of Credit',
+                        'CAD': 'Cash',
+                        'DP': 'Other'
+                    }
+                    const dbPaymentMethod = methodMap[data.paymentMethod] || 'Other'
+
+                    // 1. Advance Payment
+                    if (data.advancePercent > 0) {
+                        payments.push({
+                            deal_id: createdDeal.id,
+                            payment_type: 'Advance',
+                            percentage: data.advancePercent,
+                            amount_usd: (data.buyPrice * data.weightMT * (data.advancePercent / 100)), // Approximate
+                            due_date: new Date().toISOString(), // Due immediately
+                            status: 'Pending',
+                            payment_method: dbPaymentMethod,
+                            created_by: (await supabase.auth.getUser()).data.user?.id!
+                        })
+                    }
+
+                    // 2. Balance Payment
+                    if (data.balancePercent > 0) {
+                        payments.push({
+                            deal_id: createdDeal.id,
+                            payment_type: 'Balance',
+                            percentage: data.balancePercent,
+                            amount_usd: (data.buyPrice * data.weightMT * (data.balancePercent / 100)),
+                            due_date: data.shipmentPeriodEnd || new Date().toISOString(), // Due on shipment/arrival
+                            status: 'Pending',
+                            payment_method: dbPaymentMethod,
+                            created_by: (await supabase.auth.getUser()).data.user?.id!
+                        })
+                    }
+
+                    if (payments.length > 0) {
+                        const { error: payError } = await (supabase.from('deal_payments') as any).insert(payments) as any
+                        if (payError) console.error('Failed to create payment records:', payError)
+                    }
                 }
 
-                // 2. Balance Payment
-                if (data.balancePercent > 0) {
-                    payments.push({
-                        deal_id: createdDeal.id,
-                        payment_type: 'Balance',
-                        percentage: data.balancePercent,
-                        amount_usd: (data.buyPrice * data.weightMT * (data.balancePercent / 100)),
-                        due_date: data.shipmentPeriodEnd || new Date().toISOString(), // Due on shipment/arrival
-                        status: 'Pending',
-                        payment_method: dbPaymentMethod,
-                        created_by: (await supabase.auth.getUser()).data.user?.id!
-                    })
-                }
+                toast({
+                    title: 'Deal Created Successfully',
+                    description: `Reference: ${dealRef}`,
+                    duration: 3000,
+                })
 
-                if (payments.length > 0) {
-                    const { error: payError } = await (supabase.from('deal_payments') as any).insert(payments) as any
-                    if (payError) console.error('Failed to create payment records:', payError)
-                }
+                router.push('/admin/deals')
             }
-
-            toast({
-                title: 'Deal Created Successfully',
-                description: `Reference: ${dealRef}`,
-            })
-
-            router.push('/admin/deals')
 
         } catch (error: any) {
             console.error('Submission error:', error)
             toast({
-                title: 'Error Creating Deal',
+                title: 'Error Saving Deal',
                 description: error.message,
-                variant: 'destructive'
+                variant: 'destructive',
+                duration: 5000,
             })
         } finally {
             setIsSubmitting(false)
@@ -268,7 +365,7 @@ export function DealWizard() {
 
     return (
         <div className="max-w-4xl mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-8">Create New Deal</h1>
+            <h1 className="text-3xl font-bold mb-8">{dealId ? 'Edit Deal' : 'Create New Deal'}</h1>
 
             {/* Step Indicators */}
             <div className="flex justify-between mb-8 relative">
@@ -348,14 +445,15 @@ export function DealWizard() {
                                 type="submit"
                                 className="bg-green-600 hover:bg-green-700"
                                 data-testid="submit-deal-button"
+                                disabled={isSubmitting || !canSubmit}
                             >
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                        Creating...
+                                        {dealId ? 'Saving...' : 'Creating...'}
                                     </>
                                 ) : (
-                                    'Create Deal'
+                                    dealId ? 'Save Changes' : 'Create Deal'
                                 )}
                             </Button>
                         )}
