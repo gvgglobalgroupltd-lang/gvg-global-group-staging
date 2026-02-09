@@ -1,11 +1,11 @@
 
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown, Minus, RefreshCw, ArrowRight, ShieldCheck, Scale, Phone } from 'lucide-react'
+import { TrendingUp, RefreshCw, ShieldCheck, Scale, Phone } from 'lucide-react'
 import { ServiceQuoteForm } from '@/components/forms/ServiceQuoteForm'
-import { getMetalRates, type MetalRate } from '@/app/actions/market'
+import { getMetalRates } from '@/app/actions/market'
 import type { Metadata } from 'next'
-import Link from 'next/link'
+
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -151,7 +151,7 @@ export default async function PricingPage() {
                                             <Badge variant="outline" className="mb-4 border-indigo-500/30 text-indigo-400">Fast Response</Badge>
                                             <h3 className="text-2xl font-bold text-white mb-2">Request Custom Quote</h3>
                                             <p className="text-slate-400 text-sm">
-                                                Complete the form below for today's best rates on your specific material.
+                                                Complete the form below for today&apos;s best rates on your specific material.
                                             </p>
                                         </div>
 

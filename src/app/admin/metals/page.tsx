@@ -78,7 +78,9 @@ export default async function MetalsDivisionPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {metalPrices.slice(0, 8).map((metal) => {
-                        const changePercent = (Math.random() * 4 - 2).toFixed(2) // Mock change
+                        // Use a deterministic value based on metal name instead of random to avoid hydration/render mismatches
+                        const hash = metal.metal.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+                        const changePercent = ((hash % 400) / 100 - 2).toFixed(2)
                         const isPositive = parseFloat(changePercent) > 0
 
                         return (

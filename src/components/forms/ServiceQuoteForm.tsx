@@ -27,6 +27,7 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
     const [state, formAction] = useActionState(submitQuote, initialState)
     const [isPending, setIsPending] = useState(false)
 
+
     // Configuration based on mode
     const getTheme = () => {
         switch (mode) {
@@ -119,7 +120,7 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
                         <div className={cn("w-16 h-16 rounded-full flex items-center justify-center mb-6 ring-4 ring-opacity-20", theme.primary.replace('bg-', 'bg-').replace('600', '500/20'), theme.ring.replace('focus:ring-', 'ring-'))}>
                             <CheckCircle2 className={cn("h-8 w-8", theme.primary.replace('bg-', 'text-').replace('600', '400'))} />
                         </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">Request Received!</h3>
+                        <h3 className="text-2xl font-bold text-white mb-2" id="success-heading">Request Received!</h3>
                         <p className="text-slate-400 mb-8 max-w-xs mx-auto">
                             {state.message}
                         </p>
@@ -172,7 +173,13 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
                             <Label className="text-slate-300">
                                 {mode === 'logistics' ? 'Material / Commodity' : 'Service Interest'}
                             </Label>
-                            <Select name="service_interest" required>
+                            <Select
+                                onValueChange={(val) => {
+                                    const input = document.getElementById('service_interest_input') as HTMLInputElement;
+                                    if (input) input.value = val;
+                                }}
+                                required
+                            >
                                 <SelectTrigger className="bg-slate-950/50 border-slate-700 text-white">
                                     <SelectValue placeholder={`Select ${mode === 'logistics' ? 'Material' : 'Service'}`} />
                                 </SelectTrigger>
@@ -182,6 +189,7 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <input type="hidden" name="service_interest" id="service_interest_input" required />
                         </div>
 
                         {/* MODE SPECIFIC FIELDS */}
@@ -240,17 +248,25 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
                                 {mode === 'logistics' ? (
                                     <Input name="budget_range" placeholder="e.g. Market - 2%" className="bg-slate-950/50 border-slate-700 text-white placeholder:text-slate-600 focus-visible:ring-1 focus-visible:ring-offset-0" />
                                 ) : (
-                                    <Select name="budget_range">
-                                        <SelectTrigger className="bg-slate-950/50 border-slate-700 text-white">
-                                            <SelectValue placeholder="Select range" />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-slate-900 border-slate-700 text-white">
-                                            <SelectItem value="Under $5k">Small / Under $5k</SelectItem>
-                                            <SelectItem value="$5k - $15k">Medium / $5k - $15k</SelectItem>
-                                            <SelectItem value="$15k - $50k">Large / $15k - $50k</SelectItem>
-                                            <SelectItem value="$50k+">Enterprise / $50k+</SelectItem>
-                                        </SelectContent>
-                                    </Select>
+                                    <>
+                                        <Select
+                                            onValueChange={(val) => {
+                                                const input = document.getElementById('budget_range_input') as HTMLInputElement;
+                                                if (input) input.value = val;
+                                            }}
+                                        >
+                                            <SelectTrigger className="bg-slate-950/50 border-slate-700 text-white">
+                                                <SelectValue placeholder="Select range" />
+                                            </SelectTrigger>
+                                            <SelectContent className="bg-slate-900 border-slate-700 text-white">
+                                                <SelectItem value="Under $5k">Small / Under $5k</SelectItem>
+                                                <SelectItem value="$5k - $15k">Medium / $5k - $15k</SelectItem>
+                                                <SelectItem value="$15k - $50k">Large / $15k - $50k</SelectItem>
+                                                <SelectItem value="$50k+">Enterprise / $50k+</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <input type="hidden" name="budget_range" id="budget_range_input" />
+                                    </>
                                 )}
                             </div>
                             <div className="space-y-2">
@@ -274,7 +290,7 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
                                     Submitting...
                                 </>
                             ) : (
-                                mode === 'logistics' ? 'Request Spot Rate' : 'Submit Request'
+                                mode === 'logistics' ? 'Request Spot Rate' : 'Submit Quote Request'
                             )}
                         </Button>
                     </form>

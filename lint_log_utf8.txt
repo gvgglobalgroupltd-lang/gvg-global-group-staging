@@ -1,0 +1,484 @@
+﻿
+> gvg-portal@0.1.0 lint
+> eslint
+
+
+D:\GVGGlobalGroup\gvg-portal\public\sw.js
+   1:7   warning  'CACHE_NAME' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   3:35  warning  'event' is defined but never used                @typescript-eslint/no-unused-vars
+  11:33  warning  'event' is defined but never used                @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\read_log.mjs
+  17:10  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\scripts\migrate-simple.mjs
+  21:7   warning  'supabase' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  27:11  warning  'seedPath' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  31:15  warning  'schema' is assigned a value but never used    @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\scripts\optimize-hero-images.mjs
+  7:7  warning  '__dirname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\scripts\optimize-images.mjs
+  7:7  warning  '__dirname' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\actions\bookings.ts
+  53:13  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\actions\immigration-admin.ts
+  27:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\actions\immigration.ts
+  21:14  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  83:33  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  87:10  warning  'unstable_cache' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\actions\quotes.ts
+  137:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  160:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\actions\services.ts
+  5:10  warning  'revalidatePath' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\about\page.tsx
+  59:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\contact\page.tsx
+   2:49  warning  'Globe' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   5:8   warning  'Link' is defined but never used                                                                                                                                                                                                                                                         @typescript-eslint/no-unused-vars
+  96:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\disclaimer\page.tsx
+  68:121  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\locations\page.tsx
+   2:38  warning  'Building2' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+  38:21  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\pricing\page.tsx
+  4:22  warning  'TrendingDown' is defined but never used  @typescript-eslint/no-unused-vars
+  4:36  warning  'Minus' is defined but never used         @typescript-eslint/no-unused-vars
+  4:54  warning  'ArrowRight' is defined but never used    @typescript-eslint/no-unused-vars
+  6:30  warning  'MetalRate' is defined but never used     @typescript-eslint/no-unused-vars
+  8:8   warning  'Link' is defined but never used          @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\privacy\page.tsx
+    1:27   warning  'Phone' is defined but never used                                @typescript-eslint/no-unused-vars
+   19:47   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   19:51   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   19:53   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   19:58   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   19:63   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   19:66   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  135:76   error    `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  145:158  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  145:171  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\app\(public)\terms\page.tsx
+    1:17  warning  'FileText' is defined but never used                             @typescript-eslint/no-unused-vars
+   33:41  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   33:50  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   33:52  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   33:56  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   33:58  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   33:62  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   34:41  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   34:50  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   35:41  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   35:47  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   35:49  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   35:54  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   36:41  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   36:50  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   37:41  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+   37:49  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  186:51  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  186:58  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\app\actions\inquiries.ts
+  13:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  20:62  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  49:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:59  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  56:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  74:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\actions\market.ts
+  34:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\commodities\page.tsx
+   4:10  warning  'Plus' is defined but never used            @typescript-eslint/no-unused-vars
+   4:16  warning  'Package' is defined but never used         @typescript-eslint/no-unused-vars
+   6:10  warning  'Button' is defined but never used          @typescript-eslint/no-unused-vars
+  41:27  warning  'error' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  44:35  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\deals\[id]\finance\page.tsx
+  24:38  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  41:30  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:60  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:62  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  64:42  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  88:35  warning  'paymentId' is defined but never used     @typescript-eslint/no-unused-vars
+  96:40  warning  'paymentId' is defined but never used     @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\deals\[id]\page.tsx
+  31:21  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  32:24  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  39:11  warning  'router' is assigned a value but never used                                                                  @typescript-eslint/no-unused-vars
+  47:8   warning  React Hook useEffect has a missing dependency: 'loadDeal'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  65:53  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\deals\deals-client.tsx
+  57:8   warning  React Hook useEffect has a missing dependency: 'filterDeals'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  77:63  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+  81:60  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\inquiries\page.tsx
+  53:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\inquiries\page.tsx:53:9
+  51 |
+  52 |     useEffect(() => {
+> 53 |         fetchInquiries()
+     |         ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  54 |     }, [fetchInquiries])
+  55 |
+  56 |     const handleStatusUpdate = async (id: string, newStatus: string) => {  react-hooks/set-state-in-effect
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\inventory\page.tsx
+  56:8   warning  React Hook useEffect has a missing dependency: 'filterInventory'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  76:65  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+  80:64  error    Unexpected any. Specify a different type                                                                            @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\layout.tsx
+  8:5  warning  'Building2' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\page.tsx
+  95:21  error  Do not use an `<a>` element to navigate to `/admin/deals/create/`. Use `<Link />` from `next/link` instead. See: https://nextjs.org/docs/messages/no-html-link-for-pages  @next/next/no-html-link-for-pages
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\partners\page.tsx
+   4:10  warning  'Plus' is defined but never used                                                                                                            @typescript-eslint/no-unused-vars
+  49:8   warning  React Hook useEffect has missing dependencies: 'filterCustomers' and 'filterSuppliers'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  60:47  error    Unexpected any. Specify a different type                                                                                                    @typescript-eslint/no-explicit-any
+  65:47  error    Unexpected any. Specify a different type                                                                                                    @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\quotes\page.tsx
+  15:43  warning  'Briefcase' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-unused-vars
+  55:9   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\GVGGlobalGroup\gvg-portal\src\app\admin\quotes\page.tsx:55:9
+  53 |
+  54 |     useEffect(() => {
+> 55 |         fetchQuotes()
+     |         ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  56 |     }, [fetchQuotes])
+  57 |
+  58 |     const handleStatusUpdate = async (id: string, newStatus: string) => {  react-hooks/set-state-in-effect
+
+D:\GVGGlobalGroup\gvg-portal\src\app\immigration\apply\[visaType]\page.tsx
+   25:22  error    Unexpected any. Specify a different type       @typescript-eslint/no-explicit-any
+  114:5   warning  'DialogDescription' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\immigration\page.tsx
+   15:22  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  116:49  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  165:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\GVGGlobalGroup\gvg-portal\src\app\page.tsx
+   3:10  warning  'Card' is defined but never used             @typescript-eslint/no-unused-vars
+   6:10  warning  'PartnersSection' is defined but never used  @typescript-eslint/no-unused-vars
+  16:10  warning  'ArrowRight' is defined but never used       @typescript-eslint/no-unused-vars
+  16:22  warning  'Globe' is defined but never used            @typescript-eslint/no-unused-vars
+  16:29  warning  'TrendingUp' is defined but never used       @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\app\tech\page.tsx
+  5:10  warning  'Card' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\admin\ImmigrationAdminClient.tsx
+  28:80  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  30:58  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  32:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\admin\ImmigrationServiceForm.tsx
+  12:10  warning  'Card' is defined but never used          @typescript-eslint/no-unused-vars
+  21:15  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\common\WhatsAppWidget.tsx
+  4:28  warning  'Phone' is defined but never used   @typescript-eslint/no-unused-vars
+  5:10  warning  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\dashboard\ActionCenter.tsx
+   4:32  warning  'FileText' is defined but never used      @typescript-eslint/no-unused-vars
+  36:52  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\dashboard\ITLeadsWidget.tsx
+  37:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\dashboard\LogisticsTracker.tsx
+  36:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\dashboard\MarketTicker.tsx
+  5:36  warning  'DollarSign' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\deals\DealWizard.tsx
+   21:10  warning  'Tabs' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+   21:16  warning  'TabsContent' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+   21:29  warning  'TabsList' is defined but never used                                                                        @typescript-eslint/no-unused-vars
+   21:39  warning  'TabsTrigger' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+   46:52  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+   54:37  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+   55:57  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+   83:60  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+  116:28  error    Optional chain expressions can return undefined by design - using a non-null assertion is unsafe and wrong  @typescript-eslint/no-non-null-asserted-optional-chain
+  177:18  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+  182:19  warning  'dealId' is assigned a value but never used                                                                 @typescript-eslint/no-unused-vars
+  182:37  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+  196:23  warning  'totalCost' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars
+  208:37  error    Optional chain expressions can return undefined by design - using a non-null assertion is unsafe and wrong  @typescript-eslint/no-non-null-asserted-optional-chain
+  222:37  error    Optional chain expressions can return undefined by design - using a non-null assertion is unsafe and wrong  @typescript-eslint/no-non-null-asserted-optional-chain
+  239:25  error    Unexpected any. Specify a different type                                                                    @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\deals\Step1Sourcing.tsx
+  170:91  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  268:65  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\deals\Step2Pricing.tsx
+   71:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   87:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  142:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\deals\Step4Documents.tsx
+  52:9   warning  'isLoading' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  73:18  warning  'error' is defined but never used               @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\documents\DocumentList.tsx
+  178:79   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  209:54   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  212:68   error  Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  252:93   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  252:109  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\components\documents\DocumentUploader.tsx
+  17:17  warning  'AlertDescription' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+  61:8   warning  React Hook useCallback has a missing dependency: 'handleFileSelect'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\GVGGlobalGroup\gvg-portal\src\components\documents\RequiredDocsChecklist.tsx
+  50:94  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  63:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\finance\AddPaymentModal.tsx
+  140:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  195:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\finance\PLSummaryCard.tsx
+  40:34  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\forms\ContactForm.tsx
+   62:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  127:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\forms\ServiceQuoteForm.tsx
+  10:47  warning  'Truck' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+  10:61  warning  'Globe' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+  26:5   error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+D:\GVGGlobalGroup\gvg-portal\src\components\immigration\ApplicationWizard.tsx
+  14:14  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:12  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\immigration\CRSCalculator.tsx
+    7:10   warning  'RadioGroup' is defined but never used             @typescript-eslint/no-unused-vars
+    7:22   warning  'RadioGroupItem' is defined but never used         @typescript-eslint/no-unused-vars
+   11:10   warning  'Calculator' is defined but never used             @typescript-eslint/no-unused-vars
+   11:100  warning  'Info' is defined but never used                   @typescript-eslint/no-unused-vars
+   36:22   warning  'setTestType' is assigned a value but never used   @typescript-eslint/no-unused-vars
+   44:12   warning  'fTestType' is assigned a value but never used     @typescript-eslint/no-unused-vars
+   44:23   warning  'setFTestType' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  137:86   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  212:82   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  269:96   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  346:81   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+  427:77   error    Unexpected any. Specify a different type           @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\immigration\tools\DocumentChecklistModal.tsx
+  95:55  warning  'programName' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\immigration\tools\PNPFinder.tsx
+    8:18  warning  'Briefcase' is defined but never used                            @typescript-eslint/no-unused-vars
+  429:66  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  429:85  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  438:69  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+  470:83  error    Unexpected any. Specify a different type                         @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\immigration\tools\UnifiedEligibilityCalculator.tsx
+   16:63   warning  'BookOpen' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+   16:92   warning  'FileText' is defined but never used                                                                                 @typescript-eslint/no-unused-vars
+   24:10   warning  'format' is defined but never used                                                                                   @typescript-eslint/no-unused-vars
+   46:21   warning  'setMarital' is assigned a value but never used                                                                      @typescript-eslint/no-unused-vars
+   72:26   warning  'setJobOfferWage' is assigned a value but never used                                                                 @typescript-eslint/no-unused-vars
+   73:25   warning  'setJobOfferNoc' is assigned a value but never used                                                                  @typescript-eslint/no-unused-vars
+   90:20   warning  'setIntent' is assigned a value but never used                                                                       @typescript-eslint/no-unused-vars
+  128:9    error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  305:77   error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  311:129  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  379:131  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  484:94   error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  510:64   error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\layout\SiteFooter.tsx
+  2:10  warning  'Mail' is defined but never used    @typescript-eslint/no-unused-vars
+  2:16  warning  'Phone' is defined but never used   @typescript-eslint/no-unused-vars
+  2:23  warning  'MapPin' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\layout\SiteHeader.tsx
+    8:5   warning  'Phone' is defined but never used         @typescript-eslint/no-unused-vars
+   17:5   warning  'Stamp' is defined but never used         @typescript-eslint/no-unused-vars
+   49:45  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  153:50  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  172:76  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  239:54  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  245:72  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\GovernmentPartnersSection.tsx
+  3:10  warning  'Badge' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\ImpactDashboard.tsx
+  78:12  warning  React Hook useEffect has an unnecessary dependency: 'hasAnimated'. Either exclude it or remove the dependency array. Outer scope values like 'hasAnimated' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\IndianPartnersSection.tsx
+   3:1   warning  Unused eslint-disable directive (no problems were reported from '@next/next/no-img-element')
+  35:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\MajorClientsSection.tsx
+  140:29   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  140:69   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  143:131  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\PartnersSection.tsx
+  2:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\ServicesSelectorSection.tsx
+  36:51  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+  36:85  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\StatsCounter.tsx
+  100:12  warning  React Hook useEffect has an unnecessary dependency: 'hasAnimated'. Either exclude it or remove the dependency array. Outer scope values like 'hasAnimated' aren't valid dependencies because mutating them doesn't re-render the component  react-hooks/exhaustive-deps
+
+D:\GVGGlobalGroup\gvg-portal\src\components\marketing\TestimonialsSection.tsx
+  114:33  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  114:48  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\GVGGlobalGroup\gvg-portal\src\components\tech\ConsultationForm.tsx
+  187:48  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\components\tech\QuoteRequestForm.tsx
+   5:10  warning  'Card' is defined but never used                                                                                     @typescript-eslint/no-unused-vars
+  12:31  warning  'ArrowRight' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  12:43  warning  'Loader2' is defined but never used                                                                                  @typescript-eslint/no-unused-vars
+  20:5   error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+
+D:\GVGGlobalGroup\gvg-portal\src\components\tech\ServiceBookingWizard.tsx
+   5:10  warning  'Card' is defined but never used            @typescript-eslint/no-unused-vars
+   9:10  warning  'RadioGroup' is defined but never used      @typescript-eslint/no-unused-vars
+   9:22  warning  'RadioGroupItem' is defined but never used  @typescript-eslint/no-unused-vars
+  15:45  warning  'Calendar' is defined but never used        @typescript-eslint/no-unused-vars
+  15:55  warning  'Clock' is defined but never used           @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\components\ui\collapsible.tsx
+  1:13  warning  'React' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\hooks\use-toast.ts
+  3:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\hooks\useDealCalculations.ts
+   14:23  warning  'setIsLoading' is assigned a value but never used                                                                                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+   40:8   warning  React Hook useMemo has unnecessary dependencies: 'inputs.buyPriceUSD', 'inputs.commodityName', 'inputs.customsExchangeRateINR', 'inputs.incoterm', 'inputs.insuranceUSD', 'inputs.localClearanceINR', 'inputs.oceanFreightUSD', 'inputs.targetSellPriceINR', 'inputs.transportINR', and 'inputs.weightMT'. Either exclude them or remove the dependency array  react-hooks/exhaustive-deps
+  131:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-explicit-any
+  132:52  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\database.types.fixed.ts
+  12:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  15:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:28  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\database.types.ts
+  1:0  error  Parsing error: File appears to be binary
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\finance\payment-calculations.ts
+  313:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\CRSEngine.ts
+   93:7  warning  'SPOUSE_LANG_POINTS' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars
+  112:5  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  118:9  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  142:9  error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  235:9  error    'sib' is never reassigned. Use 'const' instead                                                                       prefer-const
+  258:9  error    'nom' is never reassigned. Use 'const' instead                                                                       prefer-const
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\compliance\statusStrategy.ts
+   1:28  warning  'addDays' is defined but never used                @typescript-eslint/no-unused-vars
+   1:37  warning  'format' is defined but never used                 @typescript-eslint/no-unused-vars
+   1:45  warning  'isPast' is defined but never used                 @typescript-eslint/no-unused-vars
+   1:53  warning  'isFuture' is defined but never used               @typescript-eslint/no-unused-vars
+  22:9   error    'result' is never reassigned. Use 'const' instead  prefer-const
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\compliance\workExperienceValidator.ts
+  22:9  error  'warnings' is never reassigned. Use 'const' instead       prefer-const
+  34:9  error  'eligibleYears' is never reassigned. Use 'const' instead  prefer-const
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\eligibilityEngine.ts
+  196:11  warning  'bcPass' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  224:29  warning  'b' is defined but never used                @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\languageTestConversion.ts
+  131:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  140:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\legal\legalDefenseEngine.ts
+  34:9  error  'result' is never reassigned. Use 'const' instead  prefer-const
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\programs\aaip_atlantic.ts
+  43:13  warning  'note' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\immigration\programs\oinp.ts
+  112:13  warning  'note' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\storage\document-storage.ts
+   72:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  139:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  197:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  258:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\supabase\middleware.ts
+  18:58  warning  'options' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\validations\deal-schema.ts
+  9:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\src\lib\validations\payment-schema.ts
+  49:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\GVGGlobalGroup\gvg-portal\tests\quotes.spec.ts
+  24:14  warning  'e' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 270 problems (157 errors, 113 warnings)
+  6 errors and 1 warning potentially fixable with the `--fix` option.
+

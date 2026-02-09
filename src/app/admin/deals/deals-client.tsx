@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Plus, Search, Filter, Download } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -52,9 +52,7 @@ export default function DealsPageClient() {
         loadDeals()
     }, [])
 
-    useEffect(() => {
-        filterDeals()
-    }, [searchQuery, statusFilter, deals])
+
 
     async function loadDeals() {
         try {
@@ -65,16 +63,13 @@ export default function DealsPageClient() {
                 .select(`
           id,
           deal_ref,
-          supplier:suppliers(company_name),
-          customer:customers(company_name),
-          product_name,
-          quantity,
-          unit,
-          total_cost_inr,
-          revenue_inr,
+          supplier:partners!deals_partner_id_fkey(company_name),
+          commodity:commodities(name),
+          weight_mt,
+          weight_mt,
           status,
           incoterm,
-          eta_date,
+          shipment_period_end,
           created_at
         `)
                 .order('created_at', { ascending: false }) as any
@@ -86,14 +81,14 @@ export default function DealsPageClient() {
                 deal_ref: deal.deal_ref,
                 supplier_name: deal.supplier?.company_name || 'N/A',
                 customer_name: deal.customer?.company_name || 'N/A',
-                product_name: deal.product_name,
-                quantity: deal.quantity,
-                unit: deal.unit,
-                total_cost_inr: deal.total_cost_inr,
-                revenue_inr: deal.revenue_inr,
+                product_name: deal.commodity?.name || 'Unknown Product',
+                quantity: deal.weight_mt,
+                unit: 'MT',
+                total_cost_inr: 0,
+                revenue_inr: 0,
                 status: deal.status,
                 incoterm: deal.incoterm,
-                eta_date: deal.eta_date,
+                eta_date: deal.shipment_period_end,
                 created_at: deal.created_at
             }))
 
@@ -106,7 +101,7 @@ export default function DealsPageClient() {
         }
     }
 
-    function filterDeals() {
+    const filterDeals = useCallback(() => {
         let filtered = [...deals]
 
         // Search filter
@@ -125,7 +120,11 @@ export default function DealsPageClient() {
         }
 
         setFilteredDeals(filtered)
-    }
+    }, [deals, searchQuery, statusFilter])
+
+    useEffect(() => {
+        filterDeals()
+    }, [filterDeals])
 
     const getStatusColor = (status: string) => {
         const colors = {

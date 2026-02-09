@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Download, Trash2, FileText, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -44,7 +44,7 @@ export function DocumentList({ dealId, isAdmin = false, refreshTrigger = 0 }: Do
     const [downloadingId, setDownloadingId] = useState<string | null>(null)
     const { toast } = useToast()
 
-    const loadDocuments = async () => {
+    const loadDocuments = useCallback(async () => {
         setIsLoading(true)
         setError(null)
 
@@ -58,11 +58,11 @@ export function DocumentList({ dealId, isAdmin = false, refreshTrigger = 0 }: Do
         }
 
         setIsLoading(false)
-    }
+    }, [dealId])
 
     useEffect(() => {
         loadDocuments()
-    }, [dealId, refreshTrigger])
+    }, [dealId, refreshTrigger, loadDocuments])
 
     const handleDownload = async (doc: DocumentMetadata) => {
         setDownloadingId(doc.id)

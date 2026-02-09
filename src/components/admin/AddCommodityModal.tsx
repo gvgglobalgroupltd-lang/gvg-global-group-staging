@@ -18,8 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
-import { createClient } from '@/lib/supabase/client'
-import { v4 as uuidv4 } from 'uuid'
+import { addCommodity } from '@/actions/commodities'
 
 const commoditySchema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -51,18 +50,11 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
         setIsSubmitting(true)
 
         try {
-            const supabase = createClient()
+            const result = await addCommodity(data)
 
-            const { error } = await supabase
-                .from('commodities')
-                .insert({
-                    id: uuidv4(),
-                    name: data.name,
-                    hscode: data.hscode,
-                    description: data.description,
-                })
-
-            if (error) throw error
+            if (!result.success) {
+                throw new Error(result.error)
+            }
 
             toast({
                 title: 'Success',
@@ -104,7 +96,7 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-2">
                             <Label htmlFor="name">Commodity Name *</Label>
-                            <Input {...form.register('name')} placeholder="e.g. Copper Millberry" />
+                            <Input id="name" {...form.register('name')} placeholder="e.g. Copper Millberry" />
                             {form.formState.errors.name && (
                                 <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
                             )}
@@ -112,7 +104,7 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="hscode">HS Code *</Label>
-                            <Input {...form.register('hscode')} placeholder="e.g. 7403.11" />
+                            <Input id="hscode" {...form.register('hscode')} placeholder="e.g. 7403.11" />
                             {form.formState.errors.hscode && (
                                 <p className="text-xs text-destructive">{form.formState.errors.hscode.message}</p>
                             )}
@@ -120,7 +112,7 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="description">Description (Optional)</Label>
-                            <Input {...form.register('description')} />
+                            <Input id="description" {...form.register('description')} />
                         </div>
                     </div>
 
@@ -129,7 +121,7 @@ export function AddCommodityModal({ onSuccess }: AddCommodityModalProps) {
                             Cancel
                         </Button>
                         <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Adding...' : 'Add Commodity'}
+                            {isSubmitting ? 'Adding...' : 'Create Commodity Record'}
                         </Button>
                     </DialogFooter>
                 </form>

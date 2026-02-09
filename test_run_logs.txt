@@ -1,0 +1,156 @@
+Starting test...
+PAGE LOG: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+PAGE LOG: [HMR] connected
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 110ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 252ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 277ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 143ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 167ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 144ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 155ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 163ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 125ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 173ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 131ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 155ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 113ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 150ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 118ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 139ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 130ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 130ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 112ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 140ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 129ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 129ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 179ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 181ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 164ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 156ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 246ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 547ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+PAGE LOG: [Fast Refresh] done in 397ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 563ms
+PAGE LOG: Failed to load shipments: TypeError: Failed to fetch
+    at fetchServerAction (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:8817:23)
+PAGE LOG: Failed to load action items: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:248:37), hint: , code: }
+PAGE LOG: Failed to load IT leads: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:969:37), hint: , code: }
+PAGE LOG: Failed to load action items: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:248:37), hint: , code: }
+PAGE LOG: Failed to load IT leads: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:969:37), hint: , code: }
+PAGE LOG: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+PAGE LOG: [HMR] connected
+PAGE LOG: Form is submitting...
+PAGE LOG: Form is submitting...
+PAGE LOG: Submitting partner data: {type: customer, company_name: Test Partner Company, contact_person: John Doe, email: test@gvg.com, phone: 1234567890}
+PAGE LOG: Form is submitting...
+PAGE LOG: Form is submitting...
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 123ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 265ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 144ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 131ms
+PAGE LOG: Add partner result: {success: true}
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 164ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 224ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 153ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 256ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 180ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 170ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 183ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 162ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 128ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 136ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 118ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 149ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 140ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 124ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 154ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 119ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 138ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 139ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 134ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 167ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 154ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 115ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 182ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 169ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 282ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 135ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 124ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 133ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 147ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 155ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 125ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 123ms
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 159ms

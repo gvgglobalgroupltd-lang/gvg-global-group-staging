@@ -24,7 +24,8 @@ const serviceSchema = z.object({
 export type ServiceFormState = {
     success?: boolean
     message?: string
-    errors?: any
+    errors?: Record<string, string[]> | string
+    payload?: unknown
 }
 
 export async function manageImmigrationService(prevState: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
@@ -68,22 +69,36 @@ export async function manageImmigrationService(prevState: ServiceFormState, form
 
     if (id) {
         // Update
-        const res = await supabase
-            .from('immigration_service_catalog')
+        const res = await (supabase
+            .from('immigration_service_catalog') as any)
             .update(payload)
             .eq('id', id)
         error = res.error
     } else {
         // Insert
-        const res = await supabase
-            .from('immigration_service_catalog')
+        const res = await (supabase
+            .from('immigration_service_catalog') as any)
             .insert(payload)
         error = res.error
     }
 
     if (error) {
         console.error('Service Save Error:', error)
-        return { success: false, message: 'Database error occurred.' }
+
+        // Handle Unique Constraint Violation
+        if (error.code === '23505') {
+            return {
+                success: false,
+                message: 'A service with this code already exists.',
+                payload: rawData // Return user input so form doesn't clear
+            }
+        }
+
+        return {
+            success: false,
+            message: 'Database error occurred: ' + (error.message || 'Unknown error'),
+            payload: rawData
+        }
     }
 
     revalidatePath('/admin/immigration')
@@ -94,8 +109,8 @@ export async function manageImmigrationService(prevState: ServiceFormState, form
 
 export async function toggleServiceStatus(id: string, currentStatus: boolean) {
     const supabase = await createClient()
-    const { error } = await supabase
-        .from('immigration_service_catalog')
+    const { error } = await (supabase
+        .from('immigration_service_catalog') as any)
         .update({ is_active: !currentStatus })
         .eq('id', id)
 
@@ -108,10 +123,10 @@ export async function toggleServiceStatus(id: string, currentStatus: boolean) {
 
 export async function getAdminImmigrationServices() {
     const supabase = await createClient()
-    const { data, error } = await supabase
-        .from('immigration_service_catalog')
+    const { data, error } = await (supabase
+        .from('immigration_service_catalog') as any)
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('created_at', { ascending: false }) as any
 
     if (error) {
         console.error('Error fetching admin services:', error)

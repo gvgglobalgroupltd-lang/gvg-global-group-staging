@@ -1,4 +1,4 @@
-import { Building2, Mail, Phone, MapPin } from 'lucide-react'
+import { Building2, Mail, MapPin } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 
@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
                     <Card className="p-6">
                         <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
                         <p>
-                            GVG Global Group ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services, including our metals trading and IT consulting divisions.
+                            GVG Global Group (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services, including our metals trading and IT consulting divisions.
                         </p>
                         <p className="mt-4">
                             This policy applies to all users worldwide and complies with applicable data protection regulations including GDPR (EU), CCPA (California), PIPEDA (Canada), and other international privacy laws.
@@ -132,7 +132,7 @@ export default function PrivacyPolicyPage() {
 
                     {/* Children's Privacy */}
                     <Card className="p-6">
-                        <h2 className="text-2xl font-bold mb-4">9. Children's Privacy</h2>
+                        <h2 className="text-2xl font-bold mb-4">9. Children&apos;s Privacy</h2>
                         <p>
                             Our services are intended for business use only. We do not knowingly collect information from individuals under 18 years of age.
                         </p>
@@ -142,7 +142,7 @@ export default function PrivacyPolicyPage() {
                     <Card className="p-6">
                         <h2 className="text-2xl font-bold mb-4">10. Changes to This Policy</h2>
                         <p>
-                            We may update this Privacy Policy periodically. We will notify you of material changes by posting the new policy with an updated "Last Updated" date. Continued use of our services after changes constitutes acceptance.
+                            We may update this Privacy Policy periodically. We will notify you of material changes by posting the new policy with an updated &quot;Last Updated&quot; date. Continued use of our services after changes constitutes acceptance.
                         </p>
                     </Card>
 

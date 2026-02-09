@@ -12,9 +12,9 @@ export async function getLogisticsShipments() {
     try {
         const { data, error } = await supabase
             .from('deals')
-            .select('id, deal_ref, container_number, origin_port, destination_port, eta_date, status')
+            .select('id, deal_ref, container_number, port_of_loading, port_of_discharge, shipment_period_end, status')
             .in('status', ['Shipped', 'In Transit', 'Customs'])
-            .order('eta_date', { ascending: true })
+            .order('shipment_period_end', { ascending: true })
             .limit(10)
 
         if (error) {

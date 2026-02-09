@@ -47,7 +47,8 @@ export function useDealCalculations(
         inputs.customsExchangeRateINR,
         inputs.localClearanceINR,
         inputs.transportINR,
-        inputs.targetSellPriceINR
+        inputs.targetSellPriceINR,
+        inputs
     ])
 
     return { ...results, isLoading }
@@ -141,14 +142,14 @@ export function useDealMasterData() {
                 setIsLoading(true)
 
                 const [suppliersResult, commoditiesResult] = await Promise.all([
-                    supabase
-                        .from('partners')
+                    (supabase
+                        .from('partners') as any)
                         .select('id, company_name, country')
                         .eq('type', 'Supplier')
                         .eq('status', 'Active')
                         .order('company_name'),
-                    supabase
-                        .from('commodities')
+                    (supabase
+                        .from('commodities') as any)
                         .select('id, name, hscode')
                         .order('name')
                 ])

@@ -9,7 +9,7 @@ const quoteSchema = z.object({
     company_name: z.string().min(2, "Company name required"),
     contact_person: z.string().min(2, "Contact person required"),
     email: z.string().email("Invalid email"),
-    phone: z.string().optional(),
+    phone: z.string().nullable().optional(),
     service_interest: z.enum([
         // Tech Services
         'Custom ERP Development',
@@ -31,14 +31,14 @@ const quoteSchema = z.object({
         'Other'
     ]),
     project_description: z.string().min(10, "Please provide more details"),
-    budget_range: z.string().optional(),
-    timeline: z.string().optional(),
-    tech_stack: z.string().optional(),
+    budget_range: z.string().nullable().optional(),
+    timeline: z.string().nullable().optional(),
+    tech_stack: z.string().nullable().optional(),
     // New optional fields for specific modes (mapped to description or stored if columns exist)
-    destination_country: z.string().optional(),
-    current_location: z.string().optional(),
-    commodity_type: z.string().optional(),
-    target_port: z.string().optional()
+    destination_country: z.string().nullable().optional(),
+    current_location: z.string().nullable().optional(),
+    commodity_type: z.string().nullable().optional(),
+    target_port: z.string().nullable().optional()
 })
 
 export type SubmitQuoteState = {
@@ -80,6 +80,7 @@ export async function submitQuote(prevState: SubmitQuoteState, formData: FormDat
     const validated = quoteSchema.safeParse(rawData)
 
     if (!validated.success) {
+        console.error('Quote validation failed:', validated.error.flatten().fieldErrors)
         return {
             success: false,
             message: 'Validation failed',
@@ -117,9 +118,48 @@ export async function submitQuote(prevState: SubmitQuoteState, formData: FormDat
     const meetingLink = `https://meet.jit.si/GVG-Consultation-${meetingId}`
 
     revalidatePath('/tech')
+    revalidatePath('/admin/quotes')
     return {
         success: true,
         message: 'Quote request received! You can join a preliminary consultation call below if you are ready.',
         meetingLink
+    }
+}
+
+export async function getQuotes() {
+    const supabase = await createClient()
+
+    try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) throw new Error('Unauthorized')
+
+        const { data, error } = await supabase
+            .from('it_leads')
+            .select('*')
+            .order('created_at', { ascending: false })
+
+        if (error) throw error
+
+        return { success: true, data: data as unknown[] }
+    } catch (error: unknown) {
+        console.error('Fetch error:', error)
+        return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
+    }
+}
+
+export async function updateQuoteStatus(id: string, status: string) {
+    const supabase = await createClient()
+    try {
+        const { error } = await supabase
+            .from('it_leads')
+            .update({ status })
+            .eq('id', id)
+
+        if (error) throw error
+
+        revalidatePath('/admin/quotes')
+        return { success: true }
+    } catch (error: unknown) {
+        return { success: false, error: error instanceof Error ? error.message : 'Unknown error' }
     }
 }

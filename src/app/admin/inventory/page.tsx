@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Package, Search, Warehouse, AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -47,15 +47,7 @@ export default function InventoryPage() {
     const [searchQuery, setSearchQuery] = useState('')
     const [warehouseFilter, setWarehouseFilter] = useState<string>('all')
 
-    useEffect(() => {
-        loadInventory()
-    }, [])
-
-    useEffect(() => {
-        filterInventory()
-    }, [searchQuery, warehouseFilter, inventory])
-
-    async function loadInventory() {
+    const loadInventory = useCallback(async () => {
         try {
             const supabase = createClient()
 
@@ -97,9 +89,9 @@ export default function InventoryPage() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
-    function filterInventory() {
+    const filterInventory = useCallback(() => {
         let filtered = [...inventory]
 
         // Search filter
@@ -117,7 +109,15 @@ export default function InventoryPage() {
         }
 
         setFilteredInventory(filtered)
-    }
+    }, [inventory, searchQuery, warehouseFilter])
+
+    useEffect(() => {
+        loadInventory()
+    }, [loadInventory])
+
+    useEffect(() => {
+        filterInventory()
+    }, [filterInventory])
 
     const getStockStatus = (item: InventoryItem) => {
         const percentage = (item.quantity_remaining / item.quantity_stored) * 100

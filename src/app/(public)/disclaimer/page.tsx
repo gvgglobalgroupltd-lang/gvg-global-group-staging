@@ -31,7 +31,7 @@ export default function DisclaimerPage() {
                     <Card className="p-6">
                         <h2 className="text-2xl font-bold mb-4">1. General Disclaimer</h2>
                         <p>
-                            All content and services provided by GVG Global Group are offered on an "as is" and "as available" basis. Your use of this website and our services is at your sole risk.
+                            All content and services provided by GVG Global Group are offered on an &quot;as is&quot; and &quot;as available&quot; basis. Your use of this website and our services is at your sole risk.
                         </p>
                         <p className="mt-4">
                             We disclaim all warranties of any kind, whether express or implied, including but not limited to:
@@ -65,7 +65,7 @@ export default function DisclaimerPage() {
 
                         <h3 className="text-xl font-semibold mb-3 mt-6">2.3 International Trade</h3>
                         <ul className="list-disc pl-6 mt-2 space-y-2">
-                            <li><strong>Customs & Duties:</strong> Import duties, taxes, and customs clearance are buyer's responsibility unless specified</li>
+                            <li><strong>Customs & Duties:</strong> Import duties, taxes, and customs clearance are buyer&apos;s responsibility unless specified</li>
                             <li><strong>Regulatory Compliance:</strong> Buyers must ensure compliance with local import regulations</li>
                             <li><strong>Export Controls:</strong> Products may be subject to export restrictions</li>
                         </ul>

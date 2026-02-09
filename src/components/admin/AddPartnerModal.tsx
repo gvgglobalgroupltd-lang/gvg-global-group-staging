@@ -25,8 +25,7 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
-import { createClient } from '@/lib/supabase/client'
-import { v4 as uuidv4 } from 'uuid'
+import { addPartner } from '@/actions/partners'
 
 const partnerSchema = z.object({
     type: z.enum(['supplier', 'customer']),
@@ -63,22 +62,12 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
         setIsSubmitting(true)
 
         try {
-            const supabase = createClient()
-            const { error } = await supabase
-                .from('partners')
-                .insert({
-                    id: uuidv4(),
-                    company_name: data.company_name,
-                    type: data.type === 'supplier' ? 'Supplier' : 'Customer', // Match DB enum case
-                    status: 'Active',
-                    contact_person: data.contact_person,
-                    email: data.email || null,
-                    phone: data.phone,
-                    address: data.address,
-                    country: data.country,
-                })
+            const result = await addPartner(data)
+            console.log('Add partner result:', result)
 
-            if (error) throw error
+            if (!result.success) {
+                throw new Error(result.error)
+            }
 
             toast({
                 title: 'Success',
@@ -124,7 +113,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
                                 value={form.watch('type')}
                                 onValueChange={(value: 'supplier' | 'customer') => form.setValue('type', value)}
                             >
-                                <SelectTrigger>
+                                <SelectTrigger id="type">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -136,7 +125,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="company_name">Company Name *</Label>
-                            <Input {...form.register('company_name')} />
+                            <Input id="company_name" {...form.register('company_name')} />
                             {form.formState.errors.company_name && (
                                 <p className="text-xs text-destructive">{form.formState.errors.company_name.message}</p>
                             )}
@@ -144,26 +133,26 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="contact_person">Contact Person</Label>
-                            <Input {...form.register('contact_person')} />
+                            <Input id="contact_person" {...form.register('contact_person')} />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input {...form.register('email')} type="email" />
+                                <Input id="email" {...form.register('email')} type="email" />
                                 {form.formState.errors.email && (
                                     <p className="text-xs text-destructive">{form.formState.errors.email.message}</p>
                                 )}
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="phone">Phone</Label>
-                                <Input {...form.register('phone')} />
+                                <Input id="phone" {...form.register('phone')} />
                             </div>
                         </div>
 
                         <div className="grid gap-2">
                             <Label htmlFor="country">Country *</Label>
-                            <Input {...form.register('country')} />
+                            <Input id="country" {...form.register('country')} />
                             {form.formState.errors.country && (
                                 <p className="text-xs text-destructive">{form.formState.errors.country.message}</p>
                             )}
@@ -171,7 +160,7 @@ export function AddPartnerModal({ onSuccess }: AddPartnerModalProps) {
 
                         <div className="grid gap-2">
                             <Label htmlFor="address">Address</Label>
-                            <Input {...form.register('address')} />
+                            <Input id="address" {...form.register('address')} />
                         </div>
                     </div>
 

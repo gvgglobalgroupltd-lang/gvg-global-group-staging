@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { X, Plane, FileText, Stamp, MapPin, Save, Loader2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 
-const initialState = {
+const initialState: any = {
     success: false,
     message: '',
     errors: {}
@@ -83,30 +83,30 @@ export function ImmigrationServiceForm({ service, onClose }: ImmigrationServiceF
 
                     <div className="space-y-2">
                         <Label>Service Title</Label>
-                        <Input name="title" defaultValue={service?.title} placeholder="e.g. OCI Full Service" required />
+                        <Input name="title" defaultValue={state.payload?.title || service?.title} placeholder="e.g. OCI Full Service" required />
                         {state.errors?.title && <p className="text-sm text-red-500">{state.errors.title}</p>}
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label>Code (Unique)</Label>
-                            <Input name="code" defaultValue={service?.code} placeholder="OCI_FULL" required disabled={!!service} />
+                            <Input name="code" defaultValue={state.payload?.code || service?.code} placeholder="OCI_FULL" required disabled={!!service} />
                             {state.errors?.code && <p className="text-sm text-red-500">{state.errors.code}</p>}
                         </div>
                         <div className="space-y-2">
                             <Label>Processing Time</Label>
-                            <Input name="processing_time" defaultValue={service?.processing_time} placeholder="4-6 Weeks" required />
+                            <Input name="processing_time" defaultValue={state.payload?.processing_time || service?.processing_time} placeholder="4-6 Weeks" required />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label>Price</Label>
-                            <Input name="price" type="number" step="0.01" defaultValue={service?.price} required />
+                            <Input name="price" type="number" step="0.01" defaultValue={state.payload?.price || service?.price} required />
                         </div>
                         <div className="space-y-2">
                             <Label>Currency</Label>
-                            <select name="currency" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" defaultValue={service?.currency || 'USD'}>
+                            <select name="currency" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm" defaultValue={state.payload?.currency || service?.currency || 'USD'}>
                                 <option value="USD">USD ($)</option>
                                 <option value="CAD">CAD (C$)</option>
                                 <option value="INR">INR (₹)</option>
@@ -117,7 +117,7 @@ export function ImmigrationServiceForm({ service, onClose }: ImmigrationServiceF
 
                     <div className="space-y-2">
                         <Label>Description</Label>
-                        <Textarea name="description" defaultValue={service?.description} rows={3} required />
+                        <Textarea name="description" defaultValue={state.payload?.description || service?.description} rows={3} required />
                         {state.errors?.description && <p className="text-sm text-red-500">{state.errors.description}</p>}
                     </div>
 
@@ -125,7 +125,7 @@ export function ImmigrationServiceForm({ service, onClose }: ImmigrationServiceF
                         <Label>Requirements (One per line)</Label>
                         <Textarea
                             name="requirements"
-                            defaultValue={Array.isArray(service?.requirements) ? service.requirements.join('\n') : service?.requirements}
+                            defaultValue={state.payload?.requirements || (Array.isArray(service?.requirements) ? service.requirements.join('\n') : service?.requirements)}
                             rows={5}
                             placeholder="Passport&#10;Photo&#10;Proof of Address"
                         />

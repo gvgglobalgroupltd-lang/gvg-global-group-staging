@@ -79,7 +79,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                     </SelectTrigger>
                     <SelectContent>
                         {suppliers.map((supplier) => (
-                            <SelectItem key={supplier.id} value={supplier.id}>
+                            <SelectItem key={supplier.id} value={supplier.id} data-testid={`supplier-${supplier.id}`}>
                                 {supplier.company_name} ({supplier.country})
                             </SelectItem>
                         ))}
@@ -104,7 +104,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                     </SelectTrigger>
                     <SelectContent>
                         {ORIGIN_COUNTRIES.map((country) => (
-                            <SelectItem key={country} value={country}>
+                            <SelectItem key={country} value={country} data-testid={`origin-${country}`}>
                                 {country}
                             </SelectItem>
                         ))}
@@ -129,7 +129,7 @@ export function Step1Sourcing({ form, suppliers, commodities }: Step1SourcingPro
                     </SelectTrigger>
                     <SelectContent>
                         {commodities.map((commodity) => (
-                            <SelectItem key={commodity.id} value={commodity.id}>
+                            <SelectItem key={commodity.id} value={commodity.id} data-testid={`commodity-${commodity.id}`}>
                                 {commodity.name} (HS: {commodity.hscode})
                             </SelectItem>
                         ))}

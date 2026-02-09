@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState, useCallback } from 'react'
+import { useParams } from 'next/navigation'
 import { ArrowLeft, Package, DollarSign, FileText, Edit, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -24,7 +24,7 @@ interface DealDetails {
     destination_port: string | null
     container_number: string | null
     bl_number: string | null
-    eta_date: string | null
+    shipment_period_end: string | null
     delivery_type: string
     warehouse_location: string | null
     status: string
@@ -36,17 +36,13 @@ interface DealDetails {
 
 export default function DealDetailsPage() {
     const params = useParams()
-    const router = useRouter()
+
     const dealId = params.id as string
 
     const [deal, setDeal] = useState<DealDetails | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect(() => {
-        loadDeal()
-    }, [dealId])
-
-    async function loadDeal() {
+    const loadDeal = useCallback(async () => {
         try {
             const supabase = createClient()
 
@@ -54,8 +50,8 @@ export default function DealDetailsPage() {
                 .from('deals')
                 .select(`
           *,
-          supplier:suppliers(company_name),
-          customer:customers(company_name)
+          supplier:partners!deals_partner_id_fkey(company_name),
+          commodity:commodities(name)
         `)
                 .eq('id', dealId)
                 .single()
@@ -66,14 +62,22 @@ export default function DealDetailsPage() {
             setDeal({
                 ...dealData,
                 supplier_name: dealData.supplier?.company_name || 'N/A',
-                customer_name: dealData.customer?.company_name || 'N/A'
+                customer_name: dealData.customer?.company_name || 'N/A',
+                product_name: dealData.commodity?.name || 'Unknown Product',
+                quantity: dealData.weight_mt || 0,
+                unit: 'MT',
+                shipment_period_end: dealData.shipment_period_end || null,
             } as DealDetails)
         } catch (error) {
             console.error('Failed to load deal:', error)
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [dealId])
+
+    useEffect(() => {
+        loadDeal()
+    }, [loadDeal])
 
     const getStatusColor = (status: string) => {
         const colors = {
@@ -286,10 +290,10 @@ export default function DealDetailsPage() {
                                         <p className="font-semibold font-mono">{deal.bl_number}</p>
                                     </div>
                                 )}
-                                {deal.eta_date && (
+                                {deal.shipment_period_end && (
                                     <div>
                                         <p className="text-sm text-muted-foreground">ETA</p>
-                                        <p className="font-semibold">{formatDate(deal.eta_date)}</p>
+                                        <p className="font-semibold">{formatDate(deal.shipment_period_end)}</p>
                                     </div>
                                 )}
                             </div>

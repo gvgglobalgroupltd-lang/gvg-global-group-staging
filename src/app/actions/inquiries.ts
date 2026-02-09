@@ -30,6 +30,9 @@ export async function submitInquiry(data: InquiryData) {
 
         if (error) throw error
 
+        revalidatePath('/contact')
+        revalidatePath('/admin/inquiries')
+
         return { success: true }
     } catch (error: any) {
         console.error('Submission error:', error)

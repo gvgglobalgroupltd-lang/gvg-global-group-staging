@@ -1,0 +1,73 @@
+
+Running 1 test using 1 worker
+
+PAGE LOG: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+PAGE LOG: [HMR] connected
+Navigated to /admin/partners
+Redirected to Login. Performing login...
+Clicked Sign In
+Navigated to Dashboard after login
+PAGE LOG: Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+PAGE LOG: Failed to load resource: the server responded with a status of 400 ()
+PAGE LOG: Failed to load action items: {code: 42702, details: It could refer to either a PL/pgSQL variable or a table column., hint: null, message: column reference "priority" is ambiguous}
+PAGE LOG: Failed to load resource: the server responded with a status of 400 ()
+PAGE LOG: Failed to load action items: {code: 42702, details: It could refer to either a PL/pgSQL variable or a table column., hint: null, message: column reference "priority" is ambiguous}
+PAGE LOG: [Fast Refresh] rebuilding
+PAGE LOG: [Fast Refresh] done in 411ms
+PAGE LOG: Failed to load shipments: TypeError: Failed to fetch
+    at fetchServerAction (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:8817:23)
+PAGE LOG: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+PAGE LOG: [HMR] connected
+Navigated to /admin/partners explicitely
+Clicked Add Partner button
+Form filled
+PAGE LOG: Form is submitting...
+PAGE LOG: Form is submitting...
+PAGE LOG: Submitting partner data: {type: customer, company_name: Test Partner Company, contact_person: John Doe, email: test@gvg.com, phone: 1234567890}
+PAGE LOG: Form is submitting...
+PAGE LOG: Form is submitting...
+Submit button clicked
+PAGE LOG: Add partner result: {success: false, error: new row violates row-level security policy for table "partners"}
+PAGE LOG: Error adding partner: Error: new row violates row-level security policy for table "partners"
+    at onSubmit (http://localhost:3000/_next/static/chunks/src_e898b444._.js:324:23)
+    at async http://localhost:3000/_next/static/chunks/node_modules_dd4c8958._.js:6882:21
+Success message NOT found. Checking for errors...
+No alerts found with role=alert.
+  ✘  1 [chromium] › tests\partners.spec.ts:3:5 › add new partner flow (20.3s)
+
+
+  1) [chromium] › tests\partners.spec.ts:3:5 › add new partner flow ────────────────────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Customer added successfully')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for getByText('Customer added successfully')[22m
+
+
+      66 |     try {
+      67 |         const successToast = page.getByText('Customer added successfully');
+    > 68 |         await expect(successToast).toBeVisible({ timeout: 15000 });
+         |                                    ^
+      69 |         console.log('Success message found');
+      70 |     } catch (e) {
+      71 |         console.log('Success message NOT found. Checking for errors...');
+        at D:\GVGGlobalGroup\gvg-portal\tests\partners.spec.ts:68:36
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\partners-add-new-partner-flow-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\partners-add-new-partner-flow-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\partners-add-new-partner-flow-chromium\error-context.md
+
+  1 failed
+    [chromium] › tests\partners.spec.ts:3:5 › add new partner flow ─────────────────────────────────

@@ -1,0 +1,46 @@
+
+Running 1 test using 1 worker
+
+Navigated to /admin/deals/create
+Redirected to Login. Performing login...
+Clicked Sign In
+Navigated to Dashboard after login
+Navigated to /admin/deals/create explicitly
+Deal Wizard loaded
+=== Step 1: Sourcing & Compliance ===
+Selected supplier
+Selected origin country
+Selected commodity
+Selected values - Supplier: Dubai Recyclers LLC (Dubai), Origin: Germany, Commodity: Brass Honey (HS: 74040022)
+Clicked Next Step (to Pricing)
+  ✘  1 [chromium] › tests\deals.spec.ts:3:5 › add new deal flow (26.2s)
+
+
+  1) [chromium] › tests\deals.spec.ts:3:5 › add new deal flow ──────────────────────────────────────
+
+    TimeoutError: locator.waitFor: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('heading', { name: 'Pricing & Payment' }) to be visible[22m
+
+
+      88 |
+      89 |     //Wait for the next step's content to load
+    > 90 |     await page.getByRole('heading', { name: 'Pricing & Payment' }).waitFor({ state: 'visible', timeout: 15000 });
+         |                                                                    ^
+      91 |     console.log('Step 2 loaded successfully!');
+      92 |
+      93 |     // ==================== STEP 2: Pricing & Payment ====================
+        at D:\GVGGlobalGroup\gvg-portal\tests\deals.spec.ts:90:68
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\deals-add-new-deal-flow-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\deals-add-new-deal-flow-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\deals-add-new-deal-flow-chromium\error-context.md
+
+  1 failed
+    [chromium] › tests\deals.spec.ts:3:5 › add new deal flow ───────────────────────────────────────

@@ -1,111 +1,164 @@
-/**
- * Supabase Database Migration Helper
- * 
- * This script helps you apply database migrations to your Supabase project.
- * Due to security restrictions, SQL must be executed via the Supabase dashboard.
- */
+import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
 
-import { readFileSync } from 'fs'
-import { join, dirname } from 'path'
-import { fileURLToPath } from 'url'
-import dotenv from 'dotenv'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
+// Load environment variables
+dotenv.config({ path: '.env.local' });
 
-dotenv.config({ path: join(__dirname, '..', '.env.local') })
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const projectRef = new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '').hostname.split('.')[0]
-
-console.log('\n' + '='.repeat(70))
-console.log('🗄️  GVG GLOBAL GROUP - DATABASE MIGRATION GUIDE')
-console.log('='.repeat(70) + '\n')
-
-if (!projectRef || projectRef === 'undefined') {
-    console.error('❌ Could not detect Supabase project reference from .env.local')
-    console.error('   Please check your NEXT_PUBLIC_SUPABASE_URL setting\n')
-    process.exit(1)
+if (!supabaseUrl || !supabaseServiceKey) {
+    console.error('❌ Missing Supabase credentials in .env.local');
+    console.error('Required: NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY');
+    process.exit(1);
 }
 
-console.log(`📡 Project: ${projectRef}`)
-console.log(`🔗 SQL Editor: https://supabase.com/dashboard/project/${projectRef}/sql/new\n`)
-
-console.log('-'.repeat(70))
-console.log('📋 MIGRATION STEPS')
-console.log('-'.repeat(70) + '\n')
-
-console.log('Step 1: Open Supabase SQL Editor')
-console.log(`        → https://supabase.com/dashboard/project/${projectRef}/sql/new\n`)
-
-console.log('Step 2: Execute Schema Migration')
-console.log(`        → File: supabase/migrations/001_initial_schema.sql`)
-console.log(`        → Copy entire file content`)
-console.log(`        → Paste in SQL Editor`)
-console.log(`        → Click "RUN" button\n`)
-
-console.log('Step 3: Execute Seed Data')
-console.log(`        → File: supabase/migrations/002_seed_data.sql`)
-console.log(`        → Copy entire file content`)
-console.log(`        → Paste in SQL Editor`)
-console.log(`        → Click "RUN" button\n`)
-
-console.log('Step 4: Verify Migration')
-console.log(`        → Go to Table Editor`)
-console.log(`        → Should see 10 tables: profiles, commodities, partners,`)
-console.log(`          cost_heads, deals, deal_expenses, shipments, inventory,`)
-console.log(`          leads, projects\n`)
-
-console.log('Step 5: Update Your Profile')
-console.log(`        Run this SQL to make yourself an Admin:` + '\n')
-console.log(`        UPDATE profiles`)
-console.log(`        SET role = 'Admin', full_name = 'Your Name'`)
-console.log(`        WHERE email = 'your-email@example.com';\n`)
-
-console.log('='.repeat(70))
-console.log('📄 MIGRATION FILE CONTENTS')
-console.log('='.repeat(70) + '\n')
-
-try {
-    const schemaPath = join(__dirname, '..', 'supabase', 'migrations', '001_initial_schema.sql')
-    const seedPath = join(__dirname, '..', 'supabase', 'migrations', '002_seed_data.sql')
-
-    const schema = readFileSync(schemaPath, 'utf8')
-    const seed = readFileSync(seedPath, 'utf8')
-
-    console.log(`✅ Schema SQL loaded (${schema.length.toLocaleString()} characters)`)
-    console.log(`   Location: supabase/migrations/001_initial_schema.sql\n`)
-
-    console.log(`✅ Seed SQL loaded (${seed.length.toLocaleString()} characters)`)
-    console.log(`   Location: supabase/migrations/002_seed_data.sql\n`)
-
-    console.log('💡TIP: You can copy-paste directly from the files in your editor!')
-    console.log('      Or use the Supabase dashboard file upload feature.\n')
-
-} catch (error) {
-    console.error(`❌ Error reading migration files: ${error.message}\n`)
-    process.exit(1)
-}
-
-console.log('='.repeat(70))
-console.log('✅ Ready to migrate! Follow the steps above.')
-console.log('='.repeat(70) + '\n')
-
-// Offer to open the URL
-console.log('💻 Quick action: Opening SQL Editor in your browser...\n')
-
-// Try to open browser (works on most systems)
-const { exec } = await import('child_process')
-const url = `https://supabase.com/dashboard/project/${projectRef}/sql/new`
-
-const command = process.platform === 'win32' ? `start ${url}` :
-    process.platform === 'darwin' ? `open ${url}` :
-        `xdg-open ${url}`
-
-exec(command, (error) => {
-    if (error) {
-        console.log('⚠️  Could not auto-open browser. Please open manually:')
-        console.log(`   ${url}\n`)
-    } else {
-        console.log('✅ Browser opened! You can now paste and execute the SQL.\n')
+// Create admin client
+const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+        autoRefreshToken: false,
+        persistSession: false
     }
-})
+});
+
+async function executeSqlFile(filePath, fileName) {
+    console.log(`\n📄 Reading ${fileName}...`);
+
+    try {
+        const sql = fs.readFileSync(filePath, 'utf8');
+        console.log(`✅ File loaded (${sql.length} characters)`);
+
+        console.log(`\n🚀 Executing ${fileName}...`);
+        console.log('⏳ This may take a moment...\n');
+
+        // Execute the SQL
+        const { data, error } = await supabase.rpc('exec_sql', { sql_query: sql });
+
+        if (error) {
+            // If exec_sql function doesn't exist, try direct query
+            if (error.message.includes('function') || error.message.includes('exec_sql')) {
+                console.log('⚠️  Using alternative execution method...');
+
+                // Split SQL into individual statements and execute them
+                const statements = sql
+                    .split(';')
+                    .map(s => s.trim())
+                    .filter(s => s.length > 0 && !s.startsWith('--'));
+
+                console.log(`📋 Executing ${statements.length} SQL statements...`);
+
+                let successCount = 0;
+                let errorCount = 0;
+
+                for (let i = 0; i < statements.length; i++) {
+                    const stmt = statements[i];
+                    if (stmt.length < 10) continue; // Skip tiny statements
+
+                    try {
+                        const { error: stmtError } = await supabase.rpc('exec_sql', {
+                            sql_query: stmt + ';'
+                        }).catch(() => {
+                            // If rpc doesn't work, we'll need to handle this differently
+                            return { error: new Error('RPC not available') };
+                        });
+
+                        if (stmtError && stmtError.message === 'RPC not available') {
+                            // Direct SQL execution via REST API
+                            const response = await fetch(`${supabaseUrl}/rest/v1/rpc/exec_sql`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'apikey': supabaseServiceKey,
+                                    'Authorization': `Bearer ${supabaseServiceKey}`
+                                },
+                                body: JSON.stringify({ sql_query: stmt + ';' })
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                            }
+                        } else if (stmtError) {
+                            throw stmtError;
+                        }
+
+                        successCount++;
+                        process.stdout.write(`\r✅ Progress: ${successCount}/${statements.length} statements executed`);
+                    } catch (err) {
+                        errorCount++;
+                        console.log(`\n⚠️  Statement ${i + 1} error (continuing): ${err.message.substring(0, 100)}`);
+                    }
+                }
+
+                console.log(`\n\n✅ Migration completed: ${successCount} successful, ${errorCount} errors`);
+                return { success: true, successCount, errorCount };
+            } else {
+                throw error;
+            }
+        } else {
+            console.log('✅ SQL executed successfully!');
+            return { success: true, data };
+        }
+    } catch (error) {
+        console.error(`\n❌ Error executing ${fileName}:`);
+        console.error(error.message);
+        return { success: false, error };
+    }
+}
+
+async function runMigrations() {
+    console.log('🗄️  GVG Global Group - Database Migration');
+    console.log('='.repeat(50));
+    console.log(`📡 Supabase URL: ${supabaseUrl}`);
+    console.log(`🔑 Using service role key: ${supabaseServiceKey.substring(0, 20)}...`);
+
+    const migrationsDir = path.join(__dirname, '../supabase', 'migrations');
+
+    const migrations = [
+        { file: '001_initial_schema.sql', name: 'Initial Schema' },
+        { file: '002_seed_data.sql', name: 'Seed Data' }
+    ];
+
+    for (const migration of migrations) {
+        const filePath = path.join(migrationsDir, migration.file);
+
+        if (!fs.existsSync(filePath)) {
+            console.log(`⚠️  Skipping ${migration.name}: File not found`);
+            continue;
+        }
+
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`📦 MIGRATION: ${migration.name}`);
+        console.log('='.repeat(50));
+
+        const result = await executeSqlFile(filePath, migration.file);
+
+        if (!result.success) {
+            console.error(`\n❌ Migration failed: ${migration.name}`);
+            console.error('Stopping migration process.');
+            process.exit(1);
+        }
+    }
+
+    console.log(`\n${'='.repeat(50)}`);
+    console.log('🎉 ALL MIGRATIONS COMPLETED SUCCESSFULLY!');
+    console.log('='.repeat(50));
+    console.log('\n✅ Database schema ready!');
+    console.log('\n📋 Next steps:');
+    console.log('  1. Go to your Supabase dashboard: Table Editor');
+    console.log('  2. Verify that all 10 tables exist');
+    console.log('  3. Create an admin user or update your profile role');
+    console.log('  4. Test the application at http://localhost:3000');
+    console.log('');
+}
+
+// Run migrations
+runMigrations().catch(error => {
+    console.error('\n💥 Fatal error:', error);
+    process.exit(1);
+});

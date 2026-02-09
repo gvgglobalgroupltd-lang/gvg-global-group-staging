@@ -11,9 +11,9 @@ interface ShipmentData {
     id: string
     deal_ref: string
     container_number: string | null
-    origin_port: string | null
-    destination_port: string | null
-    eta_date: string | null
+    port_of_loading: string | null
+    port_of_discharge: string | null
+    shipment_period_end: string | null
     current_status: string
     days_until_arrival: number | null
 }
@@ -35,10 +35,10 @@ export function LogisticsTracker() {
             // Calculate days until arrival
             const shipmentsWithDays = (data || []).map((deal: any) => {
                 let days_until_arrival = null
-                if (deal.eta_date) {
+                if (deal.shipment_period_end) {
                     const today = new Date()
                     today.setHours(0, 0, 0, 0)
-                    const eta = new Date(deal.eta_date)
+                    const eta = new Date(deal.shipment_period_end)
                     eta.setHours(0, 0, 0, 0)
                     days_until_arrival = Math.ceil((eta.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
                 }
@@ -47,9 +47,9 @@ export function LogisticsTracker() {
                     id: deal.id,
                     deal_ref: deal.deal_ref,
                     container_number: deal.container_number,
-                    origin_port: deal.origin_port,
-                    destination_port: deal.destination_port,
-                    eta_date: deal.eta_date,
+                    port_of_loading: deal.port_of_loading,
+                    port_of_discharge: deal.port_of_discharge,
+                    shipment_period_end: deal.shipment_period_end,
                     current_status: deal.status,
                     days_until_arrival
                 }
@@ -154,16 +154,16 @@ export function LogisticsTracker() {
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <MapPin className="h-4 w-4" />
                                     <span>
-                                        {shipment.origin_port || 'Unknown'} → {shipment.destination_port || 'Unknown'}
+                                        {shipment.port_of_loading || 'Unknown'} → {shipment.port_of_discharge || 'Unknown'}
                                     </span>
                                 </div>
 
                                 {/* ETA */}
-                                {shipment.eta_date && (
+                                {shipment.shipment_period_end && (
                                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                         <Calendar className="h-4 w-4" />
                                         <span>
-                                            ETA: {new Date(shipment.eta_date).toLocaleDateString('en-US', {
+                                            ETA: {new Date(shipment.shipment_period_end).toLocaleDateString('en-US', {
                                                 month: 'short',
                                                 day: 'numeric',
                                                 year: 'numeric'

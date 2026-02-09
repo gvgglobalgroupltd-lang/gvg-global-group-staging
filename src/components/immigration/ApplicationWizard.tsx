@@ -106,7 +106,7 @@ export function ApplicationWizard({ service, user }: WizardProps) {
                     <div className="space-y-6 animate-in slide-in-from-right-4">
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold">Contact Details</h2>
-                            <p className="text-slate-500">We'll use this to contact you about your application.</p>
+                            <p className="text-slate-500">We&apos;ll use this to contact you about your application.</p>
                         </div>
 
                         <div className="grid gap-4">

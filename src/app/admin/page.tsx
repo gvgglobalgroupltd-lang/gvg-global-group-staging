@@ -2,7 +2,7 @@ import { ActionCenter } from '@/components/dashboard/ActionCenter'
 import { LogisticsTracker } from '@/components/dashboard/LogisticsTracker'
 import { ITLeadsWidget } from '@/components/dashboard/ITLeadsWidget'
 import { Card } from '@/components/ui/card'
-import { TrendingUp, Package, DollarSign, Users } from 'lucide-react'
+import { TrendingUp, Package, DollarSign, Users, Briefcase, Mail } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -108,12 +108,29 @@ export default function AdminDashboardPage() {
                         <p className="text-sm font-medium">View Inventory</p>
                     </a>
 
+
+                    <a
+                        href="/admin/quotes"
+                        className="p-4 bg-white dark:bg-slate-800 rounded-lg border hover:shadow-md transition-shadow text-center"
+                    >
+                        <Briefcase className="h-8 w-8 mx-auto mb-2 text-indigo-600" />
+                        <p className="text-sm font-medium">Manage Quotes</p>
+                    </a>
+
                     <a
                         href="/admin/partners"
                         className="p-4 bg-white dark:bg-slate-800 rounded-lg border hover:shadow-md transition-shadow text-center"
                     >
                         <Users className="h-8 w-8 mx-auto mb-2 text-purple-600" />
                         <p className="text-sm font-medium">Manage Partners</p>
+                    </a>
+
+                    <a
+                        href="/admin/inquiries"
+                        className="p-4 bg-white dark:bg-slate-800 rounded-lg border hover:shadow-md transition-shadow text-center"
+                    >
+                        <Mail className="h-8 w-8 mx-auto mb-2 text-emerald-600" />
+                        <p className="text-sm font-medium">Manage Inquiries</p>
                     </a>
 
                     <a

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Loader2 } from 'lucide-react'
 import { PaymentScheduleTable } from '@/components/finance/PaymentScheduleTable'
 import { PLSummaryCard } from '@/components/finance/PLSummaryCard'
@@ -26,11 +26,8 @@ export default function FinancePage({ params }: FinancePageProps) {
     const [refreshTrigger, setRefreshTrigger] = useState(0)
     const { toast } = useToast()
 
-    useEffect(() => {
-        loadFinanceData()
-    }, [params.id, refreshTrigger])
 
-    async function loadFinanceData() {
+    const loadFinanceData = useCallback(async () => {
         setIsLoading(true)
 
         try {
@@ -82,9 +79,13 @@ export default function FinancePage({ params }: FinancePageProps) {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [params.id, toast])
 
-    const handleMarkPaid = async (paymentId: string) => {
+    useEffect(() => {
+        loadFinanceData()
+    }, [params.id, refreshTrigger, loadFinanceData])
+
+    const handleMarkPaid = async (_paymentId: string) => {
         // TODO: Open modal to mark payment as paid with proof upload
         toast({
             title: 'Feature Coming Soon',
@@ -92,7 +93,7 @@ export default function FinancePage({ params }: FinancePageProps) {
         })
     }
 
-    const handleDownloadProof = async (paymentId: string) => {
+    const handleDownloadProof = async (_paymentId: string) => {
         // TODO: Download payment proof
         toast({
             title: 'Feature Coming Soon',

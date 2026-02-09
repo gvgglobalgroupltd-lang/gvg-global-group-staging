@@ -1,0 +1,19 @@
+src/components/admin/ImmigrationServiceForm.tsx(86,74): error TS2339: Property 'title' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(87,40): error TS2339: Property 'title' does not exist on type 'string | Record<string, string[]>'.
+  Property 'title' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(87,99): error TS2339: Property 'title' does not exist on type 'string | Record<string, string[]>'.
+  Property 'title' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(93,77): error TS2339: Property 'code' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(94,44): error TS2339: Property 'code' does not exist on type 'string | Record<string, string[]>'.
+  Property 'code' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(94,102): error TS2339: Property 'code' does not exist on type 'string | Record<string, string[]>'.
+  Property 'code' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(98,88): error TS2339: Property 'processing_time' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(105,104): error TS2339: Property 'price' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(109,174): error TS2339: Property 'currency' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(120,83): error TS2339: Property 'description' does not exist on type '{}'.
+src/components/admin/ImmigrationServiceForm.tsx(121,40): error TS2339: Property 'description' does not exist on type 'string | Record<string, string[]>'.
+  Property 'description' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(121,105): error TS2339: Property 'description' does not exist on type 'string | Record<string, string[]>'.
+  Property 'description' does not exist on type 'string'.
+src/components/admin/ImmigrationServiceForm.tsx(128,58): error TS2339: Property 'requirements' does not exist on type '{}'.

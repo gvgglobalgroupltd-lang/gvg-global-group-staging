@@ -18,7 +18,7 @@ const visaApplicationSchema = z.object({
 export type SubmitVisaState = {
     success?: boolean
     message?: string
-    errors?: any
+    errors?: Record<string, string[]> | string
     applicationId?: string
 }
 
@@ -80,11 +80,11 @@ export async function submitVisaApplication(prevState: SubmitVisaState, formData
     return {
         success: true,
         message: 'Application draft created successfully!',
-        applicationId: (data as any)?.id
+        applicationId: (data as unknown as { id: string })?.id
     }
 }
 
-import { unstable_cache } from 'next/cache'
+
 
 export async function getImmigrationServices() {
     const supabase = await createClient()

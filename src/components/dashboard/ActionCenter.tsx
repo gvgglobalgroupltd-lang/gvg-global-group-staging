@@ -15,7 +15,7 @@ interface ActionItem {
     deal_ref: string
     title: string
     description: string
-    priority: 'Low' | 'Medium' | 'High' | 'Urgent'
+    priority_level: 'Low' | 'Medium' | 'High' | 'Urgent'
     due_date: string | null
     days_remaining: number | null
 }
@@ -104,9 +104,9 @@ export function ActionCenter() {
                             <div className="flex items-start justify-between gap-4">
                                 <div className="flex-1 space-y-1">
                                     <div className="flex items-center gap-2">
-                                        <Badge variant={getPriorityBadge(item.priority)} className="flex items-center gap-1">
-                                            {getPriorityIcon(item.priority)}
-                                            {item.priority}
+                                        <Badge variant={getPriorityBadge(item.priority_level)} className="flex items-center gap-1">
+                                            {getPriorityIcon(item.priority_level)}
+                                            {item.priority_level}
                                         </Badge>
                                         <span className="text-sm font-mono text-muted-foreground">
                                             {item.deal_ref}

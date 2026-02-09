@@ -1,4 +1,4 @@
-import { Scale, FileText, AlertTriangle, CheckCircle2 } from 'lucide-react'
+import { Scale, AlertTriangle, CheckCircle2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import Link from 'next/link'
 
@@ -30,11 +30,11 @@ export default function TermsOfServicePage() {
                     <Card className="p-6">
                         <h2 className="text-2xl font-bold mb-4">1. Definitions</h2>
                         <ul className="space-y-2">
-                            <li><strong>"Company," "we," "us,"</strong> refers to GVG Global Group</li>
-                            <li><strong>"Services"</strong> includes metals trading, IT consulting, and related services</li>
-                            <li><strong>"User," "you,"</strong> refers to individuals or entities using our services</li>
-                            <li><strong>"Platform"</strong> refers to our website and associated systems</li>
-                            <li><strong>"Content"</strong> includes text, graphics, data, and other materials</li>
+                            <li><strong>&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot;</strong> refers to GVG Global Group</li>
+                            <li><strong>&quot;Services&quot;</strong> includes metals trading, IT consulting, and related services</li>
+                            <li><strong>&quot;User,&quot; &quot;you,&quot;</strong> refers to individuals or entities using our services</li>
+                            <li><strong>&quot;Platform&quot;</strong> refers to our website and associated systems</li>
+                            <li><strong>&quot;Content&quot;</strong> includes text, graphics, data, and other materials</li>
                         </ul>
                     </Card>
 
@@ -183,7 +183,7 @@ export default function TermsOfServicePage() {
 
                         <h3 className="text-xl font-semibold mb-3 mt-6">9.2 Service Availability</h3>
                         <p>
-                            Services are provided "as is." We do not guarantee uninterrupted or error-free platform access.
+                            Services are provided &quot;as is.&quot; We do not guarantee uninterrupted or error-free platform access.
                         </p>
                     </Card>
 

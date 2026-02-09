@@ -34,7 +34,7 @@ export function QuickQuoteWidget() {
                     <SheetHeader className="mb-6 text-left">
                         <SheetTitle className="text-2xl font-bold">Request a Quote</SheetTitle>
                         <SheetDescription>
-                            Tell us what you're looking for (Buy/Sell) and we'll get back to you with today's best rates.
+                            Tell us what you&apos;re looking for (Buy/Sell) and we&apos;ll get back to you with today&apos;s best rates.
                         </SheetDescription>
                     </SheetHeader>
 

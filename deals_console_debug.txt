@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  -  1 [chromium] › tests\deals.spec.ts:3:5 › add new deal flow
+
+  1 did not run

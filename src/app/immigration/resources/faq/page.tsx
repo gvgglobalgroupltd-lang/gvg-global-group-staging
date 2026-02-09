@@ -100,7 +100,7 @@ export default function FAQPage() {
                                 Common reasons include:
                                 <ul className="list-disc pl-5 mt-2 space-y-1">
                                     <li>Insufficient financial resources.</li>
-                                    <li>Lack of clear "ties to home country" (officer doubts you will leave).</li>
+                                    <li>Lack of clear &quot;ties to home country&quot; (officer doubts you will leave).</li>
                                     <li>Proposed studies do not match academic/career history (logical progression).</li>
                                 </ul>
                             </AccordionContent>

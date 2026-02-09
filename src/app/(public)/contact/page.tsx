@@ -1,8 +1,8 @@
 
-import { Mail, Phone, MapPin, Clock, Building2, Globe } from 'lucide-react'
+import { Mail, Phone, MapPin, Clock, Building2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+
 import { ContactForm } from '@/components/forms/ContactForm'
 
 export default function ContactPage() {
@@ -108,7 +108,7 @@ export default function ContactPage() {
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white drop-shadow-md">Contact Us</h1>
                         <p className="text-xl text-slate-200 max-w-2xl mx-auto drop-shadow-sm">
-                            We're here to help. Reach out to our offices worldwide or contact the department that best fits your needs.
+                            We&apos;re here to help. Reach out to our offices worldwide or contact the department that best fits your needs.
                         </p>
                     </div>
                 </div>

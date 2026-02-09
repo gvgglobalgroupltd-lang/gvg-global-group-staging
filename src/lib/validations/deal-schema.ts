@@ -8,6 +8,12 @@ const fileSchema = (typeof File !== 'undefined'
     ? z.instanceof(File)
     : z.any()) as z.ZodType<any>
 
+// Helper for optional numbers (handles NaN from RHF valueAsNumber)
+const numberOptional = z.preprocess(
+    (val) => (val === '' || Number.isNaN(val) ? undefined : Number(val)),
+    z.number().optional()
+)
+
 // Step 1: Parties & Product
 export const step1Schema = z.object({
     partnerId: z.string().uuid('Select a supplier'),
@@ -15,26 +21,26 @@ export const step1Schema = z.object({
     originCountry: z.string().min(1, 'Origin required'),
     isriCode: z.string().optional(),
     packagingType: z.enum(['Loose', 'Drums', 'Pallets', 'Bundles', 'Bags', 'Container']).optional(),
-    guaranteedRecovery: z.number().min(0).max(100).optional(), // %
-    moistureTolerance: z.number().min(0).max(100).optional(), // %
-    dustTolerance: z.number().min(0).max(100).optional(), // %
+    guaranteedRecovery: numberOptional.pipe(z.number().min(0).max(100).optional()), // %
+    moistureTolerance: numberOptional.pipe(z.number().min(0).max(100).optional()), // %
+    dustTolerance: numberOptional.pipe(z.number().min(0).max(100).optional()), // %
     radioactivityLimit: z.string().default('Free from Radiation'),
-    quantityTolerance: z.number().min(0).max(10).optional(),
+    quantityTolerance: numberOptional.pipe(z.number().min(0).max(10).optional()),
     qualitySpecs: z.string().optional(),
     validityDate: z.string().optional(), // Agreement validity
     psicFile: fileSchema.optional(),
 })
 
 // Step 2: Pricing & Payment
-export const step2Schema = z.object({
+export const step2Base = z.object({
     incoterm: z.enum(['FOB', 'CIF', 'EXW', 'DDP', 'DAP']),
     buyPrice: z.number().positive(),
     currency: z.enum(['USD', 'INR', 'EUR', 'CAD', 'AED']),
     weightMT: z.number().positive(),
 
     // Cost Components (Estimates)
-    oceanFreight: z.number().nonnegative().optional(),
-    insurance: z.number().nonnegative().optional(),
+    oceanFreight: numberOptional.pipe(z.number().nonnegative().optional()),
+    insurance: numberOptional.pipe(z.number().nonnegative().optional()),
 
     // Payment Terms
     paymentMethod: z.enum(['LC', 'TT', 'CAD', 'DP', 'PDC', 'Other']),
@@ -47,6 +53,8 @@ export const step2Schema = z.object({
     lcExpiryDate: z.string().optional(),
     issuingBank: z.string().optional(),
 })
+
+export const step2Schema = step2Base
     .refine((data) => data.advancePercent + data.balancePercent === 100, {
         message: "Advance + Balance must equal 100%",
         path: ["balancePercent"]
@@ -99,7 +107,7 @@ const step4Base = z.object({
     localClearanceCost: z.number().nonnegative().default(0), // CHA
     transportCost: z.number().nonnegative().default(0), // Inland
     financeCost: z.number().nonnegative().default(0),
-    targetSellPrice: z.number().positive().optional(),
+    targetSellPrice: numberOptional.pipe(z.number().positive().optional()),
 })
 
 export const step4Schema = step4Base
@@ -107,7 +115,7 @@ export const step4Schema = step4Base
 // Combined
 export const dealWizardSchema = z.object({
     ...step1Schema.shape,
-    ...step2Schema.shape,
+    ...step2Base.shape,
     ...step3Schema.shape,
     ...step4Base.shape,
 })

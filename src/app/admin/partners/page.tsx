@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Plus, Search, Users, Building2 } from 'lucide-react'
 import { AddPartnerModal } from '@/components/admin/AddPartnerModal'
 import { Button } from '@/components/ui/button'
@@ -39,16 +39,7 @@ export default function PartnersPage() {
     const [isLoading, setIsLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
 
-    useEffect(() => {
-        loadPartners()
-    }, [])
-
-    useEffect(() => {
-        filterSuppliers()
-        filterCustomers()
-    }, [searchQuery, suppliers, customers])
-
-    async function loadPartners() {
+    const loadPartners = useCallback(async () => {
         try {
             const supabase = createClient()
 
@@ -77,9 +68,9 @@ export default function PartnersPage() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
-    function filterSuppliers() {
+    const filterSuppliers = useCallback(() => {
         if (!searchQuery) {
             setFilteredSuppliers(suppliers)
             return
@@ -93,9 +84,9 @@ export default function PartnersPage() {
                 s.country?.toLowerCase().includes(searchQuery.toLowerCase())
             )
         )
-    }
+    }, [searchQuery, suppliers])
 
-    function filterCustomers() {
+    const filterCustomers = useCallback(() => {
         if (!searchQuery) {
             setFilteredCustomers(customers)
             return
@@ -109,7 +100,16 @@ export default function PartnersPage() {
                 c.country?.toLowerCase().includes(searchQuery.toLowerCase())
             )
         )
-    }
+    }, [customers, searchQuery])
+
+    useEffect(() => {
+        loadPartners()
+    }, [loadPartners])
+
+    useEffect(() => {
+        filterSuppliers()
+        filterCustomers()
+    }, [filterSuppliers, filterCustomers])
 
     const formatDate = (date: string) => {
         return new Date(date).toLocaleDateString('en-US', {

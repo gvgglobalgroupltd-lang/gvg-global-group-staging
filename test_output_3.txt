@@ -1,0 +1,55 @@
+
+Running 2 tests using 2 workers
+
+[1A[2K[1/2] [chromium] › tests\quotes.spec.ts:4:5 › Quote Submission and Admin Verification
+[1A[2K[2/2] [chromium] › tests\quotes.spec.ts:74:5 › Contact Form Submission and Admin Verification
+[1A[2K  1) [chromium] › tests\quotes.spec.ts:74:5 › Contact Form Submission and Admin Verification ───────
+
+    Test was interrupted.
+
+    Error: page.goto: net::ERR_ABORTED at http://localhost:3000/contact
+    Call log:
+    [2m  - navigating to "http://localhost:3000/contact", waiting until "load"[22m
+
+
+      76 |
+      77 |     // 1. Submit Contact Form
+    > 78 |     await page.goto('/contact')
+         |                ^
+      79 |
+      80 |     const uniqueContactEmail = `test.contact.${Date.now()}@example.com`
+      81 |
+        at D:\GVGGlobalGroup\gvg-portal\tests\quotes.spec.ts:78:16
+
+    Error: browserContext.close: Target page, context or browser has been closed
+
+
+[1A[2K  2) [chromium] › tests\quotes.spec.ts:4:5 › Quote Submission and Admin Verification ───────────────
+
+    Test was interrupted.
+
+    Error: page.goto: net::ERR_ABORTED at http://localhost:3000/tech
+    Call log:
+    [2m  - navigating to "http://localhost:3000/tech", waiting until "load"[22m
+
+
+       7 |
+       8 |     // 1. Submit Quote as Customer (Tech Page)
+    >  9 |     await page.goto('/tech')
+         |                ^
+      10 |
+      11 |     // Fill form
+      12 |     await page.fill('input[name="company_name"]', 'Test Company Inc')
+        at D:\GVGGlobalGroup\gvg-portal\tests\quotes.spec.ts:9:16
+
+    Error: browserContext.close: Target page, context or browser has been closed
+
+
+[1A[2K  2 interrupted
+    [chromium] › tests\quotes.spec.ts:4:5 › Quote Submission and Admin Verification ────────────────
+    [chromium] › tests\quotes.spec.ts:74:5 › Contact Form Submission and Admin Verification ────────
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

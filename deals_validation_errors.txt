@@ -1,0 +1,70 @@
+
+Running 1 test using 1 worker
+
+BROWSER info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+BROWSER log: [HMR] connected
+Navigated to /admin/deals/create
+Redirected to Login. Performing login...
+Clicked Sign In
+Navigated to Dashboard after login
+BROWSER warning: Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+BROWSER error: Failed to load shipments: TypeError: Failed to fetch
+    at fetchServerAction (http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_17643121._.js:8817:23)
+BROWSER error: Failed to load action items: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:248:37), hint: , code: }
+BROWSER error: Failed to load IT leads: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:969:37), hint: , code: }
+BROWSER error: Failed to load IT leads: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:969:37), hint: , code: }
+BROWSER error: Failed to load action items: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_b397b186._.js:248:37), hint: , code: }
+BROWSER info: %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+BROWSER log: [HMR] connected
+Navigated to /admin/deals/create explicitly
+Deal Wizard loaded
+=== Step 1: Sourcing & Compliance ===
+Selecting supplier...
+Selected supplier
+Selecting origin country...
+Selected USA as origin
+Selecting commodity...
+Selected commodity
+BROWSER log: === handleNext Debug ===
+BROWSER log: Current Step: 0 - Sourcing
+BROWSER log: Fields to validate: [partnerId, commodityId, originCountry, isriCode, packagingType, guaranteedRecovery, moistureTolerance, dustTolerance, radioactivityLimit, quantityTolerance, qualitySpecs, validityDate, psicFile]
+BROWSER log: Current form values: {partnerId: ba252882-cf04-4939-9608-7230b69567ea, commodityId: 698f1ab7-9837-49f5-8dc2-5d919def0727, originCountry: USA, isriCode: , packagingType: undefined}
+BROWSER log: Base validation result: false
+BROWSER log: Full validation success: false
+BROWSER log: ❌ Validation failed
+Clicked Next Step (to Pricing)
+  ✘  1 [chromium] › tests\deals.spec.ts:3:5 › add new deal flow (16.6s)
+
+
+  1) [chromium] › tests\deals.spec.ts:3:5 › add new deal flow ──────────────────────────────────────
+
+    TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('heading', { name: 'Pricing & Payment' }) to be visible[22m
+
+
+      77 |
+      78 |     // Wait for Step 2 to load
+    > 79 |     await page.getByRole('heading', { name: 'Pricing & Payment' }).waitFor({ state: 'visible', timeout: 10000 });
+         |                                                                    ^
+      80 |     console.log('Step 2 loaded successfully!');
+      81 |
+      82 |     // ==================== STEP 2: Pricing & Payment ====================
+        at D:\GVGGlobalGroup\gvg-portal\tests\deals.spec.ts:79:68
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\deals-add-new-deal-flow-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\deals-add-new-deal-flow-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\deals-add-new-deal-flow-chromium\error-context.md
+
+  1 failed
+    [chromium] › tests\deals.spec.ts:3:5 › add new deal flow ───────────────────────────────────────

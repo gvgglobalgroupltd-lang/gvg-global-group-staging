@@ -40,6 +40,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                 <div className="space-y-2">
                     <Label>Buy Price ({currency}) *</Label>
                     <Input
+                        id="buyPrice"
                         type="number"
                         {...form.register('buyPrice', { valueAsNumber: true })}
                         step="0.01"
@@ -51,6 +52,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                 <div className="space-y-2">
                     <Label>Weight (MT) *</Label>
                     <Input
+                        id="weightMT"
                         type="number"
                         {...form.register('weightMT', { valueAsNumber: true })}
                         step="0.001"
@@ -105,6 +107,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                         <div className="space-y-2">
                             <Label>Ocean Freight ({currency})</Label>
                             <Input
+                                id="oceanFreight"
                                 type="number"
                                 {...form.register('oceanFreight', { valueAsNumber: true })}
                                 placeholder="0.00"
@@ -154,6 +157,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                         <div className="space-y-2">
                             <Label>Advance %</Label>
                             <Input
+                                id="advancePercent"
                                 type="number"
                                 {...form.register('advancePercent', { valueAsNumber: true })}
                                 max={100}
@@ -162,6 +166,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                         <div className="space-y-2">
                             <Label>Balance %</Label>
                             <Input
+                                id="balancePercent"
                                 type="number"
                                 {...form.register('balancePercent', { valueAsNumber: true })}
                                 max={100}
@@ -184,7 +189,7 @@ export function Step2Pricing({ form }: Step2PricingProps) {
                             </div>
                             <div className="space-y-2">
                                 <Label>Issuing Bank</Label>
-                                <Input {...form.register('issuingBank')} placeholder="Bank Name" />
+                                <Input id="issuingBank" {...form.register('issuingBank')} placeholder="Bank Name" />
                             </div>
                         </div>
                     </div>

@@ -103,7 +103,7 @@ export function CRSCalculator() {
             }
         }
         return calculateCRS(profile)
-    }, [maritalStatus, age, education, canadianDegree, lSpeak, lRead, lWrite, lListen, hasFrench, fSpeak, fRead, fWrite, fListen, workCan, workFor, tradeCert, spouseEdu, spouseWork, spouseLang, sibling, jobOffer, nomination])
+    }, [maritalStatus, age, education, canadianDegree, lSpeak, lRead, lWrite, lListen, hasFrench, fSpeak, fRead, fWrite, fListen, workCan, workFor, tradeCert, spouseEdu, spouseWork, spouseLang, sibling, jobOffer, nomination, testType])
 
     // --- RENDER HELPERS ---
     const next = () => setStep(s => s + 1)

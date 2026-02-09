@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Card } from '@/components/ui/card'
 import {
     Table,
@@ -34,7 +34,7 @@ export default function InquiriesPage() {
     const [loading, setLoading] = useState(true)
     const { toast } = useToast()
 
-    const fetchInquiries = async () => {
+    const fetchInquiries = useCallback(async () => {
         setLoading(true)
         const result = await getInquiries()
         if (result.success && result.data) {
@@ -47,11 +47,11 @@ export default function InquiriesPage() {
             })
         }
         setLoading(false)
-    }
+    }, [toast])
 
     useEffect(() => {
         fetchInquiries()
-    }, [])
+    }, [fetchInquiries])
 
     const handleStatusUpdate = async (id: string, newStatus: string) => {
         const result = await updateInquiryStatus(id, newStatus)

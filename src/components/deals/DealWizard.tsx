@@ -10,6 +10,7 @@ import {
     DealWizardFormData,
     step1Schema,
     step2Schema,
+    step2Base,
     step3Schema,
     step4Schema
 } from '@/lib/validations/deal-schema'
@@ -28,10 +29,10 @@ import { Step3Logistics } from './Step3Logistics'
 import { Step4Documents } from './Step4Documents'
 
 const STEPS = [
-    { id: 'sourcing', title: 'Sourcing', schema: step1Schema },
-    { id: 'pricing', title: 'Pricing & Payment', schema: step2Schema },
-    { id: 'logistics', title: 'Logistics', schema: step3Schema },
-    { id: 'review', title: 'Review', schema: step4Schema }
+    { id: 'sourcing', title: 'Sourcing', schema: step1Schema, baseSchema: step1Schema },
+    { id: 'pricing', title: 'Pricing & Payment', schema: step2Schema, baseSchema: step2Base },
+    { id: 'logistics', title: 'Logistics', schema: step3Schema, baseSchema: step3Schema },
+    { id: 'review', title: 'Review', schema: step4Schema, baseSchema: step4Schema }
 ]
 
 export function DealWizard() {
@@ -49,14 +50,45 @@ export function DealWizard() {
 
     const handleNext = async () => {
         const step = STEPS[currentStep]
-        const fields = Object.keys(step.schema.shape) as any[]
+        // Use baseSchema for retrieving field keys (avoids ZodEffects .shape issue)
+        const baseSchema = (step as any).baseSchema || step.schema
+        const fields = Object.keys(baseSchema.shape) as any[]
 
-        // Trigger validation for current step fields
-        const isValid = await form.trigger(fields)
+        console.log('=== handleNext Debug ===')
+        console.log('Current Step:', currentStep, '-', step.title)
+        console.log('Fields to validate:', fields)
+        console.log('Current form values:', form.getValues())
+
+        // Trigger basic field validation (UI feedback)
+        const isBaseValid = await form.trigger(fields)
+        console.log('Base validation result:', isBaseValid)
+
+        // Perform full schema validation (including refinements like Sum=100%)
+        const fullValidation = step.schema.safeParse(form.getValues())
+        const isValid = isBaseValid && fullValidation.success
+
+        console.log('Full validation success:', fullValidation.success)
 
         if (isValid) {
+            console.log('✅ Validation passed, advancing to next step')
             setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1))
         } else {
+            console.log('❌ Validation failed')
+
+            // If base validation passed but full validation failed (refinement errors)
+            if (isBaseValid && !fullValidation.success) {
+                console.log('Refinement errors found:', fullValidation.error.issues)
+                fullValidation.error.issues.forEach((issue) => {
+                    if (issue.path.length > 0) {
+                        const fieldName = issue.path[0] as any
+                        form.setError(fieldName, {
+                            type: 'manual',
+                            message: issue.message
+                        })
+                    }
+                })
+            }
+
             toast({
                 title: 'Validation Error',
                 description: 'Please fix the errors in the form before proceeding.',
@@ -70,6 +102,7 @@ export function DealWizard() {
     }
 
     const onSubmit = async (data: DealWizardFormData) => {
+        if (isSubmitting) return
         setIsSubmitting(true)
         try {
             const supabase = createClient()
@@ -77,7 +110,7 @@ export function DealWizard() {
             // Generate sequential Ref (mock logic for now, or DB trigger)
             const dealRef = `D-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`
 
-            const { error } = await supabase.from('deals').insert({
+            const { error } = await (supabase.from('deals') as any).insert({
                 deal_ref: dealRef,
                 status: 'Draft',
                 trader_id: (await supabase.auth.getUser()).data.user?.id!,
@@ -144,6 +177,67 @@ export function DealWizard() {
             } as any)
 
             if (error) throw error
+
+            // Create Payment Records
+            const dealId = (data as any)[0]?.id // Assuming Supabase returns created object if .select() is used
+
+            // Re-fetch deal ID if not returned above (insert doesn't return data by default without select)
+            const { data: createdDeal, error: fetchError } = await (supabase
+                .from('deals') as any)
+                .select('id')
+                .eq('deal_ref', dealRef)
+                .single() as any
+
+            if (fetchError || !createdDeal) {
+                console.error('Failed to fetch created deal for payments:', fetchError)
+                // Don't block flow, but log error
+            } else {
+                const payments = []
+                // Calculate total cost approx from form data if column missing in DB
+                const totalCost = (data.buyPrice * data.weightMT) || 0
+
+                // Map form payment method to DB allowed values for deal_payments
+                const methodMap: Record<string, string> = {
+                    'TT': 'Wire Transfer',
+                    'LC': 'Letter of Credit',
+                    'CAD': 'Cash',
+                    'DP': 'Other'
+                }
+                const dbPaymentMethod = methodMap[data.paymentMethod] || 'Other'
+
+                // 1. Advance Payment
+                if (data.advancePercent > 0) {
+                    payments.push({
+                        deal_id: createdDeal.id,
+                        payment_type: 'Advance',
+                        percentage: data.advancePercent,
+                        amount_usd: (data.buyPrice * data.weightMT * (data.advancePercent / 100)), // Approximate
+                        due_date: new Date().toISOString(), // Due immediately
+                        status: 'Pending',
+                        payment_method: dbPaymentMethod,
+                        created_by: (await supabase.auth.getUser()).data.user?.id!
+                    })
+                }
+
+                // 2. Balance Payment
+                if (data.balancePercent > 0) {
+                    payments.push({
+                        deal_id: createdDeal.id,
+                        payment_type: 'Balance',
+                        percentage: data.balancePercent,
+                        amount_usd: (data.buyPrice * data.weightMT * (data.balancePercent / 100)),
+                        due_date: data.shipmentPeriodEnd || new Date().toISOString(), // Due on shipment/arrival
+                        status: 'Pending',
+                        payment_method: dbPaymentMethod,
+                        created_by: (await supabase.auth.getUser()).data.user?.id!
+                    })
+                }
+
+                if (payments.length > 0) {
+                    const { error: payError } = await (supabase.from('deal_payments') as any).insert(payments) as any
+                    if (payError) console.error('Failed to create payment records:', payError)
+                }
+            }
 
             toast({
                 title: 'Deal Created Successfully',
@@ -252,8 +346,8 @@ export function DealWizard() {
                         ) : (
                             <Button
                                 type="submit"
-                                disabled={isSubmitting}
                                 className="bg-green-600 hover:bg-green-700"
+                                data-testid="submit-deal-button"
                             >
                                 {isSubmitting ? (
                                     <>

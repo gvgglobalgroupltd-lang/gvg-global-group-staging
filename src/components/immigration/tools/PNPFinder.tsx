@@ -394,7 +394,7 @@ export function PNPFinder() {
                             <div className="flex items-center gap-2">
                                 <Info className="w-5 h-5 text-slate-400" />
                                 <h3 className="text-lg font-semibold text-slate-600">Other Available Provinces</h3>
-                                <p className="text-sm text-slate-500">(No direct match for "{occupation}" but may have general streams)</p>
+                                <p className="text-sm text-slate-500">(No direct match for &quot;{occupation}&quot; but may have general streams)</p>
                             </div>
                             <div className="grid md:grid-cols-3 gap-4">
                                 {nonMatchingProvinces.map((prov) => (

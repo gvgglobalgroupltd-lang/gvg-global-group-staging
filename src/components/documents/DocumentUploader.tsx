@@ -50,17 +50,7 @@ export function DocumentUploader({ dealId, userId, onUploadComplete }: DocumentU
         }
     }, [])
 
-    const handleDrop = useCallback((e: React.DragEvent) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setDragActive(false)
-
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            handleFileSelect(e.dataTransfer.files[0])
-        }
-    }, [])
-
-    const handleFileSelect = (file: File) => {
+    const handleFileSelect = useCallback((file: File) => {
         const validation = validateFile(file)
         if (!validation.valid) {
             toast({
@@ -71,7 +61,17 @@ export function DocumentUploader({ dealId, userId, onUploadComplete }: DocumentU
             return
         }
         setSelectedFile(file)
-    }
+    }, [toast])
+
+    const handleDrop = useCallback((e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDragActive(false)
+
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleFileSelect(e.dataTransfer.files[0])
+        }
+    }, [handleFileSelect])
 
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -159,8 +159,8 @@ export function DocumentUploader({ dealId, userId, onUploadComplete }: DocumentU
                 {/* Drag & Drop Area */}
                 <div
                     className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                            ? 'border-primary bg-primary/5'
-                            : 'border-muted-foreground/25 hover:border-primary/50'
+                        ? 'border-primary bg-primary/5'
+                        : 'border-muted-foreground/25 hover:border-primary/50'
                         }`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}

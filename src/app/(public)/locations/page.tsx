@@ -1,5 +1,5 @@
 
-import { MapPin, Phone, Mail, Clock, Building2, Globe } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, Globe } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { Metadata } from 'next'

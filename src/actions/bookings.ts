@@ -50,7 +50,7 @@ export async function createBooking(prevState: CreateBookingState, formData: For
         }
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('bookings')
         .insert(validated.data)
         .select()
