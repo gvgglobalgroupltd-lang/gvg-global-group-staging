@@ -1,6 +1,7 @@
 "use client"
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight, Package, Code } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -11,11 +12,12 @@ export function ServicesSelectorSection() {
             <div className="group relative flex-1 h-1/2 md:h-full md:hover:flex-[1.5] transition-all duration-700 ease-in-out overflow-hidden border-b md:border-b-0 md:border-r border-slate-800">
                 {/* Background Image */}
                 <div className="absolute inset-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <Image
                         src="/images/services/metals_bg.png"
                         alt="Global Metal Trading"
-                        className="h-full w-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-1000"
+                        fill
+                        className="object-cover opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-1000"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
                 </div>

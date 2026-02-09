@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation"
 export function QuickQuoteWidget() {
     const pathname = usePathname()
 
-    if (pathname?.startsWith('/immigration')) return null
+    if (pathname?.startsWith('/immigration') || pathname?.startsWith('/admin')) return null
 
     return (
         <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:block">

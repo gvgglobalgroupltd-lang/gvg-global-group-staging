@@ -1,6 +1,7 @@
 "use client"
 
-// eslint-disable-next-line @next/next/no-img-element
+import Image from 'next/image'
+
 export function IndianPartnersSection() {
     const partners = [
         { name: 'Tata Steel', logo: '/logos/tata.png' },
@@ -31,11 +32,13 @@ export function IndianPartnersSection() {
 
                 <div className="flex w-max animate-scroll group-hover:[animation-play-state:paused] items-center">
                     {rollingPartners.map((partner, idx) => (
-                        <div key={idx} className="mx-12 transition-transform duration-300 hover:scale-110 cursor-pointer">
-                            <img
+                        <div key={idx} className="relative h-20 w-[180px] mx-12 transition-transform duration-300 hover:scale-110 cursor-pointer">
+                            <Image
                                 src={partner.logo}
                                 alt={`${partner.name} logo`}
-                                className="h-20 w-auto max-w-[180px] object-contain"
+                                fill
+                                className="object-contain"
+                                sizes="180px"
                             />
                         </div>
                     ))}

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, ChevronRight, ChevronLeft } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRef } from "react"
 import { Button } from "@/components/ui/button"
 
@@ -111,19 +112,13 @@ export function MaterialCatalog() {
                             {/* Image Area */}
                             <div className="relative w-full aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800">
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-slate-900/20 group-hover:to-slate-900/10 transition-colors z-10"></div>
-                                {/* Progressive Image with WebP Support */}
-                                <picture>
-                                    <source
-                                        srcSet={item.image.replace('.png', '.webp')}
-                                        type="image/webp"
-                                    />
-                                    <img
-                                        src={item.image}
-                                        alt={item.name}
-                                        loading="lazy"
-                                        className="h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                </picture>
+                                <Image
+                                    src={item.image}
+                                    alt={item.name}
+                                    fill
+                                    className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+                                    sizes="(max-width: 768px) 100vw, 320px"
+                                />
                                 <div className="absolute top-3 right-3 z-20">
                                     <Badge className="bg-white/90 text-slate-900 backdrop-blur-sm hover:bg-white text-[10px] font-bold border-none px-2 py-0.5">
                                         {item.type}

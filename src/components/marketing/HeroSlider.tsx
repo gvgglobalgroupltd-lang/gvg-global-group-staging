@@ -3,18 +3,20 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export function HeroSlider() {
     return (
         <section className="relative h-screen min-h-[600px] w-full overflow-hidden bg-muted border-b border-border">
             {/* Background Image with Zoom Animation */}
             <div className="absolute inset-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                     src="/images/hero_scrap_yard.jpg"
                     alt="Global Metal Recycling"
-                    className="h-full w-full object-cover animate-ken-burns bg-zinc-900"
-                    loading="eager"
+                    fill
+                    className="object-cover animate-ken-burns bg-zinc-900"
+                    priority
+                    sizes="100vw"
                 />
 
                 {/* Overlays for Text Visibility */}
