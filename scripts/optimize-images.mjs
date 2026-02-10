@@ -6,35 +6,41 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const materialsDir = path.join(process.cwd(), 'public', 'images', 'materials');
+const imagesDir = path.join(process.cwd(), 'public', 'images');
 
-async function optimizeImages() {
-    const files = fs.readdirSync(materialsDir);
+async function optimizeDirectory(dir) {
+    const files = fs.readdirSync(dir);
 
     for (const file of files) {
-        if (file.endsWith('.png')) {
-            const inputPath = path.join(materialsDir, file);
-            const outputPath = path.join(materialsDir, file.replace('.png', '.webp'));
+        const fullPath = path.join(dir, file);
+        const stats = fs.statSync(fullPath);
+
+        if (stats.isDirectory()) {
+            await optimizeDirectory(fullPath);
+        } else if (file.endsWith('.png') || file.endsWith('.jpg') || file.endsWith('.jpeg')) {
+            const ext = path.extname(file);
+            const outputPath = fullPath.replace(ext, '.webp');
 
             try {
-                const inputStats = fs.statSync(inputPath);
-
-                await sharp(inputPath)
+                await sharp(fullPath)
                     .webp({ quality: 85 })
                     .toFile(outputPath);
 
                 const outputStats = fs.statSync(outputPath);
-                const reduction = ((1 - outputStats.size / inputStats.size) * 100).toFixed(1);
+                const reduction = ((1 - outputStats.size / stats.size) * 100).toFixed(1);
 
-                console.log(`✓ ${file} → ${file.replace('.png', '.webp')}`);
-                console.log(`  Size: ${(inputStats.size / 1024).toFixed(1)}KB → ${(outputStats.size / 1024).toFixed(1)}KB (${reduction}% reduction)`);
+                console.log(`✓ ${path.relative(imagesDir, fullPath)} → ${path.relative(imagesDir, outputPath)} (${reduction}% reduction)`);
             } catch (error) {
                 console.error(`✗ Failed to convert ${file}:`, error.message);
             }
         }
     }
+}
 
-    console.log('\n✓ All images converted to WebP!');
+async function optimizeImages() {
+    console.log('Starting global image optimization...');
+    await optimizeDirectory(imagesDir);
+    console.log('\n✓ Global image optimization completed!');
 }
 
 optimizeImages().catch(console.error);
