@@ -7,6 +7,16 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { createClient } from '@/lib/supabase/client'
+import { updateQuoteStatus } from '@/actions/quotes'
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { useToast } from '@/hooks/use-toast'
 
 interface ITLead {
     id: string
@@ -15,6 +25,9 @@ interface ITLead {
     email: string
     phone: string | null
     service_interest: string
+    project_description: string | null
+    budget_range: string | null
+    timeline: string | null
     status: string
     priority: string
     created_at: string
@@ -24,6 +37,8 @@ interface ITLead {
 export function ITLeadsWidget() {
     const [leads, setLeads] = useState<ITLead[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [isAssigning, setIsAssigning] = useState<string | null>(null)
+    const { toast } = useToast()
 
     useEffect(() => {
         loadLeads()
@@ -165,22 +180,81 @@ export function ITLeadsWidget() {
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <Button
-                                            size="sm"
-                                            variant="outline"
-                                            onClick={() => alert(`View details for ${lead.company_name}`)}
-                                        >
-                                            View Details
-                                        </Button>
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Button size="sm" variant="outline">
+                                                    View Details
+                                                </Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[500px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>{lead.company_name}</DialogTitle>
+                                                    <DialogDescription>
+                                                        Consultation request from {lead.contact_person}
+                                                    </DialogDescription>
+                                                </DialogHeader>
+                                                <div className="space-y-4 py-4">
+                                                    <div className="grid grid-cols-2 gap-4 text-sm">
+                                                        <div>
+                                                            <p className="text-muted-foreground font-medium">Service</p>
+                                                            <p className="text-foreground">{lead.service_interest}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-muted-foreground font-medium">Priority</p>
+                                                            <Badge variant={getPriorityVariant(lead.priority)}>
+                                                                {lead.priority}
+                                                            </Badge>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-muted-foreground font-medium text-sm mb-1">Project Description</p>
+                                                        <div className="p-3 bg-muted rounded-md text-sm whitespace-pre-wrap">
+                                                            {lead.project_description || 'No description provided'}
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-4 text-sm">
+                                                        <div>
+                                                            <p className="text-muted-foreground font-medium text-sm">Budget Range</p>
+                                                            <p className="text-foreground">{lead.budget_range || 'Not specified'}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-muted-foreground font-medium text-sm">Timeline</p>
+                                                            <p className="text-foreground">{lead.timeline || 'Not specified'}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </DialogContent>
+                                        </Dialog>
+
                                         {lead.status === 'New' && (
                                             <Button
                                                 size="sm"
-                                                onClick={() => {
-                                                    alert(`Assigned ${lead.company_name} to you`)
-                                                    // In a real app, calling an API to update status
+                                                disabled={isAssigning === lead.id}
+                                                onClick={async () => {
+                                                    try {
+                                                        setIsAssigning(lead.id)
+                                                        const result = await updateQuoteStatus(lead.id, 'Contacted')
+                                                        if (result.success) {
+                                                            toast({
+                                                                title: "Lead Assigned",
+                                                                description: `Successfully assigned ${lead.company_name} to you.`,
+                                                            })
+                                                            loadLeads() // Refresh the list
+                                                        } else {
+                                                            throw new Error(result.error)
+                                                        }
+                                                    } catch (err) {
+                                                        toast({
+                                                            title: "Assignment Failed",
+                                                            description: "Could not assign lead. Please try again.",
+                                                            variant: "destructive"
+                                                        })
+                                                    } finally {
+                                                        setIsAssigning(null)
+                                                    }
                                                 }}
                                             >
-                                                Assign
+                                                {isAssigning === lead.id ? 'Assigning...' : 'Assign'}
                                             </Button>
                                         )}
                                     </div>

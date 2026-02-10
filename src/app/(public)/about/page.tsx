@@ -57,7 +57,7 @@ export default function AboutPage() {
                     {/* Background Image */}
                     <div className="absolute inset-0 z-0">
                         <img
-                            src="/images/hero_foundry.jpg"
+                            src="/images/hero_foundry.webp"
                             alt="Industrial Foundry"
                             className="h-full w-full object-cover opacity-40"
                         />

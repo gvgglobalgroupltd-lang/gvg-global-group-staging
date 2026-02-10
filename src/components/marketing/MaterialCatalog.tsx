@@ -12,42 +12,42 @@ const materials = [
     {
         name: "Copper Scrap",
         description: "Premium Millberry, Berry, Birch/Cliff",
-        image: "/images/materials/copper.png",
+        image: "/images/materials/copper.webp",
         type: "Non-Ferrous",
         link: "/pricing"
     },
     {
         name: "Aluminum Alloys",
         description: "Taint/Tabor, Tense, Extrusion 6063",
-        image: "/images/materials/aluminum.png",
+        image: "/images/materials/aluminum.webp",
         type: "Non-Ferrous",
         link: "/pricing"
     },
     {
         name: "Heavy Melting Steel",
         description: "Industrial HMS 1 & 2, Shredded",
-        image: "/images/materials/hms_steel.png",
+        image: "/images/materials/hms_steel.webp",
         type: "Ferrous",
         link: "/pricing"
     },
     {
         name: "Brass Honey",
         description: "Yellow Brass, Mixed Honey/Ocean",
-        image: "/images/materials/brass.png",
+        image: "/images/materials/brass.webp",
         type: "Non-Ferrous",
         link: "/pricing"
     },
     {
         name: "Stainless Steel",
         description: "Grade 304, 316, 430 Sheets/Pipes",
-        image: "/images/materials/stainless.png",
+        image: "/images/materials/stainless.webp",
         type: "Ferrous",
         link: "/pricing"
     },
     {
         name: "Electronic Waste",
         description: "High-grade PCBs, Processors, Memory",
-        image: "/images/materials/ewaste.png",
+        image: "/images/materials/ewaste.webp",
         type: "Electronics",
         link: "/pricing"
     }

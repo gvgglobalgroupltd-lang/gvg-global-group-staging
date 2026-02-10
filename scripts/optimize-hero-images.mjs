@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const imagesDir = path.join(process.cwd(), 'public', 'images');
 
 async function optimizeHeroImages() {
-    const heroFiles = ['hero_foundry.png', 'hero_logistics.png', 'hero_scrap_yard.png'];
+    const heroFiles = ['hero_foundry.jpg', 'hero_logistics.jpg', 'hero_scrap_yard.jpg'];
 
     for (const file of heroFiles) {
         const inputPath = path.join(imagesDir, file);
@@ -19,7 +19,8 @@ async function optimizeHeroImages() {
             continue;
         }
 
-        const outputPathWebP = path.join(imagesDir, file.replace('.png', '.webp'));
+        const ext = path.extname(file);
+        const outputPathWebP = path.join(imagesDir, file.replace(ext, '.webp'));
 
         try {
             const inputStats = fs.statSync(inputPath);

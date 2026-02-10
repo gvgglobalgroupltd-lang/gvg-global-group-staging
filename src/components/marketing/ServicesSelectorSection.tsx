@@ -13,7 +13,7 @@ export function ServicesSelectorSection() {
                 {/* Background Image */}
                 <div className="absolute inset-0">
                     <Image
-                        src="/images/services/metals_bg.png"
+                        src="/images/services/metals_bg.webp"
                         alt="Global Metal Trading"
                         fill
                         className="object-cover opacity-40 group-hover:opacity-60 group-hover:scale-110 transition-all duration-1000"

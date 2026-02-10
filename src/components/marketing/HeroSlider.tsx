@@ -11,7 +11,7 @@ export function HeroSlider() {
             {/* Background Image with Zoom Animation */}
             <div className="absolute inset-0">
                 <Image
-                    src="/images/hero_scrap_yard.jpg"
+                    src="/images/hero_scrap_yard.webp"
                     alt="Global Metal Recycling"
                     fill
                     className="object-cover animate-ken-burns bg-zinc-900"
