@@ -46,7 +46,7 @@ export default async function PricingPage() {
                 <div className="absolute inset-0 z-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        src="/images/hero_scrap_yard.webp"
+                        src="/images/hero_scrap_yard.jpg"
                         alt="Global Metal Recycling"
                         className="h-full w-full object-cover opacity-20"
                     />

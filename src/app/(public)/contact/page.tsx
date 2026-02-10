@@ -94,7 +94,7 @@ export default function ContactPage() {
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="/images/hero_logistics.webp"
+                        src="/images/hero_logistics.jpg"
                         alt="Global Logistics Network"
                         className="h-full w-full object-cover opacity-40"
                     />
