@@ -33,11 +33,11 @@ export function ServiceQuoteForm({ mode }: ServiceQuoteFormProps) {
         switch (mode) {
             case 'tech':
                 return {
-                    primary: 'bg-indigo-600',
-                    hover: 'hover:bg-indigo-700',
-                    ring: 'focus:ring-indigo-500',
-                    border: 'focus:border-indigo-500',
-                    gradient: 'from-indigo-600 to-purple-600',
+                    primary: 'bg-emerald-600',
+                    hover: 'hover:bg-emerald-700',
+                    ring: 'focus:ring-emerald-500',
+                    border: 'focus:border-emerald-500',
+                    gradient: 'from-emerald-600 to-teal-600',
                     icon: Code2,
                     label: 'Tech Proposal'
                 }
